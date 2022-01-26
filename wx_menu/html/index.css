@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Righteous&family=Roboto&display=swap');
+p,h1{
+    font-family: 'Righteous', cursive;
+    font-family: 'Roboto', sans-serif;
+}
+
+#container{
+    background-color: aliceblue;
+    box-shadow: 0 0 50px 0px black;
+    margin:10px;
+    padding: 10px;
+    border-radius: 10px;
+    width: max-content;
+}
+
+#title{
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+}
+
+button{
+    border: 0px solid;
+    box-shadow: 0px 0px 30px 1px black;
+    display: block;
+    width: 100%;
+    margin-top:10px;
+    margin-bottom:10px;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 20px;
+    background-image: linear-gradient(to left, rgb(76, 161, 240), rgba(255, 255, 255, 0));
+    background-size: 500%;
+    transition-duration: 200ms;
+}
+
+
+button:hover{
+    background-color: rgb(255, 228, 250);
+    box-shadow: 0px 0px 10px 1px rgb(76, 161, 240);
+    background-size: 100%;
+    width: 105%;
+    margin-left: -2%;
+}
+
+.input{
+    width: 95%;
+    margin-top:5px;
+    margin-bottom:5px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.color{
+    border: 0px solid;
+    box-shadow: 0px 0px 30px 1px black;
+    display: block;
+    width: 100%;
+    margin-top:5px;
+    margin-bottom:5px;
+    border-radius: 10px;
+    font-size: 20px;
+    background-image: linear-gradient(to left, rgb(76, 161, 240), rgba(255, 255, 255, 0));
+    background-size: 500%;
+    transition-duration: 200ms;
+    height: 40px;
+}
+.color:hover{
+    background-color: rgb(255, 228, 250);
+    box-shadow: 0px 0px 10px 1px rgb(76, 161, 240);
+    background-size: 100%;
+    width: 105%;
+    margin-left: -2%;
+}
+.slider{
+    width: 80%;
+    margin-top:5px;
+    margin-bottom:5px;
+    padding: 10px;
+    border-radius: 10px;
+}
+.slider_number{
+    display: inline;
+    float: right;
+}

@@ -1,0 +1,80 @@
+
+[2022年01月01日 17时53分46秒][ConsoleLog]：dwa
+[2022年01月01日 17时53分54秒][ConsoleLog]：dwa
+[2022年01月01日 17时53分54秒][ConsoleLog]：dwa
+[2022年01月01日 17时53分54秒][ConsoleLog]：dwa
+[2022年01月01日 18时51分02秒][ConsoleLog]：Sql insert into "player"INSERT INTO player (Name,PID) VALUES (?,?) [["d",10]]
+[2022年01月01日 18时51分40秒][ConsoleLog]：Sql insert into "player"INSERT INTO player (Name,PID) VALUES (?,?) [["d",10]]
+[2022年01月01日 18时52分27秒][ConsoleLog]：Sql insert into "player" query: INSERT INTO player (Name,PID) VALUES (?,?) [["d",10]]
+[2022年01月01日 18时52分50秒][ConsoleLog]：Sql insert into "player" query: INSERT INTO player (Name,PID) VALUES (?,?) [["d",10]]
+[2022年01月01日 18时52分54秒][ConsoleLog]：Sql insert into "player" query: INSERT INTO player (Name,PID) VALUES (?,?) [["d",100]]
+[2022年01月01日 18时53分41秒][ConsoleLog]：Sql insert into "player" query: INSERT INTO player (Name,PID) VALUES (?,?) [["d",100]]
+[2022年01月01日 18时53分45秒][ConsoleLog]：Sql insert into "player" query: INSERT INTO player (Name,PID) VALUES (?,?) [["d",1000]]
+[2022年01月01日 18时56分58秒][ConsoleLog]：Sql insert into "player" query: INSERT INTO player (Name,PID) VALUES (?,?) [["d",1000]]
+[2022年01月01日 18时57分22秒][ConsoleLog]：Sql insert into "player" query: INSERT INTO player (Name,PID) VALUES (?,?) [["d",1000]]
+[2022年01月01日 18时57分25秒][ConsoleLog]：Sql insert into "player" query: INSERT INTO player (Name,PID) VALUES (?,?) [["d",1000]]
+[2022年01月01日 18时58分15秒][ConsoleLog]：Sql insert into "player" query: INSERT INTO player (Name,PID) VALUES (?,?) [["d",1000]]
+[2022年01月01日 18时59分35秒][ConsoleLog]：Sql fetch "player" query: SELECT * FROM player WHERE Name=? And PID=?[null]
+[2022年01月01日 18时59分58秒][ConsoleLog]：Sql fetch "player" query: SELECT * FROM player WHERE Name=? And PID=?[null]
+[2022年01月01日 19时00分15秒][ConsoleLog]：Sql fetch "player" query: SELECT * FROM player WHERE Name=? And PID=?[["d",1000]]
+[2022年01月01日 19时01分21秒][ConsoleLog]：Sql delete "player" query: DELETE FROM player WHERE Name=? And PID=?[["d",1000]]
+[2022年01月01日 19时01分40秒][ConsoleLog]：Sql delete "player" query: DELETE FROM player WHERE Name=? And PID=?[["d",100]]
+[2022年01月01日 19时01分44秒][ConsoleLog]：Sql delete "player" query: DELETE FROM player WHERE Name=? And PID=?[["d",100]]
+[2022年01月01日 19时02分51秒][ConsoleLog]：Sql update "player" query: UPDATE player SET Name= ?,PID= ? [["d",100]]
+[2022年01月01日 19时03分35秒][ConsoleLog]：Sql update "player" query: UPDATE player SET Name= ?,PID= ?  WHERE Name=? And PID=?[["d",1000]]
+[2022年01月01日 19时03分50秒][ConsoleLog]：Sql update "player" query: UPDATE player SET Name= ?,PID= ?  WHERE Name=? And PID=?[["d",100]]
+[2022年01月01日 19时04分28秒][ConsoleLog]：Sql update "player" query: UPDATE player SET PID= ?  WHERE PID=?[[1000]]
+[2022年01月01日 19时05分48秒][ConsoleLog]：Sql update "player" query: UPDATE player SET PID= ?  WHERE PID=?[[1000]]
+[2022年01月01日 19时06分38秒][ConsoleLog]：Sql update "player" query: UPDATE player SET PID= ?  WHERE PID=?[[1000,100]]
+[2022年01月01日 19时07分10秒][ConsoleLog]：Sql update "player" query: UPDATE player SET PID= ?,Name= ?  WHERE PID=?[[1000,1000,1000]]
+[2022年01月01日 19时07分27秒][ConsoleLog]：Sql update "player" query: UPDATE player SET PID= ?,Name= ?  WHERE PID=? And Name=?[[1000,10000,1000,1000]]
+[2022年01月01日 19时07分34秒][ConsoleLog]：Sql update "player" query: UPDATE player SET PID= ?,Name= ?  WHERE PID=? And Name=?[[1000,10000,1000,1000]]
+[2022年01月01日 19时07分36秒][ConsoleLog]：Sql update "player" query: UPDATE player SET PID= ?,Name= ?  WHERE PID=? And Name=?[[1000,10000,1000,10000]]
+[2022年01月01日 19时07分47秒][ConsoleLog]：Sql update "player" query: UPDATE player SET PID= ?,Name= ?  WHERE PID=? And Name=?[[1000,10000,1000,10000]]
+[2022年01月01日 19时08分29秒][ConsoleLog]：Sql update "player" query: UPDATE player SET PID= ?,Name= ?  WHERE PID=? And Name=?[[1000,10000,1000,10000]]
+[2022年01月01日 19时10分26秒][ConsoleTest]：awwdaw
+[2022年01月01日 19时11分47秒][ConsoleTest]：awwdaw
+[2022年01月01日 19时11分56秒][ConsoleTest]：awwdaw
+[2022年01月01日 19时11分59秒][ConsoleTest]：awwdaw
+[2022年01月01日 19时11分59秒][ConsoleLog]：Sql update "player" query: UPDATE player SET PID= ?,Name= ?  WHERE PID=? And Name=?[[1000,10000,1000,10000]]
+[2022年01月01日 19时17分13秒][ConsoleTest]：awwdaw
+[2022年01月01日 19时24分36秒][ConsoleTest]：awwdaw
+[2022年01月01日 19时24分36秒][ConsoleLog]：Sql update "player" query: UPDATE player SET PID= ?,Name= ?  WHERE PID=? And Name=?[[1000,10000,1000,10000]]
+[2022年01月01日 20时21分44秒][ConsoleTest]：awwdaw
+[2022年01月01日 20时21分44秒][ConsoleLog]：Sql update "player" query: UPDATE player SET PID= ?,Name= ?  WHERE PID=? And Name=?[[1000,10000,1000,10000]]
+[2022年01月01日 20时54分16秒][ConsoleTest]：awwdaw
+[2022年01月01日 20时54分16秒][ConsoleLog]：Sql update "player" query: UPDATE player SET PID= ?,Name= ?  WHERE PID=? And Name=?[[1000,10000,1000,10000]]
+[2022年01月01日 20时54分18秒][ConsoleTest]：awwdaw
+[2022年01月01日 20时54分18秒][ConsoleLog]：Sql update "player" query: UPDATE player SET PID= ?,Name= ?  WHERE PID=? And Name=?[[1000,10000,1000,10000]]
+[2022年01月01日 20时54分46秒][ConsoleTest]：awwdaw
+[2022年01月01日 20时54分46秒][ConsoleLog]：Sql update "player" query: UPDATE player SET PID= ?,Name= ?  WHERE PID=? And Name=?[[1000,10000,1000,10000]]
+[2022年01月01日 20时56分07秒][ConsoleTest]：awwdaw
+[2022年01月01日 20时56分07秒][ConsoleLog]：Sql update "player" query: UPDATE player SET PID= ?,Name= ?  WHERE PID=? And Name=?[[1000,10000,1000,10000]]
+[2022年01月01日 20时56分08秒][ConsoleTest]：awwdaw
+[2022年01月01日 20时56分08秒][ConsoleLog]：Sql update "player" query: UPDATE player SET PID= ?,Name= ?  WHERE PID=? And Name=?[[1000,10000,1000,10000]]
+[2022年01月01日 20时56分13秒][ConsoleTest]：awwdaw
+[2022年01月01日 20时56分13秒][ConsoleLog]：Sql update "player" query: UPDATE player SET PID= ?,Name= ?  WHERE PID=? And Name=?[[1000,10000,1000,10000]]
+[2022年01月01日 21时11分44秒][ConsoleLog]：Trigger test callback
+[2022年01月01日 21时11分53秒][ConsoleLog]：1Trigger test callback
+[2022年01月01日 21时11分53秒][ConsoleLog]：1Trigger test callback
+[2022年01月01日 21时11分53秒][ConsoleLog]：1Trigger test callback
+[2022年01月01日 21时13分10秒][ConsoleLog]：PlayerID: 1 (Name:"WUHU",SteamID:"ip:127.0.0.1"Trigger test callback
+[2022年01月01日 21时13分21秒][ConsoleLog]：PlayerID: 1 (Name:"WUHU",SteamID:"ip:127.0.0.1") Has Trigger test callback
+[2022年01月01日 21时13分32秒][ConsoleLog]：PlayerID: 1 (Name:"WUHU",SteamID:"ip:127.0.0.1") Has Trigger "test" callback
+[2022年01月01日 21时13分43秒][ConsoleLog]：PlayerID: 1 (Name:"WUHU",SteamID:"ip:127.0.0.1") Has Trigger the "test" callback
+[2022年01月01日 21时13分52秒][ConsoleLog]：PlayerID: 1 (Name:"WUHU",SteamID:"ip:127.0.0.1") Has Trigger the "test" callback
+[2022年01月01日 21时13分52秒][ConsoleLog]：PlayerID: 1 (Name:"WUHU",SteamID:"ip:127.0.0.1") Has Trigger the "test" callback
+[2022年01月06日 22时18分26秒][ConsoleLog]：Sql fetch "player" query: SELECT PID FROM player WHERE SteamID=?[["steam:110000149be71bd"]]
+[2022年01月06日 22时18分40秒][ConsoleLog]：Sql fetch "player" query: SELECT PID FROM player WHERE SteamID=?[["steam:110000149be71bd"]]
+[2022年01月06日 22时18分42秒][ConsoleLog]：Sql fetch "player" query: SELECT PID FROM player WHERE SteamID=?[["steam:110000149be71bd"]]
+[2022年01月06日 22时18分54秒][ConsoleLog]：Sql fetch "player" query: SELECT PID FROM player WHERE SteamID=?[["steam:110000149be71bd"]]
+[2022年01月06日 22时19分16秒][ConsoleLog]：Sql fetch "player" query: SELECT PID FROM player WHERE SteamID=?[["steam:110000149be71bd"]]
+[2022年01月06日 22时19分21秒][ConsoleLog]：Sql fetch "player" query: SELECT PID FROM player WHERE SteamID=?[["steam:110000149be71bd"]]
+[2022年01月06日 22时20分55秒][ConsoleLog]：Sql fetch "player" query: SELECT PID FROM player WHERE SteamID=?[["steam:110000149be71bd"]]
+[2022年01月06日 22时20分56秒][ConsoleLog]：Sql fetch "player" query: SELECT PID FROM player WHERE SteamID=?[["steam:110000149be71bd"]]
+[2022年01月06日 22时20分56秒][ConsoleLog]：Sql fetch "player" query: SELECT PID FROM player WHERE SteamID=?[["steam:110000149be71bd"]]
+[2022年01月06日 22时20分57秒][ConsoleLog]：Sql fetch "player" query: SELECT PID FROM player WHERE SteamID=?[["steam:110000149be71bd"]]
+[2022年01月06日 22时20分59秒][ConsoleLog]：Sql fetch "player" query: SELECT PID FROM player WHERE SteamID=?[["steam:110000149be71bd"]]
+[2022年01月06日 22时20分59秒][ConsoleLog]：Sql fetch "player" query: SELECT PID FROM player WHERE SteamID=?[["steam:110000149be71bd"]]
+[2022年01月06日 22时21分12秒][ConsoleLog]：Sql fetch "player" query: SELECT PID FROM player WHERE SteamID=?[["steam:110000149be71bd"]]
+[2022年01月06日 22时21分25秒][ConsoleLog]：Sql fetch "player" query: SELECT PID FROM player WHERE SteamID=?[["steam:110000149be71bd"]]
