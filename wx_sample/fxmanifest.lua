@@ -4,7 +4,7 @@ game 'gta5'
 author 'You'
 version '1.0.0'
 
-dependencies { 
+dependencies {
     'oxmysql',
     'wx_module_system',
     'wx_console',
