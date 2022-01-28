@@ -61,7 +61,7 @@ TriggerEvent("RegisterModule","MySql",{
 				end
 				matchrule = string.sub(matchrule, 1, -2)
 			end
-			Console.Log(("Sql fetch \""..Table.."\" query: ".."SELECT "..fetchrule.." FROM "..Table.. matchrule.."["..json.encode(matchstd).."]"),Config.LogToConsole)
+			Console.Log(("Sql fetch \""..Table.."\" query: ".."SELECT "..fetchrule.." FROM "..Table.. matchrule.." List：["..json.encode(matchstd).."]"),Config.LogToConsole)
 			return exports.oxmysql:query_async("SELECT "..fetchrule.." FROM "..Table.. matchrule,matchstd)
 		end,
 		---delete data from table

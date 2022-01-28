@@ -29,13 +29,17 @@ Citizen.CreateThread(function()
     -- print("client reutnr value : "..Callback.TriggerClientCallback("test",1,"ar1","ar2"))
     a = a:Coords() --获得Coords这个module 并且将里面的对象拷贝到a里面
     a.Coords.Set(1,2,75)
-    a = a:Rotation() --Rotation 并且将里面的对象拷贝到a里面
+    a = a:Rotation() --获得Rotation 并且将里面的对象拷贝到a里面
     a.Rotation.Set(10,50,10)
-    a = a:Notification() --Rotation 并且将里面的对象拷贝到a里面
-    Wait(100)
-    a.Notification.ShowBreakingNews("daw","sdadsdads","nil",1000)
-    a.Notification.ShowPopupWarning("你已被封禁","hhh","开玩笑的",1000)
-    a.Notification.ShowAdvancedNotification(a.PlayerID.Get(),"wdk2wad","twdwd2witle","edwddw",2,2)
-    Wait(1000)
-    a.Notification.ShowFloatingHelpNotification("daw",GetEntityCoords(GetPlayerPed(a.PlayerID.Get())),5000)
+    a = a:Notification()
+    --Wait(100)
+    --a.Notification.ShowBreakingNews("daw","sdadsdads","nil",1000)
+    --a.Notification.ShowPopupWarning("你已被封禁","hhh","开玩笑的",1000)
+    --a.Notification.ShowAdvancedNotification(a.PlayerID.Get(),"wdk2wad","twdwd2witle","edwddw",2,2)
+    --Wait(1000)
+    --a.Notification.ShowFloatingHelpNotification("daw",GetEntityCoords(GetPlayerPed(a.PlayerID.Get())),5000)
+    a = a:Inventory()
+
+    print(json.encode(a.Inventory.GetItem("water")))
+
 end)
