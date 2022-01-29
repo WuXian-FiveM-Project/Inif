@@ -20,7 +20,17 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self) --self 是隐式�
     end
 
     self.Inventory.GiveItem = function(itemName,amount,isForce,attachData)
-        
+        if self.Inventory.IsHasItem(itemName) then
+            local iteminfo = self.Inventory.GetItem(itemName)
+            local amount = amount + iteminfo.ItemAmount
+            local density = iteminfo.density  --[[TODO: add density]]
+            if type(attachData) == "nil" then
+                attachData = {}
+            end
+            attachData = json.encode(attachData)
+        else
+            
+        end
     end
 
     self.Inventory.RemoveItem = function(itemName,amount)
