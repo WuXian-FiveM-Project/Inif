@@ -40,6 +40,6 @@ Citizen.CreateThread(function()
     --a.Notification.ShowFloatingHelpNotification("daw",GetEntityCoords(GetPlayerPed(a.PlayerID.Get())),5000)
     a = a:Inventory()
 
-    print(json.encode(a.Inventory.GetItem("water")))
+    print(json.encode(a.Inventory.GetItems()))
 
 end)
