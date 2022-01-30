@@ -36,7 +36,9 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
         end
         return Table
     end
-
+    ---get is item exist in inventory
+    ---@param itemName string specific item you want to know if that exist
+    ---@return boolean item item exist or not
     self.Inventory.IsItemExists = function(itemName)
         local value = MySql.Sync.Fetch("player_items","*",{
             {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
@@ -46,6 +48,34 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
             return true
         else
             return false
+        end
+    end
+
+    ---get max item can player hold
+    ---@return number number max item can player hold
+    self.Inventory.GetMaxItemCanHold = function()
+        return MySql.Sync.Fetch("player","MaxItemCanHold",{
+            {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
+        })[1].MaxItemCanHold
+    end
+
+    ---get max density can player hold
+    ---@return number item max density can player hold
+    self.Inventory.GetMaxDensityCanHold = function()
+        return MySql.Sync.Fetch("player","MaxDensityCanHold",{
+            {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
+        })[1].MaxDensityCanHold
+    end
+
+
+
+
+
+    self.Inventory.GiveItem = function(itemName,amount,attachData)
+        if self.Inventory.IsItemExists(itemName) then
+            local iteminfo = Item.GetItem(itemName)
+            local before = self.Inventory.GetItem(itemName)
+
         end
     end
     return self
