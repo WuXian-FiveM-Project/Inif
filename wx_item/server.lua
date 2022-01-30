@@ -12,6 +12,7 @@ AddEventHandler("RegisterItem",function(Table)
     self.ItemDescription = Table.ItemDescription or self.ItemName
     assert(type(Table.ItemDensity) == "integer" or type(Table.ItemDensity) == "number", "Table.ItemDensity must be number or integer")
     self.ItemDensity = Table.ItemDensity
+    self.ItemModel = Table.ItemModel or "prop_physics"
     self.ItemMaxDensity = Table.ItemMaxDensity or 10000000000000000
     self.ItemMaxUseAmount = Table.ItemMaxUseAmount or 10000000000000000 --[[物品单次最大使用数]]
     self.ItemMaxAmount = Table.ItemMaxAmount or 10000000000000000
@@ -45,6 +46,7 @@ local t = {
     ItemType = nil,
     ItemDescription = nil,
     ItemDensity = nil,
+    ItemModel = nil,
     ItemMaxDensity = nil,
     ItemMaxUseAmount = nil, --[[物品单次最大使用数]]
     ItemMaxAmount = nil,
@@ -84,6 +86,7 @@ TriggerEvent("RegisterItem",{
     ItemType = "test",
     ItemDescription = "test item description yea!",
     ItemDensity = 100,
+    ItemModel = "prop_water_bottle",
     ItemMaxDensity = 50000000000,
     ItemMaxUseAmount = 2,
     ItemMaxAmount = 100,
@@ -96,7 +99,8 @@ TriggerEvent("RegisterItem",{
     IsItemPhysicalAfterDrop = true,
     UseFunction = function(PlayerID,ItemAmount,AttachData,Reject)
         -- Reject 是一个函数 当他传入的时候，如果出现一些情况 要取消这次使用的话就直接调用Reject()不要CancelEvent()
-        print("player："..PlayerID.." use item：test_item with amount："..ItemAmount.." with attach data："..AttachData)
+        print("player："..PlayerID.." use item：test_item with amount："..ItemAmount.." with attach data："..json.encode(AttachData))
+        Wait(1000)
         Reject()
         print("oh no the use event was rejected")
     end,
@@ -113,6 +117,7 @@ TriggerEvent("RegisterItem",{
     ItemType = "test",
     ItemDescription = "test item description yea!",
     ItemDensity = 10,
+    ItemModel = "ng_proc_food_burg01a",
     ItemMaxDensity = 50000000000,
     ItemMaxUseAmount = 2,
     ItemMaxAmount = 100,
@@ -125,7 +130,7 @@ TriggerEvent("RegisterItem",{
     IsItemPhysicalAfterDrop = true,
     UseFunction = function(PlayerID,ItemAmount,AttachData,Reject)
         -- Reject 是一个函数 当他传入的时候，如果出现一些情况 要取消这次使用的话就直接调用Reject()不要CancelEvent()
-        print("player："..PlayerID.." use item：test_item with amount："..ItemAmount.." with attach data："..AttachData)
+        print("player："..PlayerID.." use item：test_item with amount："..ItemAmount.." with attach data："..json.encode(AttachData))
         Reject()
         print("oh no the use event was rejected")
     end,

@@ -164,7 +164,7 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
         end
     end
     
-    ---remov item from inventory
+    ---remove item from inventory
     ---@param itemName string item to remove
     ---@param amount number number of items to remove
     ---@return boolean isSuccess is item remove success or not
@@ -191,6 +191,31 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
                         {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
                         {Method = "AND",Operator = "=",Column = "ItemName",Value = itemName}
                     }
+                )
+                return true
+            else
+                return false
+            end
+        else
+            return false
+        end
+    end
+
+    ---use item
+    ---@param itemName string item to use
+    ---@param amount number amount to use
+    ---@return boolean isSuccess is item use success or not
+    self.Inventory.UseItem = function(itemName,amount)
+        local info  = self.Inventory.GetItem(itemName)
+        local item = Item.GetItem(itemName)
+        if item.ItemMaxUseAmount >= amount then
+            local r = self.Inventory.RemoveItem(itemName,amount)
+            if r then
+                item.UseFunction(self.PlayerID.Get(),amount,info.AttachData,
+                    function()
+                        self.Inventory.GiveItem(itemName,amount,false,info.AttachData)
+                        return false
+                    end
                 )
                 return true
             else
