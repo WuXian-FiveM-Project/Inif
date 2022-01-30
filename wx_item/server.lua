@@ -83,7 +83,7 @@ TriggerEvent("RegisterItem",{
     ItemShowName = "TEST ITEM",
     ItemType = "test",
     ItemDescription = "test item description yea!",
-    ItemDensity = 10,
+    ItemDensity = 100,
     ItemMaxDensity = 50000000000,
     ItemMaxUseAmount = 2,
     ItemMaxAmount = 100,

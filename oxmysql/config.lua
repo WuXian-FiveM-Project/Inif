@@ -3,7 +3,7 @@ Config.ip = "localhost"
 Config.user = "root"
 Config.password = "6u3489m5uc4"
 Config.database = "wxs"
-Config.mysql_slow_query_warning = 10 --set how many Millisecond below will show a warning
+Config.mysql_slow_query_warning = 100 --set how many Millisecond below will show a warning
 Config.LogToConsole = true
 Config.mysql_debug = false
 
