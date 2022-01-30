@@ -1,4 +1,12 @@
 {
     "todo-tree.tree.showBadges": false,
-    "todo-tree.tree.scanMode": "workspace only"
+    "todo-tree.tree.scanMode": "workspace only",
+    "Lua.runtime.version": "Lua 5.4",
+    "Lua.diagnostics.globals": [
+        "ngx"
+    ],
+    "Lua.workspace.library": [
+        "${3rd}/OpenResty/library"
+    ],
+    "Lua.workspace.checkThirdParty": false
 }

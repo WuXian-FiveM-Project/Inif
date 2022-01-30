@@ -31,15 +31,14 @@ AddEventHandler("RegisterItem",function(Table)
     self.TransferFunction = Table.TransferFunction or function() end
     self.IsEnableAntiCheat = Table.IsEnableAntiCheat or true
     table.insert(item_index,self.ItemName)
+
+
     item_list[self.ItemName] = self
 end)
 
 TriggerEvent("RegisterModule","Item",{
     GetItem = function()
-        local self = {}
-        setmetatable(self, self)
-        self.__newindex = self.__newindex
-        self.__index = self
+        
     end
 },true)
 
