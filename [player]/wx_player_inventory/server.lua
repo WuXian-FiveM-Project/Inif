@@ -226,5 +226,9 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
         end
     end
 
+    self.Inventory.DropItem = function(itemName,amount)
+        
+    end
+
     return self
 end)

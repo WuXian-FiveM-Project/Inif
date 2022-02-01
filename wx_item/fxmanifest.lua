@@ -6,6 +6,7 @@ version '1.0.0'
 
 dependencies {
     'wx_module_system',
+    'wx_player_inventory',
 }
 client_script 'client.lua'
 server_script 'server.lua'
