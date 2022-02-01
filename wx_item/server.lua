@@ -71,7 +71,6 @@ TriggerEvent("RegisterModule","Item",{
     ---@param itemName string @item name
     ---@return table table class or structure
     GetItem = function(itemName)
-        assert(type(item_list[itemName]) == "table","item（"..itemName.."） not exist")
         return item_list[itemName]
     end
 },true)

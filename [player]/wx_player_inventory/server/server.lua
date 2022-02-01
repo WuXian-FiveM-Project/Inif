@@ -11,7 +11,7 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
             {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
             {Method = "AND",Operator = "=",Column = "ItemName",Value = itemName}
         })
-        local itemTable = Item.GetItem(itemName)
+        local itemTable = exports.wx_module_system:RequestModule("Item").GetItem(itemName)
         itemTable.Amount = value[1].ItemAmount
         itemTable.Density = value[1].ItemAmount
         itemTable.ItemAmount = value[1].ItemAmount
@@ -29,7 +29,7 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
         })
         local Table = {}
         for k,v in pairs(value) do
-            local itemTable = Item.GetItem(v.ItemName)
+            local itemTable = exports.wx_module_system:RequestModule("Item").GetItem(v.ItemName)
             itemTable.Amount = v.ItemAmount
             itemTable.Density = v .ItemAmount
             itemTable.AttachData = json.decode(v.ItemAttachData)
@@ -104,7 +104,7 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
     ---@return boolean isSuccess is item give success or not
     self.Inventory.GiveItem = function(itemName,amount,isForce,attachData)
         if self.Inventory.IsItemExists(itemName) then
-            local iteminfo = Item.GetItem(itemName)
+            local iteminfo = exports.wx_module_system:RequestModule("Item").GetItem(itemName)
             local before = self.Inventory.GetItem(itemName)
             local max_density = self.Inventory.GetMaxDensityCanHold()
             local max_item = self.Inventory.GetMaxItemCanHold()
@@ -142,7 +142,7 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
                 end
             end
         else
-            local iteminfo = Item.GetItem(itemName)
+            local iteminfo = exports.wx_module_system:RequestModule("Item").GetItem(itemName)
             local max_density = self.Inventory.GetMaxDensityCanHold()
             local max_item = self.Inventory.GetMaxItemCanHold()
             if self.Inventory.GetTotalItemCount() + amount <= max_item then
@@ -185,7 +185,7 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
                 MySql.Sync.Update("player_items",
                     {
                         {Column = "ItemAmount", Value = before.Amount - amount},
-                        {Column = "ItemDensity", Value = ((before.Amount - amount) * Item.GetItem(itemName).ItemDensity)},
+                        {Column = "ItemDensity", Value = ((before.Amount - amount) * exports.wx_module_system:RequestModule("Item").GetItem(itemName).ItemDensity)},
                     },
                     {
                         {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
@@ -207,7 +207,7 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
     ---@return boolean isSuccess is item use success or not
     self.Inventory.UseItem = function(itemName,amount)
         local info  = self.Inventory.GetItem(itemName)
-        local item = Item.GetItem(itemName)
+        local item = exports.wx_module_system:RequestModule("Item").GetItem(itemName)
         if item.ItemMaxUseAmount >= amount then
             local r = self.Inventory.RemoveItem(itemName,amount)
             if r then
@@ -227,8 +227,20 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
     end
 
     self.Inventory.DropItem = function(itemName,amount)
+        local item = exports.wx_module_system:RequestModule("Item").GetItem(itemName)
+        math.randomseed(os.time()*2/os.time()+(os.time())/math.random())
+        local ticket = tostring(math.random(0,10000000000000000))
+        drop_ticket[ticket] = 
+        {
+            ItemName = itemName,
+            Amount = amount,
+        }
+        TriggerClientEvent("wx_player_inventory:drop",-1,item.ItemShowName,amount,item.ItemModel,item.IsItemPhysicalAfterDrop,ticket)
         
     end
 
     return self
 end)
+
+
+drop_ticket = {}
