@@ -3,7 +3,7 @@ RegisterNetEvent("wx_player_inventory:drop",function(itemShowName,amount,prop,Is
     Citizen.CreateThread(function()
         local object = nil
         repeat
-            local object = CreateObject(GetHashKey(prop), coords.x, coords.y, coords.z, false, false, IsItemPhysicalAfterDrop)
+            object = CreateObject(GetHashKey(prop), coords.x, coords.y, coords.z, false, false, IsItemPhysicalAfterDrop)
         until type(object) ~= "nil"
 
         local isObjectPickUp = true
@@ -51,14 +51,14 @@ RegisterNetEvent("wx_player_inventory:drop",function(itemShowName,amount,prop,Is
                 false, nil, nil, false
             )
             local playerCoords = GetEntityCoords(GetPlayerPed(-1))
-            if Vdist(playerCoords.x,playerCoords.y,playerCoords.z, coords.x,coords.y,coords.z) <= 1 then
-                -- Notification.ShowHelpNotification("按~INPUT_PICKUP~捡起"..itemShowName,true)
-                AddTextEntry('HelpNotificationString', "按~INPUT_PICKUP~捡起")
-	            BeginTextCommandDisplayHelp("HelpNotificationString")
-                EndTextCommandDisplayHelp(0, false, true, 1 or 5000)
+            if Vdist(playerCoords.x,playerCoords.y,playerCoords.z, coords.x,coords.y,coords.z) <= 1.5 then
+                exports.wx_module_system:RequestModule("Notification").ShowHelpNotification("按~INPUT_PICKUP~捡起"..itemShowName,true)
+                if IsControlPressed(0 --[[ integer ]], 38 --[[ integer ]]) then
+                    break
+                end
             end
-
             Wait(0)
         end
+        DeleteObject(object)
     end)
 end)
