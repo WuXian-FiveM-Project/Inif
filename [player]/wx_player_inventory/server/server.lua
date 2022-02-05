@@ -235,8 +235,8 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
             ItemName = itemName,
             Amount = amount,
         }
-        TriggerClientEvent("wx_player_inventory:drop",-1,item.ItemShowName,amount,item.ItemModel,item.IsItemPhysicalAfterDrop,ticket)
-        
+        local coords = GetEntityCoords(GetPlayerPed(self.PlayerID.Get()))
+        TriggerClientEvent("wx_player_inventory:drop",-1,item.ItemShowName,amount,item.ItemModel,item.IsItemPhysicalAfterDrop,coords,ticket)
     end
 
     return self
