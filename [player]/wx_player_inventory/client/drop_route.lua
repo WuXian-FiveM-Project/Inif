@@ -37,7 +37,7 @@ RegisterNetEvent("wx_player_inventory:drop",function(itemShowName,amount,prop,Is
                 2.5 --[[ number ]], 
                 2.5 --[[ number ]], 
                 false --[[ Any ]]
-            )   
+            )    
             DrawMarker(
                 1,
                 coords.x, coords.y, coords.z, 
