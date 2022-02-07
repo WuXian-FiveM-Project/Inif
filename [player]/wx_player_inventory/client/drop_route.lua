@@ -47,7 +47,7 @@ RegisterNetEvent("wx_player_inventory:drop",function(itemShowName,amount,prop,Is
                 255, 255, 255, 120,
                 false,
                 false,
-                nil,
+                nil, 
                 false, nil, nil, false
             )
             local playerCoords = GetEntityCoords(GetPlayerPed(-1))
