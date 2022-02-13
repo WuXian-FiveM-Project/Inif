@@ -4,12 +4,11 @@ game 'gta5'
 author 'You'
 version '1.0.0'
 
-server_script 'server.js'
+server_script 'server.lua'
 client_script 'client.lua'
 
 dependency {
-    'wx_module_system',
-    'yarn',
+    'wx_player_inventory',
 }
 
 
