@@ -25,7 +25,7 @@ TriggerEvent("RegisterModule","Callback",{
 			local promise = promise.new()
 			local arg = ...
 			Citizen.CreateThread(function()
-				returnValue = {func(table.unpack(arg))}
+				returnValue = {func(_source,table.unpack(arg))}
 				promise:resolve(returnValue)
 			end)
 			Citizen.Await(promise)

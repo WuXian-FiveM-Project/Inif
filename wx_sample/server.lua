@@ -3,8 +3,8 @@ Callback = exports.wx_module_system:RequestModule("Callback")
 Player = exports.wx_module_system:RequestModule("Player")
 MySql = exports.wx_module_system:RequestModule("MySql")
 
-Callback.RegisterServerCallback("testserver",function(arg1,arg2)
-    print("print args "..arg1,arg2)
+Callback.RegisterServerCallback("testserver",function(source,arg1,arg2)
+    print("player:".. source .." trigger print args "..arg1,arg2)
     return "this is server return",1
 end)
 
@@ -39,6 +39,7 @@ Citizen.CreateThread(function()
     --Wait(1000)
     --a.Notification.ShowFloatingHelpNotification("daw",GetEntityCoords(GetPlayerPed(a.PlayerID.Get())),5000)
     a = a:Inventory()
+    Wait(1000)
     print(json.encode(a.Inventory.DropItem("water",1)))
 
 end)

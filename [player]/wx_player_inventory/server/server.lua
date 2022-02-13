@@ -1,6 +1,10 @@
 MySql = exports.wx_module_system:RequestModule("MySql")
 Item = exports.wx_module_system:RequestModule("Item")
+Player = exports.wx_module_system:RequestModule("Player")
+Callback = exports.wx_module_system:RequestModule("Callback")
+
 TriggerEvent("RegisterPlayerModule","Inventory",function(self)
+    self = self
     self.Inventory = {}
 
     ---get specific item in inventory
@@ -234,8 +238,10 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
         {
             ItemName = itemName,
             Amount = amount,
+            AttachData = self.Inventory.GetItem(itemName).AttachData,
         }
         local coords = GetEntityCoords(GetPlayerPed(self.PlayerID.Get()))
+        self.Inventory.RemoveItem(itemName,amount)
         TriggerClientEvent("wx_player_inventory:drop",-1,item.ItemShowName,amount,item.ItemModel,item.IsItemPhysicalAfterDrop,coords,ticket)
     end
 
@@ -244,3 +250,22 @@ end)
 
 
 drop_ticket = {}
+
+Callback.RegisterServerCallback('wx_player_inventory:pickup',function(source,tickets)
+    local src = source
+    if drop_ticket[tickets] == nil then
+        DropPlayer(src, "你已被踢出。原因: 你拾取了一个不存在的物品。(代码位置 server/drop_route.lua 252行)。如有疑惑请向我们反馈。")
+    else
+        local player = Player.GetPlayer(src)
+        player = player:Inventory()
+        local ticket = drop_ticket[tickets]
+        local result = player.Inventory.GiveItem(ticket.ItemName,ticket.Amount,false,ticket.AttachData)
+        if result then
+            TriggerClientEvent('wx_player_inventory:global_pickup',-1,tickets)
+            drop_ticket[tickets] = nil
+            return true
+        else
+            return false
+        end
+    end
+end)

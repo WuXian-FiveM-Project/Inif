@@ -1,4 +1,7 @@
 Notification = exports.wx_module_system:RequestModule("Notification")
+Callback = exports.wx_module_system:RequestModule("Callback")
+
+
 RegisterNetEvent("wx_player_inventory:drop",function(itemShowName,amount,prop,IsItemPhysicalAfterDrop,coords,ticket)
     Citizen.CreateThread(function()
         local object = nil
@@ -19,9 +22,15 @@ RegisterNetEvent("wx_player_inventory:drop",function(itemShowName,amount,prop,Is
         EndScaleformMovieMethod()
 
         local spin = 1
+        local isPickedUp = false
+        local handle = AddEventHandler("wx_player_inventory:pickup"..ticket,function()
+            isObjectPickUp = not isObjectPickUp
+            isPickedUp = true
+        end)
+
         while isObjectPickUp do
             spin = spin+1.01
-            local coords = GetEntityCoords(object)
+            coords = GetEntityCoords(object)
             DrawScaleformMovie_3dSolid(
                 ScaleformHandle --[[ integer ]], 
                 coords.x --[[ number ]], 
@@ -52,13 +61,30 @@ RegisterNetEvent("wx_player_inventory:drop",function(itemShowName,amount,prop,Is
             )
             local playerCoords = GetEntityCoords(GetPlayerPed(-1))
             if Vdist(playerCoords.x,playerCoords.y,playerCoords.z, coords.x,coords.y,coords.z) <= 1.5 then
-                exports.wx_module_system:RequestModule("Notification").ShowHelpNotification("按~INPUT_PICKUP~捡起"..itemShowName,true)
+                exports.wx_module_system:RequestModule("Notification").ShowHelpNotification("按~INPUT_PICKUP~捡起",true)
                 if IsControlPressed(0 --[[ integer ]], 38 --[[ integer ]]) then
                     break
                 end
             end
             Wait(0)
         end
-        DeleteObject(object)
+        if isPickedUp == false then
+            Notification = exports.wx_module_system:RequestModule("Notification")
+            local result = Callback.TriggerServerCallback('wx_player_inventory:pickup',ticket)
+            if result then
+                DeleteObject(object)
+                RemoveEventHandler(handle)
+                Notification.ShowNotification("你捡起了"..amount.."个"..itemShowName)
+            else
+                Notification.ShowNotification("背包已满或已到达物品最大数量")
+            end
+        else
+            RemoveEventHandler(handle)
+            DeleteObject(object)
+        end
     end)
+end)
+
+RegisterNetEvent('wx_player_inventory:global_pickup',function(ticket)
+    TriggerEvent("wx_player_inventory:pickup"..ticket)
 end)
