@@ -135,6 +135,7 @@ function Inventory_ItemComponent() {
 
     const [open, setOpen] = React.useState(false);
     const [ItemState, SetItemState] = React.useState(itemData);
+    const [amount, SetAmount] = React.useState(0);
 
 
     var currentlyItemData = "null"
@@ -142,6 +143,7 @@ function Inventory_ItemComponent() {
     const handleClickOpen = (item) => {
         SetItemState(item)
         setOpen(true);
+        SetAmount(item.itemAmount)
     };
 
     const handleClose = () => {
@@ -150,6 +152,20 @@ function Inventory_ItemComponent() {
 
     function valuetext(value) {
         return `${value}°C`;
+    }
+
+    function amountChangeHandler(e) {
+        SetAmount(e.target.value)
+    }
+
+    function useItemHandler() {
+        
+    }
+    function throwItemHandler() {
+
+    }
+    function transferItemHandler() {
+        
     }
 
     return (
@@ -181,27 +197,30 @@ function Inventory_ItemComponent() {
                         width: '500px',
                     }}
                 >
+                    <Input  sx={{ marginTop: "10px" }} disabled  id="outlined-basic" label="数量" variant="outlined" value={amount}/>
                     <Slider
                         sx={{
                             margin: "40px 0 0 0",
                             width: "100%"
                         }}
                         aria-label="Custom marks"
-                        defaultValue={1}
+                        defaultValue={amount}
                         step={1}
+                        value={amount}
                         max={ItemState.itemAmount}
                         getAriaValueText={valuetext}
+                        onChange={amountChangeHandler}
                         valueLabelDisplay="auto"
                     />
                     <Grid container spacing={2}>
                         <Grid item xs={12 / 3}>
-                            <Button variant="contained" sx={{ width: '100%' }}>使用</Button>
+                            <Button variant="contained" sx={{ width: '100%' }} onClick={useItemHandler}>使用</Button>
                         </Grid>
                         <Grid item xs={12 / 3}>
-                            <Button variant="contained" sx={{ width: '100%' }}>丢弃</Button>
+                            <Button variant="contained" sx={{ width: '100%' }} onClick={throwItemHandler}>丢弃</Button>
                         </Grid>
                         <Grid item xs={12 / 3}>
-                            <Button variant="contained" sx={{width: '100%'}}>转移</Button>
+                            <Button variant="contained" sx={{ width: '100%' }} onClick={transferItemHandler}>转移</Button>
                         </Grid>
                     </Grid>
                 </DialogContent>
