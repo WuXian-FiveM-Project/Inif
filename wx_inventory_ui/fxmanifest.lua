@@ -4,14 +4,17 @@ game 'gta5'
 author 'You'
 version '1.0.0'
 
-server_script 'server.lua'
-client_script 'client.lua'
-
-dependency {
+dependencies {
+    'wx_module_system',
     'wx_player_inventory',
 }
+client_script 'client.lua'
+server_script 'server.lua'
+shared_script 'shared.lua'
 
+ui_page "react-front/build/index.html"
 
-ui_page 'html/index.html'
-
-file 'html/*.*'
+files {
+    "react-front/build/*.*",
+    "react-front/build/static/js/*.*"
+}

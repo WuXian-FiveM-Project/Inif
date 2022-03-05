@@ -1,24 +1,42 @@
-Callback = exports.wx_module_system:RequestModule("Callback")
+local Callback = exports.wx_module_system:RequestModule("Callback")
+local Player = exports.wx_module_system:RequestModule("Player")
 
-Callback.RegisterServerCallback("wx_inventory_ui:requestItemData", function(source)
-    local Player = exports.wx_module_system:RequestModule("Player")
-    local e = Player.GetPlayer(source)
-    e = e:Inventory()
+
+Callback.RegisterServerCallback("wx_inventory_ui:getInventory",function(source)
+    local player = Player.GetPlayer(source)
+    player = player:Inventory()
     local returnTable = {}
-    for k,v in ipairs(e.Inventory.GetItems()) do
+
+    for k,v in ipairs(player.Inventory.GetItems()) do
         table.insert(returnTable,{
-            ItemShowName = v.ItemShowName,
-            ItemName = v.ItemName,
-            ItemDescription = v.ItemDescription,
-            ItemMaxUseAmount = v.ItemMaxUseAmount,
-            ItemMaxAmount = v.ItemMaxAmount,
-            CanItemDrop = v.CanItemDrop,
-            CanItemPickup = v.CanItemPickup,
-            CanItemUse = v.CanItemUse,
-            CanItemTransfer = v.CanItemTransfer,
-            Amount = v.Amount,
-            Density = v.Density,
+            displayName = v.ItemShowName,
+            currentAmount = v.Amount,
+            maxAmount = v.ItemMaxAmount,
+            maxUseAmount = v.ItemMaxUseAmount,
+            maxTransferAmount = v.ItemMaxTransferAmount,
+            maxThrowAmount = v.ItemMaxThrowAmount,
+            image = v.ItemImage,
+            itemName = v.ItemName,
+            itemDescription = v.ItemDescription,
+            canUse = v.CanItemUse,
+            canThrow = v.CanItemDrop,
+            canTransfer = v.CanItemTransfer,
         })
     end
     return returnTable
+end)
+
+RegisterNetEvent('wx_inventory_ui:useItem',function(itemName,amount)
+    local src = source
+    local player = Player.GetPlayer(src)
+    player = player:Inventory()
+    player.Inventory.UseItem(itemName,amount)
+end)
+
+RegisterNetEvent('wx_inventory_ui:throwItem',function(itemName,amount)
+    local src = source
+    local player = Player.GetPlayer(src)
+    player = player:Inventory()
+    print(itemName,amount)
+    player.Inventory.DropItem(itemName,amount)
 end)
