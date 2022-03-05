@@ -5,8 +5,8 @@ import InventoryItem from './InventoryItem';
 
 
 function InventoryView() {
-    // const [show, setShow] = React.useState(false); //FiveM
-    const [show, setShow] = React.useState(true); //React
+     const [show, setShow] = React.useState(false); //FiveM
+    //const [show, setShow] = React.useState(true); //React
     const [inventory, setInventory] = React.useState([
         {
             displayName: "水",
