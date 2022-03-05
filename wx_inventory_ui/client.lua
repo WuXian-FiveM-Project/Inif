@@ -2,6 +2,9 @@ local Callback = exports.wx_module_system:RequestModule("Callback")
 
 RegisterNUICallback("quit",function(data,cb)
     SetNuiFocus(false,false)
+    SendNUIMessage({
+        type = "close",
+    })
 end)
 
 
