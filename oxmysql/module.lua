@@ -89,8 +89,8 @@ TriggerEvent("RegisterModule","MySql",{
 				end
 				matchrule = string.sub(matchrule, 1, -2)
 			end
-			Console.Log(("Sql delete \""..Table.."\" query: "..'DELETE FROM player'..matchrule.."["..json.encode(matchstd).."]"),Config.LogToConsole)
-			return exports.oxmysql:query_async('DELETE FROM player'..matchrule, matchstd)
+			Console.Log(("Sql delete \""..Table.."\" query: "..'DELETE FROM '..Table.." "..matchrule.."["..json.encode(matchstd).."]"),Config.LogToConsole)
+			return exports.oxmysql:query_async('DELETE FROM '..Table.." "..matchrule, matchstd)
 		end,
 		---update data to table
 		---@param Table string table you want to insert
