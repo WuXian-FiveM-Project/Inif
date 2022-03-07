@@ -1858,3 +1858,4 @@
 [2022年03月06日 10时46分34秒][ConsoleLog]：Sql delete "player_config" query: DELETE FROM player_config  WHERE SteamID=? AND KeyName=?[["steam:11000013604b55c","test"]]
 [2022年03月06日 10时46分52秒][ConsoleLog]：Sql fetch "player_config" query: SELECT * FROM player_config WHERE SteamID=? AND KeyName=? List：[["steam:11000013604b55c","test"]]
 [2022年03月06日 10时46分52秒][ConsoleLog]：Sql insert into "player_config" query: INSERT INTO player_config (SteamID,KeyName,Value) VALUES (?,?,?) [["steam:11000013604b55c","test","1"]]
+[2022年03月07日 09时56分27秒][ConsoleLog]：Sql fetch "player_items" query: SELECT * FROM player_items WHERE SteamID=? List：[["steam:11000013604b55c"]]
