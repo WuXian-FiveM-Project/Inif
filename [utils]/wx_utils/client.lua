@@ -14,4 +14,7 @@ TriggerEvent("RegisterModule","Utils",
     GenerateRandomBoolean = function()
         return Callback.TriggerServerCallback("wx_utils:generateRandomBoolean")
     end,
+    GetEntityPointingAt = function(entity)
+        return (GetOffsetFromEntityInWorldCoords(entity,0.0,10000.0,0.0)-GetEntityCoords(entity))
+    end
 },true)
