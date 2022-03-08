@@ -340,7 +340,7 @@ TriggerEvent("RegisterModule","Render",
                 Citizen.CreateThread(function()
                     while self.isDrawing do
                         Citizen.Wait(0)
-                        self:Draw()
+                        self.Draw()
                     end
                 end)
             end
@@ -365,38 +365,178 @@ TriggerEvent("RegisterModule","Render",
                 end
             end
             return self
+        end,
+        DrawSpotLight = function(options)
+            --#region error handler
+            assert(options.positionX,"positionX is required")
+            assert(type(options.positionX)=="number","positionX must be a number")
+            assert(options.positionY,"positionY is required")
+            assert(type(options.positionY)=="number","positionY must be a number")
+            assert(options.positionZ,"positionZ is required")
+            assert(type(options.positionZ)=="number","positionZ must be a number")
+            assert(options.aimmingCoordX,"aimmingCoordX is required")
+            assert(type(options.aimmingCoordX)=="number","aimmingCoordX must be a number")
+            assert(options.aimmingCoordY,"aimmingCoordY is required")
+            assert(type(options.aimmingCoordY)=="number","aimmingCoordY must be a number")
+            assert(options.aimmingCoordZ,"aimmingCoordZ is required")
+            assert(type(options.aimmingCoordZ)=="number","aimmingCoordZ must be a number")
+            assert(options.colorR,"colorR is required")
+            assert(type(options.colorR)=="number","colorR must be a number")
+            assert(options.colorG,"colorG is required")
+            assert(type(options.colorG)=="number","colorG must be a number")
+            assert(options.colorB,"colorB is required")
+            assert(type(options.colorB)=="number","colorB must be a number")
+            assert(options.distance,"distance is required")
+            assert(type(options.distance)=="number","distance must be a number")
+            assert(options.brightness,"brightness is required")
+            assert(type(options.brightness)=="number","brightness must be a number")
+            assert(options.roundness ,"roundness  is required")
+            assert(type(options.roundness )=="number","roundness  must be a number")
+            assert(options.radius,"radius is required")
+            assert(type(options.radius)=="number","radius must be a number")
+            assert(options.falloff,"falloff is required")
+            assert(type(options.falloff)=="number","falloff must be a number")
+            options.colorR = math.floor(options.colorR)
+            options.colorG = math.floor(options.colorG)
+            options.colorB = math.floor(options.colorB)
+            --#endregion
+            local startPosition = vec3(options.positionX+0.0,options.positionY+0.0,options.positionZ+0.0)
+            local endPosition = vec3(options.aimmingCoordX+0.0,options.aimmingCoordY+0.0,options.aimmingCoordZ+0.0)
+            local rot = startPosition-endPosition
+            rot = -rot
+            -- print(rot)
+            DrawSpotLightWithShadow(
+	            options.positionX+0.01 --[[ number ]],
+	            options.positionY+0.01 --[[ number ]],
+	            options.positionZ+0.01 --[[ number ]],
+	            rot.x --[[ number ]],
+	            rot.y --[[ number ]],
+	            rot.z --[[ number ]],
+	            options.colorR --[[ integer ]],
+	            options.colorG --[[ integer ]],
+	            options.colorB --[[ integer ]],
+	            options.distance+0.01 --[[ number ]],
+	            options.brightness+0.01 --[[ number ]],
+	            options.roundness+0.01 --[[ number ]],
+	            options.radius+0.01 --[[ number ]],
+	            options.falloff+0.01 --[[ number ]],
+                2
+            )
+
+        end,
+        DrawSpotLightWithClass = function(options)
+            --#region error handler
+            assert(options.positionX,"positionX is required")
+            assert(type(options.positionX)=="number","positionX must be a number")
+            assert(options.positionY,"positionY is required")
+            assert(type(options.positionY)=="number","positionY must be a number")
+            assert(options.positionZ,"positionZ is required")
+            assert(type(options.positionZ)=="number","positionZ must be a number")
+            assert(options.aimmingCoordX,"aimmingCoordX is required")
+            assert(type(options.aimmingCoordX)=="number","aimmingCoordX must be a number")
+            assert(options.aimmingCoordY,"aimmingCoordY is required")
+            assert(type(options.aimmingCoordY)=="number","aimmingCoordY must be a number")
+            assert(options.aimmingCoordZ,"aimmingCoordZ is required")
+            assert(type(options.aimmingCoordZ)=="number","aimmingCoordZ must be a number")
+            assert(options.colorR,"colorR is required")
+            assert(type(options.colorR)=="number","colorR must be a number")
+            assert(options.colorG,"colorG is required")
+            assert(type(options.colorG)=="number","colorG must be a number")
+            assert(options.colorB,"colorB is required")
+            assert(type(options.colorB)=="number","colorB must be a number")
+            assert(options.distance,"distance is required")
+            assert(type(options.distance)=="number","distance must be a number")
+            assert(options.brightness,"brightness is required")
+            assert(type(options.brightness)=="number","brightness must be a number")
+            assert(options.roundness ,"roundness  is required")
+            assert(type(options.roundness )=="number","roundness  must be a number")
+            assert(options.radius,"radius is required")
+            assert(type(options.radius)=="number","radius must be a number")
+            assert(options.falloff,"falloff is required")
+            assert(type(options.falloff)=="number","falloff must be a number")
+            options.colorR = math.floor(options.colorR)
+            options.colorG = math.floor(options.colorG)
+            options.colorB = math.floor(options.colorB)
+            --#endregion
+            local startPosition = vec3(options.positionX+0.0,options.positionY+0.0,options.positionZ+0.0)
+            local endPosition = vec3(options.aimmingCoordX+0.0,options.aimmingCoordY+0.0,options.aimmingCoordZ+0.0)
+            local rot = startPosition-endPosition
+            rot = -rot
+
+            local self = {}
+            self.positionX = options.positionX
+            self.positionY = options.positionY
+            self.positionZ = options.positionZ
+            self.aimmingCoordX = options.aimmingCoordX
+            self.aimmingCoordY = options.aimmingCoordY
+            self.aimmingCoordZ = options.aimmingCoordZ
+            self.colorR = options.colorR
+            self.colorG = options.colorG
+            self.colorB = options.colorB
+            self.distance = options.distance
+            self.brightness = options.brightness
+            self.roundness = options.roundness
+            self.radius = options.radius
+            self.falloff = options.falloff
+            self.rot = rot
+            self.isDrawing = false
+
+            self.Draw = function()
+                startPosition = vec3(self.positionX+0.0,self.positionY+0.0,self.positionZ+0.0)
+                endPosition = vec3(self.aimmingCoordX+0.0,self.aimmingCoordY+0.0,self.aimmingCoordZ+0.0)
+                self.rot = -(startPosition-endPosition)
+                DrawSpotLightWithShadow(
+	                self.positionX+0.0 --[[ number ]],
+	                self.positionY+0.0 --[[ number ]],
+	                self.positionZ+0.0 --[[ number ]],
+	                self.rot.x --[[ number ]],
+	                self.rot.y --[[ number ]],
+	                self.rot.z --[[ number ]],
+	                self.colorR --[[ integer ]],
+	                self.colorG --[[ integer ]],
+	                self.colorB --[[ integer ]],
+	                self.distance+0.0 --[[ number ]],
+	                self.brightness+0.0 --[[ number ]],
+	                self.roundness+0.0 --[[ number ]],
+	                self.radius+0.0 --[[ number ]],
+	                self.falloff+0.0 --[[ number ]],
+                    2
+                )
+            end
+
+            self.StartDraw = function()
+                self.isDrawing = true
+                Citizen.CreateThread(function()
+                    while self.isDrawing do
+                        Citizen.Wait(0)
+                        self.Draw()
+                    end
+                end)
+            end
+
+            self.StopDraw = function()
+                self.isDrawing = false
+            end
+
+            self.Kill = function()
+                self = nil
+            end
+            self.Destroy = self.Kill
+            
+            self.Update = function(newParameters)
+                newParameters = json.decode(json.encode(newParameters))
+                for k, v in pairs(newParameters) do
+                    if type(v) == "number" then
+                        k = tostring(k)
+                        if k ~= "colorR" and k ~= "colorG" and k ~= "colorB" then
+                            v = v+0.001
+                        end
+                    end
+                    self[k] = v
+                end
+            end
+
+            return self
         end
-    }
-
+    },
 },true)
-
-
-Citizen.CreateThread(function()
-    local playerCoords = GetEntityCoords(GetPlayerPed(-1))
-    local Render = exports.wx_module_system:RequestModule("Render")
-    -- local Notification = exports.wx_module_system:RequestModule("Notification")
-    -- local m = Render.Marker.DrawMarkerWithClass({
-    --     type = 1 --[[integer:required]],
-    --     positionX = playerCoords.x --[[number:required]],
-    --     positionY = playerCoords.y --[[number:required]],
-    --     positionZ =playerCoords.z --[[number:required]],
-    --     scaleX = 2.0 --[[number]],
-    --     scaleY = 2.0 --[[number]],
-    --     scaleZ = 2.0 --[[number]],
-    --     colorR = 255 --[[number:required]],
-    --     colorG = 255 --[[number:required]],
-    --     colorB = 200 --[[number:required]],
-    --     alpha = 150 --[[number]],
-    --     jitterUpAndDown = false --[[boolean]],
-    --     faceToCamera = false --[[boolean]],
-    --     onEnter = function()
-    --         Notification.ShowHelpNotification("daw",true)
-    --     end
-    -- })
-    -- m.StartDraw()
-    -- Wait(1000)
-    -- m.Update({scaleY = 1})
-    -- Wait(10000)
-    -- m.StopDraw()
-    
-end)
