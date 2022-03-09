@@ -1,4 +1,5 @@
 AddEventHandler("RegisterItem",function(Table)
+    print("Registering Item: "..Table.ItemName)
     local self = {}
     setmetatable(self, self)
     self.__newindex = self.__newindex

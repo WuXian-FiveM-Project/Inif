@@ -56,25 +56,36 @@ export default function InventoryItem(props) {
 
         return (
             <Dialog onClose={handleClose} open={open} maxWidth="xl" fullWidth>
-                <DialogTitle>{currentSelectData.method}{displayName}</DialogTitle>
+                <DialogTitle>
+                    {currentSelectData.method}
+                    {displayName}
+                </DialogTitle>
                 <Slider
                     style={{
-                        width: '95%',
-                        display: 'block',
-                        margin: 'auto',
+                        width: "95%",
+                        display: "block",
+                        margin: "auto",
                     }}
                     aria-label="Amount"
-                    defaultValue={currentSelectData.min+1}
+                    defaultValue={currentSelectData.min + 1}
                     valueLabelDisplay="auto"
                     step={1}
-                    marks
                     min={currentSelectData.min}
                     max={currentSelectData.max}
                     onChange={onSliderChange}
                     value={sliderValue}
+                    marks = {currentSelectData.max <= 400 ? true : false}
                 />
-                <TextField value={sliderValue} onChange={onSliderChange}></TextField>
-                <Button onClick={confirmAction} style={{width: '100%',fontSize:"34px"}}>確認</Button>
+                <TextField
+                    value={sliderValue}
+                    onChange={onSliderChange}
+                ></TextField>
+                <Button
+                    onClick={confirmAction}
+                    style={{ width: "100%", fontSize: "34px" }}
+                >
+                    確認
+                </Button>
             </Dialog>
         );
     }

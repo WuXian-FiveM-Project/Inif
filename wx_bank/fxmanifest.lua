@@ -11,6 +11,7 @@ server_script {
     'server.lua',
 }
 dependencies {
+    'oxmysql',
     'wx_module_system',
     'wx_console'
 }

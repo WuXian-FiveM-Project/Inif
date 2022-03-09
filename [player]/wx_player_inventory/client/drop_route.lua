@@ -9,6 +9,7 @@ RegisterNetEvent("wx_player_inventory:drop",function(itemShowName,amount,prop,Is
             object = CreateObject(GetHashKey(prop), coords.x, coords.y, coords.z, false, false, IsItemPhysicalAfterDrop)
         until type(object) ~= "nil"
 
+
         local isObjectPickUp = true
 
         local ScaleformHandle = RequestScaleformMovie("MP_AWARD_FREEMODE") -- The scaleform you want to use
