@@ -1,34 +1,32 @@
 TriggerEvent("RegisterModule","Callback",{
     RegisterClientCallback = function (callbackName,func)
-        RegisterNetEvent(callbackName,function(return_callbackName,...)
-            local retunrValue
-			local promise = promise.new()
-			local arg = ...
-			Citizen.CreateThread(function()
-				retunrValue = {func(table.unpack(arg))}
-				promise:resolve(retunrValue)
-			end)
-			Citizen.Await(promise)
-            TriggerServerEvent("CallbackCall",return_callbackName,retunrValue)
+        RegisterNetEvent('callback:'..callbackName,function(returnName,parms)
+            local rtName
+            local promise = promise.new()
+            rtName = returnName
+            local functionReturn = {func(table.unpack(parms))}
+            promise:resolve(functionReturn)
+            Citizen.Await(promise)
+            TriggerServerEvent("callback:ClientReturn",rtName,functionReturn)
         end)
     end,
 	TriggerServerCallback = function (callbackName,...)
         local returnName = math.random(1,999999)
-        returnName = tostring(math.random(1,999999))
-        TriggerServerEvent(callbackName, returnName,{...})
-
-        local promise = promise.new()
-        local returnValue = nil
-        local handle = AddEventHandler(returnName,function(...)
-            returnValue = {...}
-            promise:resolve(...)
+        returnName = callbackName..tostring(math.random(1,999999))
+        TriggerServerEvent("callback:"..callbackName, returnName,{...})
+        local handle
+        local waitPromise = promise.new()
+        local returnValue
+        handle = AddEventHandler(returnName,function(parms)
+            RemoveEventHandler(handle)
+            returnValue = parms
+            waitPromise:resolve(parms)
         end)
-        Citizen.Await(promise)
-		RemoveEventHandler(handle)
+        Citizen.Await(waitPromise)
         return table.unpack(returnValue)
     end,
 },true)
 
-RegisterNetEvent('CallbackCall',function(callbackName,...)
-    TriggerEvent(callbackName,table.unpack(...))
+RegisterNetEvent("callback:ServerReturn",function(returnName,parms)
+    TriggerEvent(returnName,parms)
 end)

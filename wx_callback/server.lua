@@ -4,36 +4,33 @@ TriggerEvent("RegisterModule","Callback",{
     TriggerClientCallback = function (callbackName,playerid,...)
         math.randomseed(os.time()*math.random(1,999999)-os.time()/2)
         local returnName = math.random(1,999999)
-        returnName = tostring(math.random(1,999999))
-        TriggerClientEvent(callbackName, playerid, returnName,{...})
-
-        local promise = promise.new()
-        local returnValue = nil
-        local handle = AddEventHandler(returnName,function(...)
-            returnValue = {...}
-            promise:resolve(...)
+        returnName = callbackName..tostring(math.random(1,999999))
+        TriggerClientEvent("callback:"..callbackName, playerid, returnName,{...})
+        local handle
+        local waitPromise = promise.new()
+        local returnValue
+        handle = AddEventHandler(returnName,function(parms)
+            RemoveEventHandler(handle)
+            returnValue = parms
+            waitPromise:resolve(parms)
         end)
-        Citizen.Await(promise)
-		RemoveEventHandler(handle)
-        Console.Log("Trigger Client Callback"..", ID : "..playerid.."  Callback Name : "..callbackName)
+        Citizen.Await(waitPromise)
         return table.unpack(returnValue)
     end,
 	RegisterServerCallback = function (callbackName,func)
-        RegisterNetEvent(callbackName,function(return_callbackName,...)
-			local _source = source
-            local returnValue
-			local promise = promise.new()
-			local arg = ...
-			Citizen.CreateThread(function()
-				returnValue = {func(_source,table.unpack(arg))}
-				promise:resolve(returnValue)
-			end)
-			Citizen.Await(promise)
-            TriggerClientEvent("CallbackCall",_source,return_callbackName,returnValue)
+        RegisterNetEvent('callback:'..callbackName,function(returnName,parms)
+            local src = source
+            local rtName
+            local promise = promise.new()
+            rtName = returnName
+            local functionReturn = {func(src,table.unpack(parms))}
+            promise:resolve(functionReturn)
+            Citizen.Await(promise)
+            TriggerClientEvent("callback:ServerReturn",src,rtName,functionReturn)
         end)
     end
 },true)
 
-RegisterNetEvent('CallbackCall',function(callbackName,...)
-    TriggerEvent(callbackName,table.unpack(...))
+RegisterNetEvent("callback:ClientReturn",function(returnName,parms)
+    TriggerEvent(returnName,parms)
 end)

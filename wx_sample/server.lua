@@ -9,7 +9,7 @@ Callback.RegisterServerCallback("testserver",function(source,arg1,arg2)
 end)
 
 Citizen.CreateThread(function()
-    -- Console.Test("awwdaw")
+    --[[ Console.Test("awwdaw")
     -- print(json.encode(MySql.Sync.Update("player",
     --     {
     --         {Column = "PID" , Value = 1000 },
@@ -44,4 +44,12 @@ Citizen.CreateThread(function()
     a = a:Config()
     print(a.Config.Set("test",1))
 
+    ]]--
+    Wait(100)
+    -- print(Callback.TriggerClientCallback("test",GetPlayers()[1],"ar1","ar2"))
+    -- local player = Player.GetPlayer(GetPlayers()[1])
+    -- player = player:Physiology()
+    -- Wait(100)
+    -- print(player.Physiology.Thirst.Remove(10))
+    -- player = nil
 end)

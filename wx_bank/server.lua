@@ -30,3 +30,146 @@ TriggerEvent("RegisterItem",{
     TransferFunction = nil,
     IsEnableAntiCheat = true,
 })
+
+
+--TODO:銀行功能以後再做
+TriggerEvent("RegisterModule","Card",{
+    ---get bank card
+    ---@param searchTable table the rule you want to get {SteamID?:string,CardID?:string}
+    ---@return table class class of bank card with multiple methods
+    GetBankCard = function(searchTable)
+        local self = {}
+        
+        local fetchRule = {}
+        if type(searchTable.SteamID) ~= "nil" then
+            table.insert(fetchRule,{
+                Column = "OwnerSteamID",
+                Value = searchTable.SteamID,
+                Method = "AND",
+                Operator = "="
+            })
+        end
+        if type(searchTable.CardID) ~= "nil" then
+            table.insert(fetchRule,{
+                Column = "CardID",
+                Value = searchTable.CardID,
+                Method = "AND",
+                Operator = "="
+            })
+        end
+        local MySQL = exports.wx_module_system:RequestModule("MySql")
+        local temporaryResult = MySQL.Sync.Fetch("bank_card",{"*"},fetchRule)[1]
+
+        self.VOwnerSteamID = temporaryResult.OwnerSteamID
+        self.VCardID = temporaryResult.CardID
+        self.VPassword = temporaryResult.Password
+        self.VRegisterDate = temporaryResult.RegisterDate
+        self.OwnerSteamID = {
+            Get = function()
+                return self.VOwnerSteamID
+            end,
+            Set = function(value)
+                MySQL.Sync.Update("bank_card",
+                    {
+                        {Column = "OwnerSteamID",Value = value},
+                    },
+                    {
+                        {Method = "AND",Operator = "=",Column = "OwnerSteamID",Value = self.OwnerSteamID.Get()}
+                    }
+                )
+                self.VOwnerSteamID = value
+            end
+        }
+
+        self.CardID = {
+            Get = function()
+                return self.VCardID
+            end,
+            Set = function(value)
+                MySQL.Sync.Update("bank_card",
+                    {
+                        {Column = "CardID",Value = value},
+                    },
+                    {
+                        {Method = "AND",Operator = "=",Column = "CardID",Value = self.CardID.Get()}
+                    }
+                )
+                self.VCardID = value
+            end
+        }
+
+        self.RegisterDate = {
+            Get = function()
+                return self.VRegisterDate
+            end,
+            Set = function(value)
+                self.VRegisterDate = value
+                MySQL.Sync.Update("bank_card",
+                    {
+                        {Column = "RegisterDate",Value = value},
+                    },
+                    {
+                        {Method = "AND",Operator = "=",Column = "CardID",Value = self.CardID.Get()}
+                    }
+                )
+            end
+        }
+
+        self.Password = {
+            Get = function()
+                return self.VPassword
+            end,
+            Set = function(value)
+                self.VPassword = value
+                MySQL.Sync.Update("bank_card",
+                    {
+                        {Column = "Password",Value = value},
+                    },
+                    {
+                        {Method = "AND",Operator = "=",Column = "CardID",Value = self.CardID.Get()}
+                    }
+                )
+            end
+        }
+
+        self.Money = {
+            Get = function()
+                return MySQL.Sync.Fetch("bank_card",{"Money"},{
+                    {Column = "CardID",Value = self.CardID.Get(), Operator = "=",Method = "AND"}
+                })[1].Money
+            end,
+            Set = function(value)
+                MySQL.Sync.Update("bank_card",
+                    {
+                        {Column = "Money",Value = value},
+                    },
+                    {
+                        {Method = "AND",Operator = "=",Column = "CardID",Value = self.CardID.Get()}
+                    }
+                )
+            end,
+            Add = function(value)
+                self.Money.Set(self.Money.Get() + value)
+            end,
+            Remove = function(value,isForce)
+                if isForce then
+                    self.Money.Set(self.Money.Get() - value)
+                    return true
+                else
+                    if self.Money.Get() - value >= 0 then
+                        self.Money.Set(self.Money.Get() - value)
+                        return true
+                    else
+                        return false
+                    end
+                end
+            end,
+            Transfer = function()
+                
+            end,
+        }
+
+
+        return self
+    end
+},true)
