@@ -31,3 +31,10 @@ end
 
 ]]--
 
+local a = 1.1234567891011
+
+function round(exact, quantum)
+    return tonumber(tostring(exact):sub(1, tostring(exact):find('.') + quantum +1))
+end
+
+print(round(a,1))

@@ -16,5 +16,8 @@ TriggerEvent("RegisterModule","Utils",
     end,
     GetEntityPointingAt = function(entity)
         return (GetOffsetFromEntityInWorldCoords(entity,0.0,10000.0,0.0)-GetEntityCoords(entity))
+    end,
+    Round = function(exact, quantum) --令数字取整
+        return tonumber(tostring(exact):sub(1, tostring(exact):find('.') + quantum +1))
     end
 },true)

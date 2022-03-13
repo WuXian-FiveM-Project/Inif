@@ -2,6 +2,7 @@ MySql = exports.wx_module_system:RequestModule("MySql")
 Console = exports.wx_module_system:RequestModule("Console")
 Player = exports.wx_module_system:RequestModule("Player")
 Callback = exports.wx_module_system:RequestModule("Callback")
+Utils = exports.wx_module_system:RequestModule("Utils")
 
 TriggerEvent("RegisterPlayerModule","Physiology",function(self) --self 是隐式参数 self = Player.GetPlayer(
     self.Physiology = {
@@ -109,3 +110,101 @@ Callback.RegisterServerCallback("wx_player_physiology_system:requestPhysiology",
         tiredness = Player.GetPlayer(source):Physiology().Physiology.Tiredness.Get()
     }
 end)
+
+RegisterNetEvent("wx_player_physiology_system:createInstance",function()
+    local src = source
+
+    Citizen.CreateThread(function()
+        local player = Player.GetPlayer(src)
+        player = player:Physiology()
+        while true do
+            if GetPlayerPed(src) == 0 then
+                break
+            end
+            Wait(30000)
+            if GetPlayerPed(src) == 0 then
+                break
+            end
+            player.Physiology.Satiety.Remove(Utils.Round(Utils.GenerateRandomFloat(1,2),2))
+            player.Physiology.Thirst.Remove(Utils.Round(Utils.GenerateRandomFloat(1,5),2))
+            player.Physiology.Tiredness.Remove(Utils.Round(Utils.GenerateRandomFloat(0,1),2))
+        end
+    end)
+
+    Citizen.CreateThread(function()
+        local player = Player.GetPlayer(src)
+        player = player:Physiology()
+        local loopDelay = Utils.GenerateRandomInt(1000,math.floor(player.Physiology.Tiredness.Get())*1000)
+        while true do
+            if GetPlayerPed(src) == 0 then
+                break
+            end
+            Wait(loopDelay)
+            local tr = player.Physiology.Tiredness.Get()
+            if GetPlayerPed(src) == 0 then
+                break
+            end
+            if tr < 25 then
+                TriggerClientEvent("wx_player_physiology_system:doTirednessBlackOut",src,tr)
+            end
+            loopDelay = Utils.GenerateRandomInt(1000,math.floor(tr)*1000)
+        end
+    end)
+
+    Citizen.CreateThread(function()
+        local player = Player.GetPlayer(src)
+        player = player:Physiology()
+        local loopDelay = Utils.GenerateRandomInt(1000,math.floor(player.Physiology.Satiety.Get())*1000)
+        while true do
+            if GetPlayerPed(src) == 0 then
+                break
+            end
+            Wait(loopDelay)
+            local so = player.Physiology.Satiety.Get()
+            if GetPlayerPed(src) == 0 then
+                break
+            end
+            if so < 25 then
+                TriggerClientEvent("wx_player_physiology_system:doSatietyBlackOut",src,so)
+                if so < 5 then
+                    ApplyDamageToPed(
+                    	GetPlayerPed(src) --[[ Ped ]], 
+                    	math.floor((100 - so)*0.01) --[[ integer ]], 
+                    	true --[[ boolean ]]
+                    )
+                end
+            end
+            loopDelay = Utils.GenerateRandomInt(1000,math.floor(so)*1000)
+        end
+    end)
+
+    Citizen.CreateThread(function()
+        local player = Player.GetPlayer(src)
+        player = player:Physiology()
+        local loopDelay = Utils.GenerateRandomInt(1000,math.floor(player.Physiology.Thirst.Get())*1000)
+        while true do
+            if GetPlayerPed(src) == 0 then
+                break
+            end
+            Wait(loopDelay)
+            local tr = player.Physiology.Thirst.Get()
+            if GetPlayerPed(src) == 0 then
+                break
+            end
+            if tr < 25 then
+                TriggerClientEvent("wx_player_physiology_system:doTirednessBlackOut",src,tr)
+                TriggerClientEvent("wx_player_physiology_system:doSatietyBlackOut",src,tr)
+                if tr < 5 then
+                    ApplyDamageToPed(
+                    	GetPlayerPed(src) --[[ Ped ]], 
+                    	math.floor((100 - tr)*0.01) --[[ integer ]], 
+                    	true --[[ boolean ]]
+                    )
+                end
+            end
+            loopDelay = Utils.GenerateRandomInt(1000,math.floor(tr)*1000)
+        end
+    end)
+
+end)
+

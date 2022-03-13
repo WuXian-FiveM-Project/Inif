@@ -21,6 +21,9 @@ TriggerEvent("RegisterModule","Utils",
         math.randomseed(os.time()*math.random(1,2))
         return math.random(0,1) == 1
     end,
+    Round = function(exact, quantum) --令数字取整
+        return tonumber(tostring(exact):sub(1, tostring(exact):find('.') + quantum +1))
+    end
 },true)
 
 local Callback = exports.wx_module_system:RequestModule("Callback")
