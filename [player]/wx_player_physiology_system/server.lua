@@ -109,8 +109,3 @@ Callback.RegisterServerCallback("wx_player_physiology_system:requestPhysiology",
         tiredness = Player.GetPlayer(source):Physiology().Physiology.Tiredness.Get()
     }
 end)
-
-
-Citizen.CreateThread(function()
-    RegisterNativeHandler("testNative")
-end)

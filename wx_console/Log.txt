@@ -2463,3 +2463,6 @@
 [2022年03月13日 14时26分40秒][ConsoleLog]：Sql fetch "player" query: SELECT Satiety FROM player WHERE SteamID=? List：[["steam:11000013604b55c"]]
 [2022年03月13日 14时26分40秒][ConsoleLog]：Sql fetch "player" query: SELECT Thirst FROM player WHERE SteamID=? List：[["steam:11000013604b55c"]]
 [2022年03月13日 14时26分40秒][ConsoleLog]：Sql fetch "player" query: SELECT Tiredness FROM player WHERE SteamID=? List：[["steam:11000013604b55c"]]
+[2022年03月13日 14时33分08秒][ConsoleLog]：Sql fetch "player" query: SELECT Satiety FROM player WHERE SteamID=? List：[["steam:11000013604b55c"]]
+[2022年03月13日 14时33分08秒][ConsoleLog]：Sql fetch "player" query: SELECT Thirst FROM player WHERE SteamID=? List：[["steam:11000013604b55c"]]
+[2022年03月13日 14时33分08秒][ConsoleLog]：Sql fetch "player" query: SELECT Tiredness FROM player WHERE SteamID=? List：[["steam:11000013604b55c"]]
