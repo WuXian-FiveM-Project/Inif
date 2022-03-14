@@ -273,10 +273,5 @@ RegisterNetEvent("wx_player_physiology_system:createInstance",function()
 end)
 
 Citizen.CreateThread(function()
-    Module.RegisterModule("NativeTest",{
-        omg = function()
-            return "omg it works"
-        end
-    })
-    print(Module.LoadModule("NativeTest").omg())
+    print(json.encode(testNative()))
 end)
