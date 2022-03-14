@@ -39,6 +39,20 @@ RegisterNetEvent("wx_player_physiology_system:UpdateTiredness",function(value)
     })
 end)
 
+RegisterNetEvent("wx_player_physiology_system:UpdateShit",function(value)
+    SendNUIMessage({
+        type = "shit",
+        value = Utils.Round(value,2)
+    })
+end)
+
+RegisterNetEvent("wx_player_physiology_system:UpdateUrine",function(value)
+    SendNUIMessage({
+        type = "urine",
+        value = Utils.Round(value,2)
+    })
+end)
+
 RegisterNetEvent("wx_player_physiology_system:doTirednessBlackOut",function(howStrong)
     local time2 = 1
     if howStrong < 10 then time2 = 0 end
@@ -61,12 +75,11 @@ end)
 
 RegisterNetEvent("wx_player_physiology_system:doSatietyBlackOut",function(howStrong)
     howStrong = (100 - howStrong) * 0.01
-    DoScreenFadeIn(
-	    Utils.GenerateRandomInt(10,500) --[[ integer ]]
+    DoScreenFadeOut(
+        Utils.GenerateRandomInt(10,500) --[[ integer ]]
     )
     Wait(howStrong)
-    DoScreenFadeOut(
-	    Utils.GenerateRandomInt(10,500) --[[ integer ]]
+    DoScreenFadeIn(
+        Utils.GenerateRandomInt(10,500) --[[ integer ]]
     )
 end)
-

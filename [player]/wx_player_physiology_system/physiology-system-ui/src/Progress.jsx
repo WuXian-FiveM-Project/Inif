@@ -8,7 +8,6 @@ export default function Progress(props) {
                 border: "5px solid rgba(0,0,0,0.5)",
                 margin: "0px",
                 left: "0px",
-                heigjt: "10px",
                 boxShadow: "0px 0px 10px 0px #000",
             }}
         >
@@ -31,7 +30,7 @@ export default function Progress(props) {
                         margin: "0",
                         padding: "0",
                         textAlign: "center",
-                        fontSize: "25px",
+                        fontSize: "15px",
                         fontFamily: "Microsoft YaHei",
                         borderRadius: "100px",
                         boxShadow: "0px 0px 10px 5px rgb(10,10,10)",

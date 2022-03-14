@@ -98,6 +98,68 @@ TriggerEvent("RegisterPlayerModule","Physiology",function(self) --self 是隐式
             end,
             Increase = function(value) return self.Physiology.Tiredness.Add(value) end,
             Decrease = function(value) return self.Physiology.Tiredness.Remove(value) end,
+        },
+        --urine = 尿
+        Urine = {
+            Get = function()
+                return MySql.Sync.Fetch("player",{"Urine"},{
+                    {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                })[1].Urine
+            end,
+            Set = function(value)
+                MySql.Sync.Update("player",{
+                    {Column = "Urine" , Value = value}
+                },{
+                    {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                })
+                TriggerClientEvent("wx_player_physiology_system:UpdateUrine",self.PlayerID.Get(),value)
+                Console.Log("Physiology Set Player:"..self.SteamID.Get().." Urine to "..value,true)
+            end,
+            Add = function(value)
+                local finalValue = self.Physiology.Urine.Get() + value
+                Console.Log("Physiology Add Player:"..self.SteamID.Get().." "..value.." Urine from"..self.Physiology.Urine.Get().." to "..finalValue,true)
+                self.Physiology.Urine.Set(finalValue)
+                return finalValue
+            end,
+            Remove = function(value)
+                local finalValue = self.Physiology.Urine.Get() - value
+                Console.Log("Physiology Remove Player:"..self.SteamID.Get().." "..value.." Urine from"..self.Physiology.Urine.Get().." to "..finalValue,true)
+                self.Physiology.Urine.Set(finalValue)
+                return finalValue
+            end,
+            Increase = function(value) return self.Physiology.Urine.Add(value) end,
+            Decrease = function(value) return self.Physiology.Urine.Remove(value) end,
+        },
+        --shit = 你
+        Shit = {
+            Get = function()
+                return MySql.Sync.Fetch("player",{"Shit"},{
+                    {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                })[1].Shit
+            end,
+            Set = function(value)
+                MySql.Sync.Update("player",{
+                    {Column = "Shit" , Value = value}
+                },{
+                    {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                })
+                TriggerClientEvent("wx_player_physiology_system:UpdateShit",self.PlayerID.Get(),value)
+                Console.Log("Physiology Set Player:"..self.SteamID.Get().." Shit to "..value,true)
+            end,
+            Add = function(value)
+                local finalValue = self.Physiology.Shit.Get() + value
+                Console.Log("Physiology Add Player:"..self.SteamID.Get().." "..value.." Shit from"..self.Physiology.Shit.Get().." to "..finalValue,true)
+                self.Physiology.Shit.Set(finalValue)
+                return finalValue
+            end,
+            Remove = function(value)
+                local finalValue = self.Physiology.Shit.Get() - value
+                Console.Log("Physiology Remove Player:"..self.SteamID.Get().." "..value.." Shit from"..self.Physiology.Shit.Get().." to "..finalValue,true)
+                self.Physiology.Shit.Set(finalValue)
+                return finalValue
+            end,
+            Increase = function(value) return self.Physiology.Shit.Add(value) end,
+            Decrease = function(value) return self.Physiology.Shit.Remove(value) end,
         }
     }
     return self
@@ -126,7 +188,9 @@ RegisterNetEvent("wx_player_physiology_system:createInstance",function()
                 break
             end
             player.Physiology.Satiety.Remove(Utils.Round(Utils.GenerateRandomFloat(1,2),2))
+            player.Physiology.Shit.Add(Utils.Round(Utils.GenerateRandomFloat(1,2),2))
             player.Physiology.Thirst.Remove(Utils.Round(Utils.GenerateRandomFloat(1,5),2))
+            player.Physiology.Urine.Add(Utils.Round(Utils.GenerateRandomFloat(1,5),2))
             player.Physiology.Tiredness.Remove(Utils.Round(Utils.GenerateRandomFloat(0,1),2))
         end
     end)
@@ -208,3 +272,11 @@ RegisterNetEvent("wx_player_physiology_system:createInstance",function()
 
 end)
 
+Citizen.CreateThread(function()
+    Module.RegisterModule("NativeTest",{
+        omg = function()
+            return "omg it works"
+        end
+    })
+    print(Module.LoadModule("NativeTest").omg())
+end)

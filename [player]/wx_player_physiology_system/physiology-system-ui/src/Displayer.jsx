@@ -5,6 +5,8 @@ export default function Displayer() {
     const [thirst, setThirst] = React.useState(100);
     const [satiety, setSatiety] = React.useState(100);
     const [tiredness, setTiredness] = React.useState(100);
+    const [Urine, setUrine] = React.useState(100);
+    const [shit, setShit] = React.useState(100);
 
     window.addEventListener("message", (event) => {
         if (event.data.type === "thirst") {
@@ -13,6 +15,10 @@ export default function Displayer() {
             setSatiety(event.data.value);
         } else if (event.data.type === "tiredness") {
             setTiredness(event.data.value);
+        } else if (event.data.type === "urine") {
+            setUrine(event.data.value);
+        } else if (event.data.type === "shit") {
+            setShit(event.data.value);
         }
     });
 
@@ -27,14 +33,14 @@ export default function Displayer() {
                 padding: "10px",
                 borderRadius: "10px",
                 paddingRight: "20px",
-                boxShadow: "0 0 20px 2px rgba(200,200,200,0.5)",
-                backdropFilter: "blur(3px)",
+                // backdropFilter: "blur(15px)",
             }}
         >
             <p
                 style={{
                     fontSize: "20px",
                     textAlign: "center",
+                    margin: "10px",
                     marginTop: "10px",
                     fontWeight: "600",
                 }}
@@ -44,13 +50,14 @@ export default function Displayer() {
             <Progress
                 progress={satiety}
                 displayLabel=""
-                endColor="rgba(255,255,0,1)"
+                endColor="rgba(20,255,0,1)"
             />
             <p
                 style={{
                     fontSize: "20px",
                     textAlign: "center",
                     fontWeight: "600",
+                    margin: "10px",
                 }}
             >
                 干渴度
@@ -65,6 +72,7 @@ export default function Displayer() {
                     fontSize: "20px",
                     textAlign: "center",
                     fontWeight: "600",
+                    margin: "10px",
                 }}
             >
                 疲倦感
@@ -73,6 +81,36 @@ export default function Displayer() {
                 progress={tiredness}
                 displayLabel=""
                 endColor="rgba(200,100,255,1)"
+            />
+            <p
+                style={{
+                    fontSize: "20px",
+                    textAlign: "center",
+                    fontWeight: "600",
+                    margin: "10px",
+                }}
+            >
+                膀胱储液量
+            </p>
+            <Progress
+                progress={Urine}
+                displayLabel=""
+                endColor="rgba(255,255,0,1)"
+            />
+            <p
+                style={{
+                    fontSize: "20px",
+                    textAlign: "center",
+                    fontWeight: "600",
+                    margin: "10px",
+                }}
+            >
+                直肠储屎量
+            </p>
+            <Progress
+                progress={shit}
+                displayLabel=""
+                endColor="rgba(160,136,10,1)"
             />
         </div>
     );
