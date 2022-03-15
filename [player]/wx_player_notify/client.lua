@@ -169,6 +169,16 @@ ShowPopupWarning = function(title, message, bottomtext, duration)
 	SetScaleformMovieAsNoLongerNeeded(scaleform)
 end
 
+ShowGlassNotification = function(title, message, bottomText, duration)
+    SendNUIMessage({
+        type = "ShowGlassNotification",
+        title = title,
+        message = message,
+        bottomText = bottomText,
+        duration = duration,
+    })
+end
+
 TriggerEvent("RegisterModule","Notification",{
     ---show notification
     ---@param msg string|integer|number message to show
@@ -206,7 +216,6 @@ TriggerEvent("RegisterModule","Notification",{
     ---@param bottomtext string|integer|number bottom text
     ---@param duration integer|number time to show in ms
     ShowPopupWarning = ShowPopupWarning,
-
 },true)
 
 RegisterNetEvent('wx_player_notify:ShowNotification',function(message)

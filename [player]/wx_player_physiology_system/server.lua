@@ -166,10 +166,13 @@ TriggerEvent("RegisterPlayerModule","Physiology",function(self) --self 是隐式
 end)
 
 Callback.RegisterServerCallback("wx_player_physiology_system:requestPhysiology",function(source)
+    local p = Player.GetPlayer(source):Physiology().Physiology
     return {
-        satiety = Player.GetPlayer(source):Physiology().Physiology.Satiety.Get(),
-        thirst = Player.GetPlayer(source):Physiology().Physiology.Thirst.Get(),
-        tiredness = Player.GetPlayer(source):Physiology().Physiology.Tiredness.Get()
+        satiety = p.Satiety.Get(),
+        thirst = p.Thirst.Get(),
+        tiredness = p.Tiredness.Get(),
+        urine = p.Urine.Get(),
+        shit = p.Shit.Get()
     }
 end)
 

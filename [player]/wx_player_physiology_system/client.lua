@@ -13,6 +13,14 @@ Citizen.CreateThread(function()
         type = "tiredness",
         value = v.tiredness
     })
+    SendNUIMessage({
+        type = "shit",
+        value = v.shit
+    })
+    SendNUIMessage({
+        type = "urine",
+        value = v.urine
+    })
     TriggerServerEvent("wx_player_physiology_system:createInstance")
 end)
 Utils = exports.wx_module_system:RequestModule("Utils")

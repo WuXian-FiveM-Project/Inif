@@ -95,7 +95,7 @@ TriggerEvent("RegisterModule","Player",
 
             for _, v in ipairs(modulelist) do
                 self[v] = playerobj[v]
-                print(v)
+                -- print(v)
             end
 
             return self
