@@ -1,6 +1,8 @@
 TriggerEvent("RegisterModule","Utils",
 {
     GenerateRandomFloat = function(min,max)
+        min = math.floor(min)
+        max = math.floor(max)
         math.randomseed(os.time()*math.random(min,max))
         return math.random(min,max) + math.random()
     end,

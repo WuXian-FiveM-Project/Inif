@@ -52,6 +52,9 @@ RegisterNetEvent("wx_player_physiology_system:UpdateShit",function(value)
         type = "shit",
         value = Utils.Round(value,2)
     })
+    if value >= 100 then
+        TriggerEvent("doShit")
+    end
 end)
 
 RegisterNetEvent("wx_player_physiology_system:UpdateUrine",function(value)
@@ -59,6 +62,9 @@ RegisterNetEvent("wx_player_physiology_system:UpdateUrine",function(value)
         type = "urine",
         value = Utils.Round(value,2)
     })
+    if value >= 100 then
+        TriggerEvent("doPee")
+    end
 end)
 
 RegisterNetEvent("wx_player_physiology_system:doTirednessBlackOut",function(howStrong)
@@ -91,3 +97,4 @@ RegisterNetEvent("wx_player_physiology_system:doSatietyBlackOut",function(howStr
         Utils.GenerateRandomInt(10,500) --[[ integer ]]
     )
 end)
+

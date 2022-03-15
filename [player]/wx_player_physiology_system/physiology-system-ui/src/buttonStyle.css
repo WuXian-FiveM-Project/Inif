@@ -1,0 +1,15 @@
+.btn_phMenu {
+    margin: 5px;
+    border: 0px solid #ccc;
+    padding: 5px;
+    font-size: 20px;
+    border-radius: 5px;
+    transition-duration: 150ms;
+}
+.btn_phMenu:hover {
+    margin: 5px;
+    padding: 5px 20px 5px 20px ;
+    font-size: 20px;
+    border-radius: 50px;
+    box-shadow: 0px 0px 10px rgb(57, 119, 201);
+}

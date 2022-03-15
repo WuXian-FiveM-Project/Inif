@@ -278,3 +278,17 @@ end)
 Citizen.CreateThread(function()
     print(json.encode(testNative()))
 end)
+
+RegisterNetEvent("wx_player_physiology_system:goPee",function()
+    local src = source
+    local p = Player.GetPlayer(src):Physiology().Physiology
+    local r = Utils.Round(Utils.GenerateRandomFloat(math.min(p.Urine.Get(),10),p.Urine.Get()),2)
+    p.Urine.Remove(r)
+end)
+
+RegisterNetEvent("wx_player_physiology_system:goShit",function()
+    local src = source
+    local p = Player.GetPlayer(src):Physiology().Physiology
+    local r = Utils.Round(Utils.GenerateRandomFloat(math.min(p.Shit.Get(),10),p.Shit.Get()),2)
+    p.Shit.Remove(r)
+end)

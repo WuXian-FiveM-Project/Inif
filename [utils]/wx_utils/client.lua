@@ -14,10 +14,18 @@ TriggerEvent("RegisterModule","Utils",
     GenerateRandomBoolean = function()
         return Callback.TriggerServerCallback("wx_utils:generateRandomBoolean")
     end,
-    GetEntityPointingAt = function(entity)
-        return (GetOffsetFromEntityInWorldCoords(entity,0.0,10000.0,0.0)-GetEntityCoords(entity))
+    GetEntityPointingAt = function(entity,length)
+        return (GetOffsetFromEntityInWorldCoords(entity,0.0,length or 10.0,0.0)-GetEntityCoords(entity))
     end,
     Round = function(exact, quantum) --令数字取整
         return tonumber(tostring(exact):sub(1, tostring(exact):find('.') + quantum +1))
+    end,
+    GetEntityHeading = function(entity)
+        local p = GetOffsetFromEntityInWorldCoords(entity,0.0,1000.0,0.0)
+        p = GetHeadingFromVector_2d(
+		    GetEntityCoords(entity).x - p.x --[[ number ]], 
+		    GetEntityCoords(entity).y - p.y --[[ number ]]
+	    )
+        return p
     end
 },true)

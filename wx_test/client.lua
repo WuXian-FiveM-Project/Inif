@@ -30,3 +30,6 @@ Citizen.CreateThread(function()
         Notification.ShowHelpNotification(("{ %s ,  %s,  %s}"):format(direction,distance,text))
     end
 end)
+
+Citizen.CreateThread(function()
+end)
