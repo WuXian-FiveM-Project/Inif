@@ -26,10 +26,11 @@ end)
 
 RegisterCommand('+openInventory', function()
     local inventory = Callback.TriggerServerCallback("wx_inventory_ui:getInventory")
+    print(inventory)
     SetNuiFocus(true,true)
     SendNUIMessage({
         type = "open",
-        inventory = inventory 
+        inventory = inventory
     })
 end)
 RegisterCommand('-openInventory', function()end)

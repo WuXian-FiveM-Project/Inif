@@ -6,7 +6,8 @@ Callback.RegisterServerCallback("wx_inventory_ui:getInventory",function(source)
     local player = Player.GetPlayer(source)
     player = player:Inventory()
     local returnTable = {}
-
+    print(player.Inventory.GetItems())
+    
     for k,v in ipairs(player.Inventory.GetItems()) do
         table.insert(returnTable,{
             displayName = v.ItemShowName,

@@ -215,12 +215,14 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
         if item.ItemMaxUseAmount >= amount then
             local r = self.Inventory.RemoveItem(itemName,amount)
             if r then
-                item.UseFunction(self.PlayerID.Get(),amount,info.AttachData,
-                    function()
-                        self.Inventory.GiveItem(itemName,amount,false,info.AttachData)
-                        return false
-                    end
-                )
+                Citizen.CreateThread(function()                
+                    item.UseFunction(self.PlayerID.Get(),amount,info.AttachData,
+                        function()
+                            self.Inventory.GiveItem(itemName,amount,false,info.AttachData)
+                            return false
+                        end
+                    )
+                end)
                 return true
             else
                 return false

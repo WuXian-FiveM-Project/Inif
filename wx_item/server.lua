@@ -87,7 +87,7 @@ item_list = {} --[[data structure : item class]]
 
 
 TriggerEvent("RegisterItem",{
-    ItemName = "water",
+    ItemName = "test",
     ItemShowName = "TEST ITEM",
     ItemType = "test",
     ItemDescription = "test item description yea!",
@@ -110,36 +110,6 @@ TriggerEvent("RegisterItem",{
         -- Reject 是一个函数 当他传入的时候，如果出现一些情况 要取消这次使用的话就直接调用Reject()不要CancelEvent()
         print("player："..PlayerID.." use item：test_item with amount："..ItemAmount.." with attach data："..json.encode(AttachData))
         Wait(1000)
-        -- Reject()
-        -- print("oh no the use event was rejected")
-    end,
-    DropFunction = nil,
-    PickupFunction = nil,
-    StackFunction = nil,
-    TransferFunction = nil,
-    IsEnableAntiCheat = true,
-})
-
-TriggerEvent("RegisterItem",{
-    ItemName = "bread",
-    ItemShowName = "TEST ITEM",
-    ItemType = "test",
-    ItemDescription = "test item description yea!",
-    ItemDensity = 10,
-    ItemModel = "ng_proc_food_burg01a",
-    ItemMaxDensity = 50000000000,
-    ItemMaxUseAmount = 2,
-    ItemMaxAmount = 100,
-    ItemMaxStack = 64,
-    CanItemDrop = true,
-    CanItemPickup = true,
-    CanItemUse = true,
-    CanItemTransfer = true,
-    CanItemCombine = true,
-    IsItemPhysicalAfterDrop = true,
-    UseFunction = function(PlayerID,ItemAmount,AttachData,Reject)
-        -- Reject 是一个函数 当他传入的时候，如果出现一些情况 要取消这次使用的话就直接调用Reject()不要CancelEvent()
-        print("player："..PlayerID.." use item：test_item with amount："..ItemAmount.." with attach data："..json.encode(AttachData))
         -- Reject()
         -- print("oh no the use event was rejected")
     end,
