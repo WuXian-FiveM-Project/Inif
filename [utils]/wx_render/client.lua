@@ -19,7 +19,9 @@ TriggerEvent("RegisterModule","Render",
         ---  colorB --[[number:required]],
         ---  alpha --[[number]],
         ---  jitterUpAndDown --[[boolean]],
-        ---  faceToCamera --[[boolean]]
+        ---  faceToCamera --[[boolean]],
+        ---  spin --[[boolean]],
+        ---  onEnter --[[function]]
         ---}
         DrawMarker = function(options)
             --#region error handler
@@ -60,32 +62,39 @@ TriggerEvent("RegisterModule","Render",
         options.jitterUpAndDown = options.jitterUpAndDown or false
         options.faceToCamera = options.faceToCamera or false
         --#endregion
-            DrawMarker(
-                options.type,
-                options.positionX,
-                options.positionY,
-                options.positionZ,
-                0.0,
-                0.0,
-                0.0,
-                options.rotationX,
-                options.rotationY,
-                options.rotationZ,
-                options.scaleX,
-                options.scaleY,
-                options.scaleZ,
-                options.colorR,
-                options.colorG,
-                options.colorB,
-                options.alpha,
-                options.jitterUpAndDown,
-                options.faceToCamera,
-                2,
-                true,
-                nil,
-                nil,
-                false
-            )
+            if Vdist2(GetEntityCoords(GetPlayerPed(-1)),vec3(options.positionX,options.positionY,options.positionZ)) < 800 then
+                DrawMarker(
+                    options.type,
+                    options.positionX,
+                    options.positionY,
+                    options.positionZ,
+                    0.0,
+                    0.0,
+                    0.0,
+                    options.rotationX,
+                    options.rotationY,
+                    options.rotationZ,
+                    options.scaleX,
+                    options.scaleY,
+                    options.scaleZ,
+                    options.colorR,
+                    options.colorG,
+                    options.colorB,
+                    options.alpha,
+                    options.jitterUpAndDown,
+                    options.faceToCamera,
+                    2,
+                    options.spin or false,
+                    nil,
+                    nil,
+                    false
+                )
+                if Vdist2(GetEntityCoords(GetPlayerPed(-1)),vec3(options.positionX,options.positionY,options.positionZ)) < math.max(options.scaleX,options.scaleY,options.scaleZ) then
+                    if options.onEnter then
+                        options.onEnter()
+                    end
+                end
+            end
         end,
         ---draw marker but with class can control parameters in realtime
         ---@param options table 

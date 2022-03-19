@@ -64,6 +64,9 @@ TriggerEvent("RegisterModule","MySql",{
 			Console.Log(("Sql fetch \""..Table.."\" query: ".."SELECT "..fetchrule.." FROM "..Table.. matchrule.." List：["..json.encode(matchstd).."]"),Config.LogToConsole)
 			return exports.oxmysql:query_async("SELECT "..fetchrule.." FROM "..Table.. matchrule,matchstd)
 		end,
+		FetchAll = function(Table)
+			return exports.oxmysql:query_async("SELECT * FROM "..Table)
+		end,
 		---delete data from table
 		---@param Table string table you want to insert
 		---@param MatchRule table|nil if you want to delete all data in table then field "*" else eg:{Method = "OR"|"AND" , Column = "PID" , Value = "2121131" , Operator = "<"|">"|"="}

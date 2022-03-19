@@ -8,7 +8,7 @@ client_script 'client.lua'
 server_script 'server.lua'
 shared_script 'shared.lua'
 
--- ui_page "index.html"
+ui_page "index.html"
 
 files {
     "*.*"

@@ -2,6 +2,8 @@ Console = exports.wx_module_system:RequestModule("Console")
 Callback = exports.wx_module_system:RequestModule("Callback")
 Player = exports.wx_module_system:RequestModule("Player")
 MySql = exports.wx_module_system:RequestModule("MySql")
+Garage = exports.wx_module_system:RequestModule("Garage")
+
 
 Callback.RegisterServerCallback("testserver",function(source,arg1,arg2)
     print("player:".. source .." trigger print args "..arg1,arg2)
@@ -52,4 +54,6 @@ Citizen.CreateThread(function()
     -- Wait(100)
     -- print(player.Physiology.Thirst.Remove(10))
     -- player = nil
+    local g = Garage.GetGarage({GID = 1})
+    print(json.encode(g.GetVehiclesViaVehicleModule("s8")[1].StoreDate.Get() ))
 end)
