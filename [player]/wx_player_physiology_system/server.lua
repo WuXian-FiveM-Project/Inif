@@ -201,7 +201,7 @@ RegisterNetEvent("wx_player_physiology_system:createInstance",function()
     Citizen.CreateThread(function()
         local player = Player.GetPlayer(src)
         player = player:Physiology()
-        local loopDelay = Utils.GenerateRandomInt(1000,math.floor(player.Physiology.Tiredness.Get())*1000)
+        local loopDelay = Utils.GenerateRandomInt(1000,math.floor(math.floor(player.Physiology.Tiredness.Get())*1000))
         while true do
             if GetPlayerPed(src) == 0 then
                 break

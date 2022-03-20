@@ -1,0 +1,84 @@
+.garageGrid {
+    display:grid;
+    grid-template-columns: calc(calc(100% / 6) - 10px) calc(calc(100% / 6) - 10px) calc(calc(100% / 6) - 10px) calc(calc(100% / 6) - 10px) calc(calc(100% / 6) - 10px) calc(calc(100% / 6) - 10px);
+    grid-auto-rows: 18.5vw;
+    grid-gap: 10px;
+    border-radius: 25px;
+    padding: 10px;
+}
+
+.garageVehicleCard.card{
+    overflow: hidden;
+    word-wrap: break-word;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 25px -10px rgba(0, 0, 0, 1);
+    text-align: center;
+    border: 1px solid rgba(180, 180, 180, .6);
+    border-radius: 10px;
+    grid-column: span 1;
+    font-size: 30px;
+    opacity: 0;
+    transform: translateY(-100px);
+    animation: cardSlideIn 200ms cubic-bezier(0.16, 1, 0.5, 1) var(--index) 1 alternate forwards;
+}
+
+@keyframes cardSlideIn{
+    0%{
+        opacity: 0;
+        transform: translateY(-100px) rotateX(80deg);
+    }
+    100%{
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+.garageVehicleCard.title{
+    font-size: 1.4vw;
+    font-family: "Helvetica Neue",Helvetica,Arial;
+    font-weight: 500;
+    width: 90%;
+    box-shadow: 0px 0px 10px 1px rgb(131, 131, 131) inset ,0px 0px 10px 1px black;
+    margin:auto;
+    margin-top: 10px;
+    border-radius: 100000000000000px;
+}
+.garageVehicleCard.plate {
+    font-size: 1.5vw;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 500;
+}
+.garageVehicleCard.price {
+    font-size: 1.2vw;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 500;
+}
+.garageVehicleCard.button {
+    width: 85%;
+    font-size: 1.5vw;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 500;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    transition-duration: 200ms;
+    margin-top: 10px;
+}
+.garageVehicleCard.button:hover {
+    width: 90%;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: rgba(255, 255, 255, 0.788);
+    filter: drop-shadow(0px 0px 10px rgb(0, 0, 0));
+}
+.garageVehicleCard.button:active {
+    transition-duration: 50ms;
+    transform: scale(0.9) translateY(-100px);
+    margin-top: 100px;
+    margin-bottom: 100px;
+    background-color: rgb(184, 52, 52);
+}
+.garageVehicleCard.button.noEnoughMoney {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+.garageVehicleCard.button.noEnoughMoney:hover::after {
+    content: "(不够钱)";
+}
