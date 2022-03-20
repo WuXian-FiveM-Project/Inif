@@ -19,3 +19,6 @@ Callback.RegisterServerCallback("wx_garage_system:getCurrentMoney", function(src
     p = p:Inventory()
     return p.Inventory.GetItem("money").Amount
 end)
+Citizen.CreateThread(function()
+
+end)
