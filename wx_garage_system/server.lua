@@ -11,11 +11,14 @@ Callback.RegisterServerCallback("wx_garage_system:getGarageVehicleList", functio
     local returnV =  MySql.Sync.Fetch("garage_vehicle","*",{
         {Method = "AND",Operator = "=",Column = "VehicleOwner",Value = GetPlayerIdentifier(src)}
     })
-    returnV.price = os.time() - returnV.StoreDate 
+    returnV.price = os.time() - returnV.StoreDate
     return returnV
 end)
 Callback.RegisterServerCallback("wx_garage_system:getCurrentMoney", function(src)
     local p = Player.GetPlayer(src)
     p = p:Inventory()
     return p.Inventory.GetItem("money").Amount
+end)
+Citizen.CreateThread(function()
+
 end)
