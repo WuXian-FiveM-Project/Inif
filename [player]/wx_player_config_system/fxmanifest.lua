@@ -13,5 +13,5 @@ client_script {
 dependencies {
     'wx_module_system',
     'wx_console',
-    'oxmysql',
+    'wx_mysql_linker',
 }

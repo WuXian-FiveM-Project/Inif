@@ -11,9 +11,13 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
     ---@param itemName string specific item you want to get
     ---@return table item item class with itemTable.Amount itemTable.Density itemTable.AttachData itemTable.ID
     self.Inventory.GetItem = function(itemName)
-        local value = MySql.Sync.Fetch("player_items","*",{
-            {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
-            {Method = "AND",Operator = "=",Column = "ItemName",Value = itemName}
+        -- local value = MySql.Sync.Fetch("player_items","*",{
+        --     {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
+        --     {Method = "AND",Operator = "=",Column = "ItemName",Value = itemName}
+        -- })
+        local value = MySql.Sync.Query("SELECT * FROM player_items WHERE SteamID=? AND ItemName=?",{
+            self.SteamID.Get(),
+            itemName
         })
         local itemTable = exports.wx_module_system:RequestModule("Item").GetItem(itemName)
         itemTable.Amount = value[1].ItemAmount
@@ -28,8 +32,11 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
     ---get all item in inventory
     ---@return table item table with item like {Inventory.GetItem(1),Inventory.GetItem(2),...}
     self.Inventory.GetItems = function()
-        local value = MySql.Sync.Fetch("player_items","*",{
-            {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
+        -- local value = MySql.Sync.Fetch("player_items","*",{
+        --     {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
+        -- })
+        local value = MySql.Sync.Query("SELECT * FROM player_items WHERE SteamID=?",{
+            self.SteamID.Get()
         })
         local Table = {}
         for k,v in pairs(value) do
@@ -46,9 +53,13 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
     ---@param itemName string specific item you want to know if that exist
     ---@return boolean item item exist or not
     self.Inventory.IsItemExists = function(itemName)
-        local value = MySql.Sync.Fetch("player_items","*",{
-            {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
-            {Method = "AND",Operator = "=",Column = "ItemName",Value = itemName}
+        -- local value = MySql.Sync.Fetch("player_items","*",{
+        --     {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
+        --     {Method = "AND",Operator = "=",Column = "ItemName",Value = itemName}
+        -- })
+        local value = MySql.Sync.Query("SELECT * FROM player_items WHERE SteamID=? AND ItemName=?",{
+            self.SteamID.Get(),
+            itemName
         })
         if type(value[1]) == "table" then
             return true
@@ -60,26 +71,35 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
     ---get max item can player hold
     ---@return number number max item can player hold
     self.Inventory.GetMaxItemCanHold = function()
-        return MySql.Sync.Fetch("player",{"MaxItemCanHold"},{
-            {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
+        -- return MySql.Sync.Fetch("player",{"MaxItemCanHold"},{
+        --     {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
+        -- })[1].MaxItemCanHold
+        return MySql.Sync.Query("SELECT MaxItemCanHold FROM player WHERE SteamID=?",{
+            self.SteamID.Get()
         })[1].MaxItemCanHold
     end
 
     ---get max density can player hold
     ---@return number item max density can player hold
     self.Inventory.GetMaxDensityCanHold = function()
-        return MySql.Sync.Fetch("player",{"MaxDensityCanHold"},
-            {
-                {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
-            }
-        )[1].MaxDensityCanHold
+        -- return MySql.Sync.Fetch("player",{"MaxDensityCanHold"},
+        --     {
+        --         {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
+        --     }
+        -- )[1].MaxDensityCanHold
+        return MySql.Sync.Query("SELECT MaxDensityCanHold FROM player WHERE SteamID=?",{
+            self.SteamID.Get()
+        })[1].MaxDensityCanHold
     end
 
     ---get total item count
     ---@return number item item count
     self.Inventory.GetTotalItemCount = function()
-        local value = MySql.Sync.Fetch("player_items","*",{
-            {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
+        -- local value = MySql.Sync.Fetch("player_items","*",{
+        --     {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
+        -- })
+        local value = MySql.Sync.Query("SELECT * FROM player_items WHERE SteamID=?",{
+            self.SteamID.Get()
         })
         local count = 0
         for _,v in pairs(value) do
@@ -91,8 +111,11 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
     ---get total density count
     ---@return number density total density
     self.Inventory.GetTotalDensity = function()
-        local value = MySql.Sync.Fetch("player_items","*",{
-            {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
+        -- local value = MySql.Sync.Fetch("player_items","*",{
+        --     {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
+        -- })
+        local value = MySql.Sync.Query("SELECT * FROM player_items WHERE SteamID=?",{
+            self.SteamID.Get()
         })
         local density = 0
         for _,v in pairs(value) do
@@ -113,30 +136,44 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
             local max_density = self.Inventory.GetMaxDensityCanHold()
             local max_item = self.Inventory.GetMaxItemCanHold()
             if isForce then
-                MySql.Sync.Insert("player_items",
-                    {
-                        {Column = "SteamID" , Value = self.SteamID.Get()},
-                        {Column = "ItemName" , Value = itemName},
-                        {Column = "ItemAmount" , Value = amount},
-                        {Column = "ItemDensity" , Value = iteminfo.ItemDensity * amount},
-                        {Column = "ItemAttachData" , Value = json.encode(attachData)},
-                    }
-                )
+                -- MySql.Sync.Insert("player_items",
+                --     {
+                --         {Column = "SteamID" , Value = self.SteamID.Get()},
+                --         {Column = "ItemName" , Value = itemName},
+                --         {Column = "ItemAmount" , Value = amount},
+                --         {Column = "ItemDensity" , Value = iteminfo.ItemDensity * amount},
+                --         {Column = "ItemAttachData" , Value = json.encode(attachData)},
+                --     }
+                -- )
+                MySql.Sync.Query("INSERT INTO player_items (SteamID,ItemName,ItemAmount,ItemDensity,ItemAttachData) VALUES (?,?,?,?,?)",{
+                    self.SteamID.Get(),
+                    itemName,
+                    amount,
+                    iteminfo.ItemDensity * amount,
+                    json.encode(attachData)
+                })
                 return true
             else
                 if self.Inventory.GetTotalItemCount() + amount <= max_item then
                     if self.Inventory.GetTotalDensity() + (iteminfo.ItemDensity*amount) <= max_density then
-                        MySql.Sync.Update("player_items",
-                            {
-                                {Column = "ItemAmount", Value = before.Amount + amount},
-                                {Column = "ItemAttachData", Value = json.encode(attachData)},
-                                {Column = "ItemDensity", Value = ((before.Amount + amount) * iteminfo.ItemDensity)}
-                            },
-                            {
-                                {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
-                                {Method = "AND",Operator = "=",Column = "ItemName",Value = itemName}
-                            }
-                        )
+                        -- MySql.Sync.Update("player_items",
+                        --     {
+                        --         {Column = "ItemAmount", Value = before.Amount + amount},
+                        --         {Column = "ItemAttachData", Value = json.encode(attachData)},
+                        --         {Column = "ItemDensity", Value = ((before.Amount + amount) * iteminfo.ItemDensity)}
+                        --     },
+                        --     {
+                        --         {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
+                        --         {Method = "AND",Operator = "=",Column = "ItemName",Value = itemName}
+                        --     }
+                        -- )
+                        MySql.Sync.Query("UPDATE player_items SET ItemAmount=?,ItemAttachData=?,ItemDensity=? WHERE SteamID=? AND ItemName=?",{
+                            before.Amount + amount,
+                            json.encode(attachData),
+                            ((before.Amount + amount) * iteminfo.ItemDensity),
+                            self.SteamID.Get(),
+                            itemName
+                        })
                         return true
                     else
                         return false
@@ -151,15 +188,22 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
             local max_item = self.Inventory.GetMaxItemCanHold()
             if self.Inventory.GetTotalItemCount() + amount <= max_item then
                 if self.Inventory.GetTotalDensity() + (iteminfo.ItemDensity*amount) <= max_density then
-                    MySql.Sync.Insert("player_items",
-                        {
-                            {Column = "SteamID" , Value = self.SteamID.Get()},
-                            {Column = "ItemName" , Value = itemName},
-                            {Column = "ItemAmount" , Value = amount},
-                            {Column = "ItemDensity" , Value = iteminfo.ItemDensity * amount},
-                            {Column = "ItemAttachData" , Value = json.encode(attachData)},
-                        }
-                    )
+                    -- MySql.Sync.Insert("player_items",
+                    --     {
+                    --         {Column = "SteamID" , Value = self.SteamID.Get()},
+                    --         {Column = "ItemName" , Value = itemName},
+                    --         {Column = "ItemAmount" , Value = amount},
+                    --         {Column = "ItemDensity" , Value = iteminfo.ItemDensity * amount},
+                    --         {Column = "ItemAttachData" , Value = json.encode(attachData)},
+                    --     }
+                    -- )
+                    MySql.Sync.Query("INSERT INTO player_items (SteamID,ItemName,ItemAmount,ItemDensity,ItemAttachData) VALUES (?,?,?,?,?)",{
+                        self.SteamID.Get(),
+                        itemName,
+                        amount,
+                        iteminfo.ItemDensity * amount,
+                        json.encode(attachData)
+                    })
                     return true
                 else
                     return false
@@ -178,24 +222,34 @@ TriggerEvent("RegisterPlayerModule","Inventory",function(self)
             if before.Amount - amount < 0 then
                 return false
             elseif before.Amount - amount == 0 then
-                MySql.Sync.Delete("player_items",
-                    {
-                        {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
-                        {Method = "AND",Operator = "=",Column = "ItemName",Value = itemName}
-                    }
-                )
+                -- MySql.Sync.Delete("player_items",
+                --     {
+                --         {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
+                --         {Method = "AND",Operator = "=",Column = "ItemName",Value = itemName}
+                --     }
+                -- )
+                MySql.Sync.Query("DELETE FROM player_items WHERE SteamID=? AND ItemName=?",{
+                    self.SteamID.Get(),
+                    itemName
+                })
                 return true
             elseif before.Amount - amount > 0 then
-                MySql.Sync.Update("player_items",
-                    {
-                        {Column = "ItemAmount", Value = before.Amount - amount},
-                        {Column = "ItemDensity", Value = ((before.Amount - amount) * exports.wx_module_system:RequestModule("Item").GetItem(itemName).ItemDensity)},
-                    },
-                    {
-                        {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
-                        {Method = "AND",Operator = "=",Column = "ItemName",Value = itemName}
-                    }
-                )
+                -- MySql.Sync.Update("player_items",
+                --     {
+                --         {Column = "ItemAmount", Value = before.Amount - amount},
+                --         {Column = "ItemDensity", Value = ((before.Amount - amount) * exports.wx_module_system:RequestModule("Item").GetItem(itemName).ItemDensity)},
+                --     },
+                --     {
+                --         {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
+                --         {Method = "AND",Operator = "=",Column = "ItemName",Value = itemName}
+                --     }
+                -- )
+                MySql.Sync.Query("UPDATE player_items SET ItemAmount=?,ItemDensity=? WHERE SteamID=? AND ItemName=?",{
+                    before.Amount - amount,
+                    ((before.Amount - amount) * exports.wx_module_system:RequestModule("Item").GetItem(itemName).ItemDensity),
+                    self.SteamID.Get(),
+                    itemName
+                })
                 return true
             else
                 return false

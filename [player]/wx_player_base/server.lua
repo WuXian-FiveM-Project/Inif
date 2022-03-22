@@ -81,13 +81,17 @@ TriggerEvent("RegisterModule","Player",
                 Get = function()
                     if type(self.cache.PID) == "nil" then
                         self.cache.PID =
-                            exports.wx_module_system:RequestModule("MySql").Sync.Fetch(
-                            "player",
-                            {"PID"},
-                            {
-                                {Method = "And", Column = "SteamID", Value = self.SteamID.Get(), Operator = "="}
-                            }
-                        )[1].PID
+                            exports.wx_module_system:RequestModule("MySql").Sync.Query("SELECT PID FROM player WHERE SteamID=?",{
+                                self.SteamID.Get()
+                            })[1].SteamID
+
+                        --     exports.wx_module_system:RequestModule("MySql").Sync.Fetch(
+                        --     "player",
+                        --     {"PID"},
+                        --     {
+                        --         {Method = "And", Column = "SteamID", Value = self.SteamID.Get(), Operator = "="}
+                        --     }
+                        -- )[1].PID
                     end
                     return self.cache.PID
                 end

@@ -7,7 +7,7 @@ TriggerEvent("RegisterModule","Utils",
         return math.random(min,max) + math.random()
     end,
     GenerateRandomInt = function(min,max)
-        math.randomseed(os.time()*math.random(min,max))
+        math.randomseed(os.time()*math.random(0,1))
         return math.floor(math.random(min,max))
     end,
     GenerateRandomString = function(length)
