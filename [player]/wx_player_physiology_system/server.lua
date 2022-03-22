@@ -9,15 +9,22 @@ TriggerEvent("RegisterPlayerModule","Physiology",function(self) --self 是隐式
         --satiety = 飽食度
         Satiety = {
             Get = function()
-                return MySql.Sync.Fetch("player",{"Satiety"},{
-                    {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                -- return MySql.Sync.Fetch("player",{"Satiety"},{
+                --     {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                -- })[1].Satiety
+                return MySql.Sync.Query("SELECT Satiety FROM player WHERE SteamID=?",{
+                    self.SteamID.Get()
                 })[1].Satiety
             end,
             Set = function(value)
-                MySql.Sync.Update("player",{
-                    {Column = "Satiety" , Value = value}
-                },{
-                    {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                -- MySql.Sync.Update("player",{
+                --     {Column = "Satiety" , Value = value}
+                -- },{
+                --     {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                -- })
+                MySql.Sync.Query("UPDATE player SET Satiety=? WHERE SteamID=?",{
+                    value,
+                    self.SteamID.Get()
                 })
                 TriggerClientEvent("wx_player_physiology_system:UpdateSatiety",self.PlayerID.Get(),value)
                 Console.Log("Physiology Set Player:"..self.SteamID.Get().." Satiety to "..value,true)
@@ -40,15 +47,22 @@ TriggerEvent("RegisterPlayerModule","Physiology",function(self) --self 是隐式
         --thirst = 乾渴度
         Thirst = {
             Get = function()
-                return MySql.Sync.Fetch("player",{"Thirst"},{
-                    {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                -- return MySql.Sync.Fetch("player",{"Thirst"},{
+                --     {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                -- })[1].Thirst
+                return MySql.Sync.Query("SELECT Thirst FROM player WHERE SteamID=?",{
+                    self.SteamID.Get()
                 })[1].Thirst
             end,
             Set = function(value)
-                MySql.Sync.Update("player",{
-                    {Column = "Thirst" , Value = value}
-                },{
-                    {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                -- MySql.Sync.Update("player",{
+                --     {Column = "Thirst" , Value = value}
+                -- },{
+                --     {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                -- })
+                MySql.Sync.Query("UPDATE player SET Thirst=? WHERE SteamID=?",{
+                    value,
+                    self.SteamID.Get()
                 })
                 TriggerClientEvent("wx_player_physiology_system:UpdateThirst",self.PlayerID.Get(),value)
                 Console.Log("Physiology Set Player:"..self.SteamID.Get().." Thirst to "..value,true)
@@ -71,15 +85,22 @@ TriggerEvent("RegisterPlayerModule","Physiology",function(self) --self 是隐式
         --tiredness = 疲倦感
         Tiredness = {
             Get = function()
-                return MySql.Sync.Fetch("player",{"Tiredness"},{
-                    {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                -- return MySql.Sync.Fetch("player",{"Tiredness"},{
+                --     {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                -- })[1].Tiredness
+                return MySql.Sync.Query("SELECT Tiredness FROM player WHERE SteamID=?",{
+                    self.SteamID.Get()
                 })[1].Tiredness
             end,
             Set = function(value)
-                MySql.Sync.Update("player",{
-                    {Column = "Tiredness" , Value = value}
-                },{
-                    {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                -- MySql.Sync.Update("player",{
+                --     {Column = "Tiredness" , Value = value}
+                -- },{
+                --     {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                -- })
+                MySql.Sync.Query("UPDATE player SET Tiredness=? WHERE SteamID=?",{
+                    value,
+                    self.SteamID.Get()
                 })
                 TriggerClientEvent("wx_player_physiology_system:UpdateTiredness",self.PlayerID.Get(),value)
                 Console.Log("Physiology Set Player:"..self.SteamID.Get().." Tiredness to "..value,true)
@@ -102,15 +123,22 @@ TriggerEvent("RegisterPlayerModule","Physiology",function(self) --self 是隐式
         --urine = 尿
         Urine = {
             Get = function()
-                return MySql.Sync.Fetch("player",{"Urine"},{
-                    {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                -- return MySql.Sync.Fetch("player",{"Urine"},{
+                --     {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                -- })[1].Urine
+                return MySql.Sync.Query("SELECT Urine FROM player WHERE SteamID=?",{
+                    self.SteamID.Get()
                 })[1].Urine
             end,
             Set = function(value)
-                MySql.Sync.Update("player",{
-                    {Column = "Urine" , Value = value}
-                },{
-                    {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                -- MySql.Sync.Update("player",{
+                --     {Column = "Urine" , Value = value}
+                -- },{
+                --     {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                -- })
+                MySql.Sync.Query("UPDATE player SET Urine=? WHERE SteamID=?",{
+                    value,
+                    self.SteamID.Get()
                 })
                 TriggerClientEvent("wx_player_physiology_system:UpdateUrine",self.PlayerID.Get(),value)
                 Console.Log("Physiology Set Player:"..self.SteamID.Get().." Urine to "..value,true)
@@ -133,15 +161,22 @@ TriggerEvent("RegisterPlayerModule","Physiology",function(self) --self 是隐式
         --shit = 你
         Shit = {
             Get = function()
-                return MySql.Sync.Fetch("player",{"Shit"},{
-                    {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                -- return MySql.Sync.Fetch("player",{"Shit"},{
+                --     {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                -- })[1].Shit
+                return MySql.Sync.Query("SELECT Shit FROM player WHERE SteamID=?",{
+                    self.SteamID.Get()
                 })[1].Shit
             end,
             Set = function(value)
-                MySql.Sync.Update("player",{
-                    {Column = "Shit" , Value = value}
-                },{
-                    {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                -- MySql.Sync.Update("player",{
+                --     {Column = "Shit" , Value = value}
+                -- },{
+                --     {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()}
+                -- })
+                MySql.Sync.Query("UPDATE player SET Shit=? WHERE SteamID=?",{
+                    value,
+                    self.SteamID.Get()
                 })
                 TriggerClientEvent("wx_player_physiology_system:UpdateShit",self.PlayerID.Get(),value)
                 Console.Log("Physiology Set Player:"..self.SteamID.Get().." Shit to "..value,true)
@@ -201,7 +236,7 @@ RegisterNetEvent("wx_player_physiology_system:createInstance",function()
     Citizen.CreateThread(function()
         local player = Player.GetPlayer(src)
         player = player:Physiology()
-        local loopDelay = Utils.GenerateRandomInt(1000,math.floor(math.floor(player.Physiology.Tiredness.Get())*1000))
+        local loopDelay = Utils.GenerateRandomInt(1000,math.floor(player.Physiology.Tiredness.Get()*1000))
         while true do
             if GetPlayerPed(src) == 0 then
                 break

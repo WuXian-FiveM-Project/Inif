@@ -2,7 +2,11 @@ function parseSQLQuery(query, fields) {
     var listPosition = 0;
     for (var i = 0; i < query.length; i++) {
         if (query[i] == '?') {
-            query = query.replace('?', fields[listPosition]);
+            if (typeof fields[listPosition] == 'string') {
+                query = query.replace('?', `"${fields[listPosition]}"`);
+            } else {
+                query = query.replace('?', fields[listPosition]);
+            }
             listPosition++;
         }
     }
@@ -19,7 +23,7 @@ var connection = mysql.createConnection({
 
 
 connection.connect();
-emit("RegisterModule", "sql", {
+emit("RegisterModule", "MySql", {
     Sync: {
         Query: async function (query, fields) {
             return new Promise(
@@ -29,6 +33,7 @@ emit("RegisterModule", "sql", {
                             if (error) {
                                 reject(error);
                                 console.error(error)
+                                throw error
                             };
                             resolve(results);
                         }
@@ -43,6 +48,7 @@ emit("RegisterModule", "sql", {
                 function (error, results, fields) {
                     if (error) {
                         console.error(error)
+                        throw error
                     };
                     resolve(results);
                 }

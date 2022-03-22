@@ -5,7 +5,7 @@ author 'You'
 version '1.0.0'
 
 dependencies {
-    'oxmysql',
+    'wx_mysql_linker',
     'wx_module_system',
     'wx_console',
     'wx_player_utils',
