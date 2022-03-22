@@ -198,7 +198,7 @@ TriggerEvent("RegisterPlayerModule","Physiology",function(self) --self 是隐式
         }
     }
     return self
-end)
+end) 
 
 Callback.RegisterServerCallback("wx_player_physiology_system:requestPhysiology",function(source)
     local p = Player.GetPlayer(source):Physiology().Physiology
