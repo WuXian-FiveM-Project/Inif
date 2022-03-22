@@ -1,17 +1,13 @@
 --#region include
-Callback = exports.wx_module_system:RequestModule("Callback")
-MySql = exports.wx_module_system:RequestModule("MySql")
-Player = exports.wx_module_system:RequestModule("Player")
+local Callback = exports.wx_module_system:RequestModule("Callback")
+local MySql = exports.wx_module_system:RequestModule("MySql")
+local Player = exports.wx_module_system:RequestModule("Player")
 --#endregion
 
 Callback.RegisterServerCallback("wx_garage_system:getGarageList", function()
-    -- return MySql.Sync.FetchAll("garage")
     return MySql.Sync.Query("SELECT * FROM garage")
 end)
 Callback.RegisterServerCallback("wx_garage_system:getGarageVehicleList", function(src)
-    -- local returnV =  MySql.Sync.Fetch("garage_vehicle","*",{
-    --     {Method = "AND",Operator = "=",Column = "VehicleOwner",Value = GetPlayerIdentifier(src)}
-    -- })
     local returnV =  MySql.Sync.Query("SELECT * FROM garage_vehicle WHERE VehicleOwner=?",{
         GetPlayerIdentifier(src)
     })

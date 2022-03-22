@@ -6,8 +6,8 @@ version '1.0.0'
 
 dependencies {
     'wx_module_system',
+    'wx_render'
 }
 client_script 'client.lua'
 
-lua54 'yes'
 server_script 'server.lua'

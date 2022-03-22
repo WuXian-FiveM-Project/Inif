@@ -1,6 +1,6 @@
 --#region include
-Callback = exports.wx_module_system:RequestModule("Callback")
-Render = exports.wx_module_system:RequestModule("Render")
+local Callback = exports.wx_module_system:RequestModule("Callback")
+local Render = exports.wx_module_system:RequestModule("Render")
 --#endregion
 
 --#region generat garage
@@ -45,6 +45,8 @@ Citizen.CreateThread(function()
                 exports.wx_module_system:RequestModule("Notification").ShowHelpNotification("按下 ~INPUT_CONTEXT~ 查看车辆",true)
                 if IsControlPressed(0,38) then
                     SetNuiFocus(true,true)
+                    print(json.encode(Callback.TriggerServerCallback("wx_garage_system:getGarageVehicleList")))
+                    print(json.encode(Callback.TriggerServerCallback("wx_garage_system:getCurrentMoney")))
                     SendNUIMessage({
                         type = "openGarageVehicleList",
                         vehicleList = Callback.TriggerServerCallback("wx_garage_system:getGarageVehicleList"),
