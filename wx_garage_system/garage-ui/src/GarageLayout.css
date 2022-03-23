@@ -68,12 +68,11 @@
     background-color: rgba(0, 0, 0, 0.6);
     color: rgba(255, 255, 255, 0.788);
     filter: drop-shadow(0px 0px 10px rgb(0, 0, 0));
+    transform: scale(1.2);
 }
 .garageVehicleCard.button:active {
-    transition-duration: 50ms;
-    transform: scale(0.9) translateY(-100px);
-    margin-top: 100px;
-    margin-bottom: 100px;
+    transition-duration: 100ms;
+    transform: scale(0.9) ;
     background-color: rgb(184, 52, 52);
 }
 .garageVehicleCard.button.noEnoughMoney {
@@ -81,4 +80,77 @@
 }
 .garageVehicleCard.button.noEnoughMoney:hover::after {
     content: "(不够钱)";
+}
+
+.changeNameBox.notshow{
+    display: none;
+}
+
+.changeNameBox.comfirm:active {
+    transition-duration: 50ms;
+    background-color: rgba(5, 5, 5, 0.788);
+    transform: scale(0.9);
+    box-shadow: 0px 0px 10px 1px rgb(255, 255, 255) inset ,0px 0px 10px 10px rgb(41, 41, 41);
+}
+
+.changeNameBox.darkness{
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    width: 100%;
+    z-index: 999;
+}
+
+.changeNameBox.box{
+    z-index: 1000;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    height: 30vh;
+    background-color: rgba(60,64,72);
+    color:rgb(171,178,191);
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    padding: 0 0 0 0;
+}
+
+.changeNameBox.title {
+    font-size: 2.5vw;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.changeNameBox.inputBox {
+    font-size: 1vw;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.changeNameBox.comfirm {
+    transition-duration: 200ms;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: aliceblue;
+    width: 100%;
+    height: 10vh;
+    font-size: 2vw;
+}
+
+.changeNameBox.comfirm:hover {
+    transition-duration: 200ms;
+    background-color: rgba(5, 5, 5, 0.788);
+    font-size: 3vw;
+    box-shadow: 0px 0px 10px 1px rgb(255, 255, 255) inset ,0px 0px 10px 10px rgb(41, 41, 41);
+}
+
+.changeNameBox.comfirm:active {
+    transition-duration: 50ms;
+    background-color: rgba(5, 5, 5, 0.788);
+    transform: scale(0.9);
+    box-shadow: 0px 0px 10px 1px rgb(255, 255, 255) inset ,0px 0px 10px 10px rgb(41, 41, 41);
 }

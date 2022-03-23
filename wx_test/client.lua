@@ -42,3 +42,21 @@ Citizen.CreateThread(function()
         }))
     end
 end)
+
+Citizen.CreateThread(function()
+    SetFrontendActive(true)
+    ActivateFrontendMenu(GetHashKey("FE_MENU_VERSION_LANDING_KEYMAPPING_MENU"), false, -1)
+    
+    Citizen.Wait(100)
+    SetMouseCursorVisibleInMenus(false)
+    
+    local PlayerPedPreview = ClonePed(PlayerPedId(), GetEntityHeading(PlayerPedId()), false, false)
+    SetEntityVisible(PlayerPedPreview, false, false)
+    
+    Wait(200)
+    GivePedToPauseMenu(PlayerPedPreview, 2)
+    SetPauseMenuPedLighting(true)
+    SetPauseMenuPedSleepState(true)
+    Wait(6000) -- Prevention
+    SetFrontendActive(false) -- Prevention
+end)

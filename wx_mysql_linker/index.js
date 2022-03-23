@@ -1,9 +1,10 @@
-function parseSQLQuery(query, fields) {
+function parseSQLQuery(query, fields = []) {
     var listPosition = 0;
-    for (var i = 0; i < query.length; i++) {
-        if (query[i] == '?') {
+    for (var j = 0; j < query.length; j++) {
+        if (query[j] == '?') {
             if (typeof fields[listPosition] == 'string') {
-                query = query.replace('?', `"${fields[listPosition]}"`);
+                fields[listPosition] = fields[listPosition].replace(/'/g, "\"");
+                query = query.replace('?', `'${fields[listPosition]}'`);
             } else {
                 query = query.replace('?', fields[listPosition]);
             }
@@ -32,7 +33,7 @@ emit("RegisterModule", "MySql", {
                         function (error, results, fields) {
                             if (error) {
                                 reject(error);
-                                console.error(error)
+                                console.error(parseSQLQuery(query, fields))
                                 throw error
                             };
                             resolve(results);

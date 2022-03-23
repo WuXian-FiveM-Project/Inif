@@ -116,6 +116,7 @@ TriggerEvent("RegisterModule","Render",
         ---  jitterUpAndDown --[[boolean]],
         ---  faceToCamera --[[boolean]],
         ---  onEnter --[[function]],
+        ---  spin --[[boolean]],
         ---}
         DrawMarkerWithClass = function(options)
             --#region error handler
@@ -173,6 +174,7 @@ TriggerEvent("RegisterModule","Render",
             self.alpha = options.alpha
             self.jitterUpAndDown = options.jitterUpAndDown
             self.faceToCamera = options.faceToCamera
+            self.spin = options.spin or false
             self.isDrawing = false
         
             ---draw 1 frame only
@@ -201,7 +203,7 @@ TriggerEvent("RegisterModule","Render",
                 true,
                 nil,
                 nil,
-                false
+                self.spin
             )
             end
             self.StartDraw = function()

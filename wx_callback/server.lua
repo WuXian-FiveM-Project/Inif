@@ -14,7 +14,6 @@ TriggerEvent("RegisterModule","Callback",{
     end,
 	RegisterServerCallback = function (callbackName,func)
         AddEventHandler('__ServerInsideCallback'..callbackName,function(callbackFunction,source,parms)
-            parms[1] = parms[1] or ""
             local result = {(func(source,table.unpack(parms)))}
             callbackFunction(result)
         end)

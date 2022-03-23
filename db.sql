@@ -36,6 +36,55 @@ INSERT INTO `bank_card` (`CID`, `OwnerSteamID`, `CardID`, `Password`, `Money`, `
 	(2, 'steam:11000013604b55cd', '1234 5678 91011', '123', 1000, '2022-03-10 12:30:16');
 /*!40000 ALTER TABLE `bank_card` ENABLE KEYS */;
 
+-- 导出  表 wxs.garage 结构
+CREATE TABLE IF NOT EXISTS `garage` (
+  `GID` int(11) NOT NULL AUTO_INCREMENT,
+  `GarageBlipName` text,
+  `GarageBlipPosition` text COMMENT ' position = json.encode(vec3())',
+  `GarageBlipSprite` int(11) DEFAULT NULL,
+  `GarageBlipColour` int(11) DEFAULT NULL,
+  `GarageGetVehicleMarkerPosition` text,
+  `GarageGetVehicleMarkerType` int(11) DEFAULT NULL,
+  `GarageGetVehicleMarkerColor` text,
+  `GarageDisplayName` text,
+  `GarageMaxVehicleCanStore` int(11) DEFAULT NULL,
+  `GarageCostPerHours` float DEFAULT NULL,
+  `GarageStoreVehicleMarkerPosition` text,
+  `GarageStoreVehicleMarkerType` int(11) DEFAULT NULL,
+  `GarageStoreVehicleMarkerColor` text,
+  PRIMARY KEY (`GID`)
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
+
+-- 正在导出表  wxs.garage 的数据：1 rows
+DELETE FROM `garage`;
+/*!40000 ALTER TABLE `garage` DISABLE KEYS */;
+INSERT INTO `garage` (`GID`, `GarageBlipName`, `GarageBlipPosition`, `GarageBlipSprite`, `GarageBlipColour`, `GarageGetVehicleMarkerPosition`, `GarageGetVehicleMarkerType`, `GarageGetVehicleMarkerColor`, `GarageDisplayName`, `GarageMaxVehicleCanStore`, `GarageCostPerHours`, `GarageStoreVehicleMarkerPosition`, `GarageStoreVehicleMarkerType`, `GarageStoreVehicleMarkerColor`) VALUES
+	(1, '市中心停车场', '{"x":224.0,"y":-788.0,"z":31.0}', 524, 3, '{"x":214.2,"y":-808.75,"z":30}', 1, '{"r":255,"g":255,"b":255}', '市中心停车场', 12, 5, '{"x":209.94,"y":-805.2,"z":29.5}', 1, '{"r":255,"g":2,"b":2}');
+/*!40000 ALTER TABLE `garage` ENABLE KEYS */;
+
+-- 导出  表 wxs.garage_vehicle 结构
+CREATE TABLE IF NOT EXISTS `garage_vehicle` (
+  `VID` int(11) NOT NULL AUTO_INCREMENT,
+  `VehicleGID` int(11) NOT NULL DEFAULT '0' COMMENT '车辆所在的Gid',
+  `VehicleOwner` text COMMENT '玩家的steamId',
+  `VehicleNickname` text,
+  `VehicleModule` text,
+  `VehicleParms` text,
+  `VehiclePlate` text,
+  `VehiclePosition` text COMMENT 'json.encode(vec3())',
+  `VehicleHeading` double DEFAULT NULL,
+  `StoreDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '存放日',
+  PRIMARY KEY (`VID`)
+) ENGINE=MyISAM AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4;
+
+-- 正在导出表  wxs.garage_vehicle 的数据：1 rows
+DELETE FROM `garage_vehicle`;
+/*!40000 ALTER TABLE `garage_vehicle` DISABLE KEYS */;
+INSERT INTO `garage_vehicle` (`VID`, `VehicleGID`, `VehicleOwner`, `VehicleNickname`, `VehicleModule`, `VehicleParms`, `VehiclePlate`, `VehiclePosition`, `VehicleHeading`, `StoreDate`) VALUES
+	(18, 1, 'steam:11000013604b55c', 'vid71', 'BLISTA', '{"modOrnaments":-1,"modSpeakers":-1,"modFrame":-1,"color1":7,"wheelColor":156,"xenonColor":255,"modRearBumper":-1,"modStruts":-1,"tankHealth":999.7850952148438,"modGrille":-1,"modDial":-1,"tyreSmokeColor":[255,255,255],"neonEnabled":[false,false,false,false],"modAirFilter":-1,"modBrakes":-1,"modSideSkirt":-1,"modDoorSpeaker":-1,"modFender":-1,"fuelLevel":65.0,"modHorns":-1,"modVanityPlate":-1,"modLivery":-1,"modFrontBumper":-1,"modTrimA":-1,"modHydrolic":-1,"modSpoilers":-1,"modTransmission":-1,"modArchCover":-1,"pearlescentColor":5,"windowTint":-1,"modAerials":-1,"plateIndex":0,"wheels":0,"modDashboard":-1,"engineHealth":997.75,"modTurbo":false,"model":-344943009,"modTrimB":-1,"modFrontWheels":-1,"modAPlate":-1,"neonColor":[255,0,255],"modWindows":-1,"modHood":-1,"modBackWheels":-1,"modSeats":-1,"modSuspension":-1,"modSmokeEnabled":false,"modTrunk":-1,"modEngineBlock":-1,"plate":"29RSO271","modRoof":-1,"modPlateHolder":-1,"modEngine":-1,"modArmor":-1,"color2":0,"bodyHealth":998.0,"dirtLevel":6.0061912536621,"modSteeringWheel":-1,"extras":{"10":true,"12":false},"modTank":-1,"modExhaust":-1,"modShifterLeavers":-1,"modXenon":false,"modRightFender":-1}', '29RSO271', '{"x":219.5208740234375,"y":-795.7604370117188,"z":30.5941162109375}', 312.36700439453125, '2022-03-19 18:49:17'),
+	(45, 1, 'steam:11000013604b55c', 'BLISTA', 'BLISTA', '{"modShifterLeavers":-1,"modDial":-1,"modRearBumper":-1,"modSuspension":-1,"modWindows":-1,"wheels":0,"modAirFilter":-1,"modStruts":-1,"modBackWheels":-1,"fuelLevel":65.0,"modSeats":-1,"modRoof":-1,"engineHealth":997.375,"modTrunk":-1,"bodyHealth":996.75,"dirtLevel":11.02772140502929,"modEngine":-1,"modRightFender":-1,"modHorns":-1,"modTurbo":false,"color2":0,"xenonColor":255,"modTrimA":-1,"modAPlate":-1,"modTrimB":-1,"modFrontWheels":-1,"modEngineBlock":-1,"modDoorSpeaker":-1,"neonColor":[255,0,255],"modArchCover":-1,"pearlescentColor":111,"wheelColor":156,"modFrame":-1,"modExhaust":-1,"modHydrolic":-1,"tankHealth":999.6746826171875,"modSteeringWheel":-1,"neonEnabled":[false,false,false,false],"modTank":-1,"modVanityPlate":-1,"modFender":-1,"modAerials":-1,"modDashboard":-1,"modXenon":false,"modBrakes":-1,"tyreSmokeColor":[255,255,255],"modFrontBumper":-1,"color1":6,"modLivery":-1,"modSpoilers":-1,"modHood":-1,"modSmokeEnabled":false,"plate":"83HNI872","model":-344943009,"modArmor":-1,"modOrnaments":-1,"modSpeakers":-1,"modPlateHolder":-1,"modGrille":-1,"extras":{"12":true,"10":false},"modTransmission":-1,"plateIndex":0,"modSideSkirt":-1,"windowTint":-1}', '83HNI872', '{"x":216.2356719970703,"y":-800.7844848632813,"z":30.61996078491211}', 62.362205505371094, '2022-03-23 16:28:35');
+/*!40000 ALTER TABLE `garage_vehicle` ENABLE KEYS */;
+
 -- 导出  表 wxs.player 结构
 CREATE TABLE IF NOT EXISTS `player` (
   `PID` int(11) NOT NULL AUTO_INCREMENT,
@@ -47,14 +96,16 @@ CREATE TABLE IF NOT EXISTS `player` (
   `Satiety` float DEFAULT NULL,
   `Thirst` float DEFAULT NULL,
   `Tiredness` float DEFAULT NULL,
+  `Urine` float DEFAULT NULL,
+  `Shit` float DEFAULT NULL,
   PRIMARY KEY (`PID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8mb4;
 
 -- 正在导出表  wxs.player 的数据：1 rows
 DELETE FROM `player`;
 /*!40000 ALTER TABLE `player` DISABLE KEYS */;
-INSERT INTO `player` (`PID`, `SteamID`, `Name`, `RegisterDate`, `MaxDensityCanHold`, `MaxItemCanHold`, `Satiety`, `Thirst`, `Tiredness`) VALUES
-	(1, 'steam:11000013604b55c', '10000', '2022-01-27 08:02:43', 10000000000, 100000000000, 984.82, 973.7, 995.71);
+INSERT INTO `player` (`PID`, `SteamID`, `Name`, `RegisterDate`, `MaxDensityCanHold`, `MaxItemCanHold`, `Satiety`, `Thirst`, `Tiredness`, `Urine`, `Shit`) VALUES
+	(1000, 'steam:11000013604b55c', '10000', '2022-01-27 08:02:43', 10000000000, 100000000000, 995681, 992524, -2079.31, -996.71, -998.25);
 /*!40000 ALTER TABLE `player` ENABLE KEYS */;
 
 -- 导出  表 wxs.player_config 结构
@@ -84,16 +135,15 @@ CREATE TABLE IF NOT EXISTS `player_items` (
   `ItemAttachData` text,
   `ItemPickUpDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`IID`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4;
 
--- 正在导出表  wxs.player_items 的数据：4 rows
+-- 正在导出表  wxs.player_items 的数据：3 rows
 DELETE FROM `player_items`;
 /*!40000 ALTER TABLE `player_items` DISABLE KEYS */;
 INSERT INTO `player_items` (`IID`, `SteamID`, `ItemName`, `ItemAmount`, `ItemDensity`, `ItemAttachData`, `ItemPickUpDate`) VALUES
-	(1, 'steam:11000013604b55c', 'water', 9937, 993700, 'null', '2022-01-28 17:15:53'),
-	(2, 'steam:11000013604b55c', 'bread', 10, 100, '{"owner":"wdw"}', '2022-01-28 17:15:53'),
-	(23, 'steam:11000013604b55c', 'bank_card', 1, 0.01, '{"cardID":"1234 5678 9101"}', '2022-03-09 11:18:46'),
-	(21, 'steam:11000013604b55c', 'money', 949564, 9495.64, '{"owner":"wdw"}', '2022-01-28 17:15:53');
+	(1, 'steam:11000013604b55c', 'water', 9927, 7941.6, 'null', '2022-01-28 17:15:53'),
+	(2, 'steam:11000013604b55c', 'bread', 86, 8.6, '{"owner":"wdw"}', '2022-01-28 17:15:53'),
+	(21, 'steam:11000013604b55c', 'money', 946839, 9468.39, '{"owner":"wdw"}', '2022-01-28 17:15:53');
 /*!40000 ALTER TABLE `player_items` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
