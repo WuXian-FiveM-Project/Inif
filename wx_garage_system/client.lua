@@ -170,6 +170,7 @@ function SpawnParkingVehicle(vehicle)
         ]]
         Utils.SetVehicleProperties(vehicleEntity,vehicle.VehicleParms)
         vehicleEntityList[vehicle.VID] = vehicleEntity
+        SetVehicleOnGroundProperly(vehicleEntity --[[ Vehicle ]])
     end)
 end
 
