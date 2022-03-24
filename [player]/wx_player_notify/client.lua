@@ -52,6 +52,7 @@ end
 ---@param message string|integer|number message to show
 ---@param beep boolean beep or not
 ShowHelpNotification = function (message, beep)
+    --BUG: 在被wx_garage_system调用时有几率无法显示
     AddTextEntry('HelpNotificationString', message)
 	BeginTextCommandDisplayHelp("HelpNotificationString")
     EndTextCommandDisplayHelp(0, false, beep, 1 or 5000)

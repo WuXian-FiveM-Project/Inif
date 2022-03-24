@@ -5,7 +5,7 @@ local Player = exports.wx_module_system:RequestModule("Player")
 --#endregion
 
 Callback.RegisterServerCallback("wx_garage_system:getGarageList", function()
-    return {MySql.Sync.Query("SELECT * FROM garage")}
+    return {MySql.Sync.Query("SELECT * FROM garage",{})}
 end)
 
 Callback.RegisterServerCallback("wx_garage_system:getGarageVehicleList", function(src,locationGID)
@@ -19,7 +19,11 @@ end)
 Callback.RegisterServerCallback("wx_garage_system:getCurrentMoney", function(src)
     local p = Player.GetPlayer(src)
     p = p:Inventory()
-    return {p.Inventory.GetItem("money").Amount}
+    if p.Inventory.IsItemExists("money") then
+        return {p.Inventory.GetItem("money").Amount}
+    else
+        return {0}
+    end
 end)
 
 Callback.RegisterServerCallback("wx_garage_system:getVehicleList", function(src)

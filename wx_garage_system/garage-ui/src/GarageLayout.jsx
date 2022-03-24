@@ -71,8 +71,6 @@ export default function GarageLayout() {
         }
     }
 
-    new Date(Date.now() - 1647944113403);
-
     function converTime(d1) {
         var dateBegin = new Date(d1.replace(/-/g, "/"));
         var dateEnd = new Date(); //获取当前时间
@@ -83,22 +81,22 @@ export default function GarageLayout() {
     }
 
     window.addEventListener("message", function (event) {
+        console.log(event.data);
         if (event.data.type === "openGarageVehicleList") {
-            setVehicleList([
-                {
-                    VID: 0,
-                    VehicleGID: "",
-                    VehicleOwner: "",
-                    VehicleNickname: 0,
-                    VehicleModule: "",
-                    VehicleParms: "",
-                    VehiclePlate: "",
-                    VehiclePosition: { x: 0, y: 0, z: 0 },
-                    VehicleHeading: 0.0,
-                    StoreDate: "",
-                },
-            ]);
-            setGarageListOpen(true);
+            // setVehicleList([
+            //     {
+            //         VID: 0,
+            //         VehicleGID: "",
+            //         VehicleOwner: "",
+            //         VehicleNickname: 0,
+            //         VehicleModule: "",
+            //         VehicleParms: "",
+            //         VehiclePlate: "",
+            //         VehiclePosition: { x: 0, y: 0, z: 0 },
+            //         VehicleHeading: 0.0,
+            //         StoreDate: "",
+            //     },
+            // ]);
             setCurrentMoney(event.data.currentMoney);
             var tempList = event.data.vehicleList
             tempList.forEach((item, index) => {
@@ -106,6 +104,7 @@ export default function GarageLayout() {
                 tempList[index].price = converTime(new Date(item.StoreDate).toLocaleString())*event.data.garageData.GarageCostPerHours;
             })
             setVehicleList(tempList);
+            setGarageListOpen(true);
         }
     });
 

@@ -51,7 +51,6 @@ Citizen.CreateThread(function()
                     for index, value in pairs(vehicleList) do
                         vehicleList[index].StoreDate = value["UNIX_TIMESTAMP(cast(StoreDate as datetime))*1000"]
                     end
-                    
                     SetNuiFocus(true,true)
                     SendNUIMessage({
                         type = "openGarageVehicleList",
@@ -62,6 +61,17 @@ Citizen.CreateThread(function()
                 end
             end
         })
+        local light = Render.Light.DrawLightWithClass({
+            positionX = garage.GarageGetVehicleMarkerPosition.x,
+            positionY = garage.GarageGetVehicleMarkerPosition.y,
+            positionZ = garage.GarageGetVehicleMarkerPosition.z+1,
+            colorR = 255,
+            colorG = 255,
+            colorB = 255,
+            range = 5.0,
+            intensity = 0.50,
+        })
+        light.StartDraw()
         marker.StartDraw()
     end
     --#endregion
@@ -103,7 +113,8 @@ Citizen.CreateThread(function()
                         else
                             Wait(200)
                             while true do
-                                Wait(1)
+                                Wait(0)
+                                DisableControlAction(2, 75, true)
                                 exports.wx_module_system:RequestModule("Notification").ShowHelpNotification("请把车停到停车格上，然后按下~g~~INPUT_CONTEXT~~s~键保存位置",true)
                                 if IsControlJustPressed(0,38) then
                                     TriggerServerEvent("wx_garage_system:storeVehicle",
@@ -114,6 +125,7 @@ Citizen.CreateThread(function()
                                         GetEntityCoords(GetVehiclePedIsIn(GetPlayerPed(-1),false))
                                     )
                                     DeleteEntity(GetVehiclePedIsIn(GetPlayerPed(-1),false) --[[ Entity ]])
+                                    DisableControlAction(2, 75, false)
                                     break
                                 end
                             end
@@ -122,6 +134,23 @@ Citizen.CreateThread(function()
                 end
             end
         })
+        local light = Render.Light.DrawSpotLightWithClass({
+            positionX = garage.GarageGetVehicleMarkerPosition.x,
+            positionY = garage.GarageGetVehicleMarkerPosition.y,
+            positionZ = garage.GarageGetVehicleMarkerPosition.z+10,
+            aimmingCoordZ = garage.GarageStoreVehicleMarkerPosition.z,
+            aimmingCoordX = garage.GarageStoreVehicleMarkerPosition.x,
+            aimmingCoordY = garage.GarageStoreVehicleMarkerPosition.y,
+            colorR = 255,
+            colorG = 0,
+            colorB = 0,
+            radius = 15.0,
+            roundness = 10.0,
+            distance = 200.0,
+            brightness = 1.5,
+            falloff = 200.0,
+        })
+        light.StartDraw()
         marker.StartDraw()
     end
     --#endregion
@@ -186,6 +215,7 @@ end)
 
 RegisterNUICallback("quit", function(data,cb)
     SetNuiFocus(false, false)
+    cb("")
 end)
 
 RegisterNUICallback("PayAndUnlock", function(data)
