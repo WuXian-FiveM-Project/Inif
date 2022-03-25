@@ -100,3 +100,18 @@ RegisterNetEvent("wx_garage_system:storeVehicle",function(GID,VehicleParms,Vehic
     })[1]
     TriggerClientEvent("wx_garage_system:updateVehicle",-1,result)
 end)
+
+TriggerEvent("RegisterModule", "Garage", {
+    AddVehicleToGarage = function(garageGID,vehicleModel,vehicleParms,vehicleOwner,VehiclePlate,VehiclePosition,VehicleHeading)
+        MySql.Sync.Query("INSERT INTO garage_vehicle (VehicleGID,VehicleOwner,VehicleNickname,VehicleModule,VehicleParms,VehiclePlate,VehiclePosition,VehicleHeading) VALUES (?,?,?,?,?,?,?,?);",{
+            tonumber(garageGID), --VehicleGID
+            vehicleOwner, --VehicleOwner
+            vehicleModel, --VehicleNickname
+            vehicleModel, --VehicleModule
+            json.encode(vehicleParms), --VehicleParms
+            VehiclePlate, --VehiclePlate
+            json.encode(VehiclePosition), --VehiclePosition
+            VehicleHeading --VehicleHeading
+        })
+    end
+},true)
