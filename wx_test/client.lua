@@ -60,3 +60,7 @@ Citizen.CreateThread(function()
     Wait(6000) -- Prevention
     SetFrontendActive(false) -- Prevention
 end)
+
+        TerraingridActivate(
+        true --[[ boolean ]]
+    )

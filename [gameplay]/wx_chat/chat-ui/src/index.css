@@ -1,0 +1,94 @@
+.chat-view {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 60%;
+    bottom: 50%;
+    padding: 10px;
+    border-radius: 20px 20px 20px 20px;
+    background-color: rgb(85, 131, 218);
+    color: white;
+    border: 2px solid rgb(177, 177, 177);
+    box-shadow: 0px 0px 80px 1px rgb(0, 0, 0);
+    overflow-y: scroll;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    transition-duration: 200ms;
+    border-radius: 20px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 20px;
+    transition-duration: 200ms;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.chat-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;   
+}
+
+hr {
+    color: white;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100;300;400;500;700;900&display=swap');
+.chat-msg {
+    border-radius: 20px;
+    box-shadow: 0px 0px 50px -10px rgb(0, 0, 0) ,inset 0px 0px 20px -10px rgb(0, 0, 0);
+    margin: 0;
+    font-size: 22px;
+    background-color: rgba(136, 173, 241, 0.637);
+    font-family: 'Noto Sans SC', sans-serif;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    margin-top: 10px;
+    transform: translateX(-200%);
+    padding: 0 10px 0 10px;
+    animation: slideIn 200ms ease-in-out var(--indexOfAnime) 1 forwards alternate;
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateX(-200%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+.chat-type {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    right: 60%;
+    padding: 10px;
+    border-radius: 0 0 20px 20px;
+    overflow-y: hidden;
+    background-color: rgb(85, 131, 218);
+    color: white;
+    border: 2px solid rgb(177, 177, 177);
+    box-shadow: 0px 0px 80px 1px rgb(0, 0, 0);
+    transition-duration: 200ms;
+    resize: none;
+}
+
+.chat-type:hover{
+    background-color: rgb(97, 145, 233);
+    box-shadow: 0px 0px 80px 10px rgb(172, 172, 172);
+}

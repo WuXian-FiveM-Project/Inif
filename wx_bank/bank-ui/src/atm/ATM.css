@@ -1,0 +1,118 @@
+.atm.top-logo-bar {
+    background-color: #f5f5f5;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    left: 0;
+    height: 12vh;
+    width: 100%;
+    padding-bottom: 2vh;
+    border-bottom: 10px solid #ff2020;
+    font-family: 'Courier New', Courier, monospace;
+}
+.atm.top-logo-bar-logo {
+    display: inline-block;
+    margin: 0;
+    margin-left: 10px;
+    padding: 0;
+    font-size: 12vh;
+}
+.atm.top-logo-bar-title {
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+    font-size: 5vh;
+}
+.atm.top-logo-bar-atm {
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+    font-size: 4vh;
+}
+.cardSelector.menu {
+    background-image: linear-gradient(155deg, rgba(255, 255, 255, 0.5), rgb(114, 114, 114));
+    box-shadow: 0 0 10px 1px black;
+    padding: 0;
+    margin: 0;
+    top: calc(14vh + 10px + 10px);
+    left: 0;
+    height: calc(100vh - 14vh - 10px - 10px);
+    width: 100%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: calc(100% / 3) calc(100% / 3) calc(100% / 3);
+}
+.cardSelector.plz-plug-card {
+    text-align: center;
+    grid-area: 1 / 2 / 1 / 2 ;
+}
+.cardSelector.cardSelectorList {
+    grid-area: 1 / 1 / 4 / 1 ;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.cardSelector.cardSlot {
+    background-color: rgb(145, 145, 145);
+    border-radius: 1000px;
+    border: 10px solid rgb(0, 0, 0);
+    margin: 100px;
+    padding-top:10px;
+}
+
+.passwordVerify.backDropDark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 4000;
+}
+.passwordVerify.container {
+    font-family: 'Courier New', Courier, monospace;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 30%;
+    width: 50%;
+    z-index: 10000;
+    text-align: center;
+    background-color: rgb(206, 206, 206);
+    border-radius: 10px;
+    box-shadow: 0px 0px 100px 50px black;
+    transform: translate(-50%, -50%);
+}
+.passwordVerify.container h1 {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 75px;
+    margin: 0;
+    padding: 0;
+    padding-top: 50px;
+}
+.passwordVerify.container input {
+    font-size: 20px;
+    width: 50%;
+    padding: 10px;
+    text-align: center;
+}
+.passwordVerify.container button {
+    transition-duration: 200ms;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+    margin-top: 10px;
+    width: calc( 50% + 25px);
+    padding: 10px;
+    text-align: center;
+    border: 1px solid black;
+}
+.passwordVerify.container button:hover {
+    border-radius: 100px;
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+}
+.passwordVerify.container button:active {
+    border-radius: 100px;
+    background-color: rgb(134, 134, 134);
+    color: rgb(255, 255, 255);
+    transform: scale(0.9)
+}

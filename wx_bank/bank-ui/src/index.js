@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MainDef from './MainDef';
-
+import CardViewHandler from './CardViewHandler';
+import ATMHandler from './atm/ATMHandler';
 
 ReactDOM.render(
-    <MainDef />,
+    <div>
+        <CardViewHandler />
+        <ATMHandler />
+    </div>,
     document.getElementById('root')
 );

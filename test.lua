@@ -30,10 +30,3 @@ end
 --否则输出不及格    
 
 ]]--
-
-CardID = "4144 2464 63246234 63"
-
-CardID = string.gsub(CardID, "", "")
-CardID = string.gsub(CardID, "% ", "")
-CardID = string.gsub(CardID, "%s*", "")
-print("CardID is "..CardID)

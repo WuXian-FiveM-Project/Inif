@@ -1,9 +1,10 @@
 import BankCardView from "./component/BankCardView/BankCardView";
 import React from "react"
 
-export default function MainDef() {
+export default function CardViewHandler() {
     const [showBankCardView, setShowBankCardView] = React.useState(false);
     const [bankCardViewData, setBankCardViewData] = React.useState({
+        BID: 1,
         CardBankName: "无限银行⫗",
         CardType: "储蓄卡",
         CardID: "1000 0000 0000 0000",
@@ -12,7 +13,6 @@ export default function MainDef() {
         CardExpiryDate: "08/25",
     });
     window.addEventListener("message", (event) => {
-        console.log(event.data.cardData)
         if (event.data.type === "showBankCardView") {
             setShowBankCardView(true);
             var tempExpDate = new Date(event.data.cardData.CardExpiryDate);
