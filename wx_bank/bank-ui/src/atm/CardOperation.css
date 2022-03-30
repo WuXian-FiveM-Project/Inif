@@ -1,0 +1,60 @@
+.card-operation-container {
+    background-color: #fff;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: calc(100% / 3) calc(100% / 3) calc(100% / 3);
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.card-operation-container-left {
+    grid-area: 1 / 1 / 1 / 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    align-self: center;
+}
+
+.card-operation-container-center {
+    grid-area: 1 / 2 / 1 / 2;
+    border: 1px solid black;
+    text-align: center;
+    align-items: center;
+}
+
+.card-operation-container-right {
+    grid-area: 1 / 3 / 1 / 3;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    align-self: center;
+}
+
+.card-operation-container-button {
+    padding: 10px;
+    margin: 50px;
+    border: 2px solid red;
+    border-radius: 100px;
+    background-color: #f0f0f0;
+    transition-duration: 200ms;
+    font-size: 50px;
+    box-shadow: 0px 50px 50px 1px #000000;
+}
+
+.card-operation-container-button:hover {
+    background-color: #979797;
+}
+
+.card-operation-container-button:active {
+    transition-duration: 40ms;
+    background-color: #ffffff;
+    transform: translateY(20px) scale(0.9);
+    box-shadow: 0px 10px 10px 1px #000000;
+}
+
+#targetCardID:invalid {
+    border: 10px solid red;
+}

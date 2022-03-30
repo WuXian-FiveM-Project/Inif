@@ -1,3 +1,6 @@
+html {
+    overflow: hidden;
+}
 .atm.top-logo-bar {
     background-color: #f5f5f5;
     padding: 0;
