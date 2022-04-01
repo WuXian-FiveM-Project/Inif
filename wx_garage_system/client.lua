@@ -172,6 +172,7 @@ function SpawnParkingVehicle(vehicle)
             vehicle.VehiclePosition = vec3(vehicle.VehiclePosition.x,vehicle.VehiclePosition.y,groundZ)
         end
         local vehicleEntity
+        LoadScene(vehicle.VehiclePosition.x,vehicle.VehiclePosition.y,vehicle.VehiclePosition.z)
         repeat
             vehicleEntity = CreateVehicle(
                 GetHashKey(vehicle.VehicleModule),
@@ -201,6 +202,7 @@ function SpawnParkingVehicle(vehicle)
         vehicleEntityList[vehicle.VID] = vehicleEntity
         SetVehicleOnGroundProperly(vehicleEntity --[[ Vehicle ]])
     end)
+    --#endregion
 end
 
 RegisterNetEvent("wx_garage_system:updateVehicle",function(vehicleData)
