@@ -18,6 +18,12 @@ function DrawATM(entity)
     local blip
     Citizen.CreateThread(function()
         local entityCoords = GetEntityCoords(entity)
+        blip = AddBlipForEntity(entity)
+        SetBlipSprite(blip, 108)
+        SetBlipColour(blip, 2)
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentString("附近的ATM机")
+        EndTextCommandSetBlipName(blip)
         while shouldDraw do
             Wait(1)
             DrawMarker(

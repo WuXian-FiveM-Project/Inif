@@ -30,3 +30,12 @@ end
 --否则输出不及格    
 
 ]]--
+
+
+
+function a(...)
+    local b = {...}
+    print(b[3])
+end
+
+a(1,2,3,4)

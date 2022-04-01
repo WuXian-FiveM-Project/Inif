@@ -104,6 +104,14 @@ TriggerEvent("RegisterModule","Player",
 
             return self
         end,
+        GetAllPlayers = function()
+            local players = GetPlayers()
+            local result = {}
+            for _, v in pairs(players) do
+                table.insert(result, exports.wx_module_system:RequestModule("Player").GetPlayer(v))
+            end
+            return result
+        end,
         AddModule = function(ModuleName, Module)
             playerobj[ModuleName] = Module
             table.insert(modulelist,ModuleName)
