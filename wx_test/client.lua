@@ -32,6 +32,10 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
+            ForceSnowPass(
+	true --[[ boolean ]]
+)
+
     local c = GetEntityCoords(GetPlayerPed(-1))
     while true do
         Wait(10)
@@ -59,8 +63,12 @@ Citizen.CreateThread(function()
     SetPauseMenuPedSleepState(true)
     Wait(6000) -- Prevention
     SetFrontendActive(false) -- Prevention
+    
+            TerraingridActivate(
+            true --[[ boolean ]]
+        )
 end)
 
-        TerraingridActivate(
-        true --[[ boolean ]]
-    )
+Citizen.CreateThread(function()
+    print()
+end)

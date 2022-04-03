@@ -24,32 +24,35 @@ function DrawATM(entity)
         BeginTextCommandSetBlipName("STRING")
         AddTextComponentString("附近的ATM机")
         EndTextCommandSetBlipName(blip)
+
         while shouldDraw do
             Wait(1)
-            DrawMarker(
-                1,
-                entityCoords,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                2.5,
-                2.5,
-                1.0,
-                25,
-                255,
-                255,
-                140,
-                false,
-                false,
-                false,
-                false,
-                nil,
-                nil,
-                false
-            )
+            if IsSphereVisible(entityCoords, 0.1 --[[ number ]]) then
+                DrawMarker(
+                    1,
+                    entityCoords,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    2.5,
+                    2.5,
+                    1.0,
+                    25,
+                    255,
+                    255,
+                    140,
+                    false,
+                    false,
+                    false,
+                    false,
+                    nil,
+                    nil,
+                    false
+                )
+            end
             if Vdist2(GetEntityCoords(GetPlayerPed(-1)), entityCoords) < 2.6 then
                 exports.wx_module_system:RequestModule("Notification").ShowHelpNotification("按~INPUT_PICKUP~使用ATM鸡",true)
                 if IsControlJustPressed(0,38) then

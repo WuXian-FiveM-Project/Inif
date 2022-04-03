@@ -62,7 +62,7 @@ TriggerEvent("RegisterModule","Render",
         options.jitterUpAndDown = options.jitterUpAndDown or false
         options.faceToCamera = options.faceToCamera or false
         --#endregion
-            if Vdist2(GetEntityCoords(GetPlayerPed(-1)),vec3(options.positionX,options.positionY,options.positionZ)) < 800 then
+            if IsSphereVisible(options.positionX,options.positionY,options.positionZ, 1.0 --[[ number ]]) then --究极抠门优化
                 DrawMarker(
                     options.type,
                     options.positionX,
@@ -179,32 +179,34 @@ TriggerEvent("RegisterModule","Render",
         
             ---draw 1 frame only
             self.Draw = function()
-            DrawMarker(
-                self.type,
-                self.positionX,
-                self.positionY,
-                self.positionZ,
-                0.0,
-                0.0,
-                0.0,
-                self.rotationX,
-                self.rotationY,
-                self.rotationZ,
-                self.scaleX,
-                self.scaleY,
-                self.scaleZ,
-                self.colorR,
-                self.colorG,
-                self.colorB,
-                self.alpha,
-                self.jitterUpAndDown,
-                self.faceToCamera,
-                2,
-                true,
-                nil,
-                nil,
-                self.spin
-            )
+                if IsSphereVisible(options.positionX,options.positionY,options.positionZ, 1.0 --[[ number ]]) then --究极抠门优化
+                    DrawMarker(
+                        self.type,
+                        self.positionX,
+                        self.positionY,
+                        self.positionZ,
+                        0.0,
+                        0.0,
+                        0.0,
+                        self.rotationX,
+                        self.rotationY,
+                        self.rotationZ,
+                        self.scaleX,
+                        self.scaleY,
+                        self.scaleZ,
+                        self.colorR,
+                        self.colorG,
+                        self.colorB,
+                        self.alpha,
+                        self.jitterUpAndDown,
+                        self.faceToCamera,
+                        2,
+                        true,
+                        nil,
+                        nil,
+                        self.spin
+                    )
+                end
             end
             self.StartDraw = function()
                 self.isDrawing = true

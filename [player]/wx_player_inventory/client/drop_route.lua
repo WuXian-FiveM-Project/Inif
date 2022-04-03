@@ -12,15 +12,17 @@ RegisterNetEvent("wx_player_inventory:drop",function(itemShowName,amount,prop,Is
 
         local isObjectPickUp = true
 
-        local ScaleformHandle = RequestScaleformMovie("MP_AWARD_FREEMODE") -- The scaleform you want to use
-        while not HasScaleformMovieLoaded(ScaleformHandle) do -- Ensure the scaleform is actually loaded before using
-            Wait(0)
-        end
-        BeginScaleformMovieMethod(ScaleformHandle, "SHOW_AWARD_AND_MESSAGE") -- The function you want to call from the AS file
-        PushScaleformMovieMethodParameterString(itemShowName) -- bigTxt
-        PushScaleformMovieMethodParameterString("数量："..amount) -- msgText
-        PushScaleformMovieMethodParameterInt(5) -- colId
-        EndScaleformMovieMethod()
+        -- local ScaleformHandle = RequestScaleformMovie("MP_AWARD_FREEMODE") -- The scaleform you want to use
+        -- while not HasScaleformMovieLoaded(ScaleformHandle) do -- Ensure the scaleform is actually loaded before using
+        --     Wait(0)
+        -- end
+        -- BeginScaleformMovieMethod(ScaleformHandle, "SHOW_AWARD_AND_MESSAGE") -- The function you want to call from the AS file
+        -- PushScaleformMovieMethodParameterString(itemShowName) -- bigTxt
+        -- PushScaleformMovieMethodParameterString("数量："..amount) -- msgText
+        -- PushScaleformMovieMethodParameterInt(5) -- colId
+        -- EndScaleformMovieMethod()
+
+
 
         local spin = 1
         local isPickedUp = false
@@ -28,8 +30,17 @@ RegisterNetEvent("wx_player_inventory:drop",function(itemShowName,amount,prop,Is
             isObjectPickUp = not isObjectPickUp
             isPickedUp = true
         end)
+        local ScaleformHandle = RequestScaleformMovie("MP_BIG_MESSAGE_FREEMODE") --scaleform 库
+        while not HasScaleformMovieLoaded(ScaleformHandle) do
+            Wait(0)
+            ScaleformHandle = RequestScaleformMovie("MP_BIG_MESSAGE_FREEMODE")
+        end
 
         while isObjectPickUp do
+            ScaleformHandle = RequestScaleformMovie("MP_BIG_MESSAGE_FREEMODE")
+            BeginScaleformMovieMethod(ScaleformHandle, "SHOW_BIG_MP_MESSAGE") --开始scaleform参数堆栈
+            PushScaleformMovieMethodParameterString(itemShowName .. "  数量: "..amount)  --压入参数
+            EndScaleformMovieMethod() --结束scaleform堆栈
             spin = spin+1.01
             coords = GetEntityCoords(object)
             DrawScaleformMovie_3dSolid(
