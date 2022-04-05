@@ -3,7 +3,7 @@ import React from "react"
 import ShopView from "../ShopView/ShopView";
 
 export default function ShopHandler() {
-    const [show, setShow] = React.useState(true)
+    const [show, setShow] = React.useState(false)
     const [shopItem, setShopItem] = React.useState([
         {
             IID: 1,
@@ -129,12 +129,31 @@ export default function ShopHandler() {
         },
     ]);
 
+    window.onkeydown = function (e) {
+        if (e.keyCode === 27) {
+            e.preventDefault();
+            e.stopPropagation();
+            setShow(false);
+            fetch(`https://wx_supermarket/closeShop`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8",
+                },
+            });
+        }
+    };
 
+    window.addEventListener('message', function (event) {
+        if (event.data.type === "showShop") {
+            setShow(true);
+            setShopItem(event.data.shopItem);
+        }
+    })
 
     const Render = () => {
         return (
             <div className="shop-container">
-                <ShopView shopItem={shopItem}/>
+                <ShopView shopItem={shopItem} setShow={setShow} />
             </div>
         );
     }

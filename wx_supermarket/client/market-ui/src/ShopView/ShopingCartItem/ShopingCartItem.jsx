@@ -2,7 +2,6 @@ import {Typography} from "@mui/material";
 
 export default function ShopingCartItem(props) {
     const { item } = props;
-    console.log(item)
     return (
         <div>
             <Typography variant="h4">{item.ItemDisplayName}</Typography>

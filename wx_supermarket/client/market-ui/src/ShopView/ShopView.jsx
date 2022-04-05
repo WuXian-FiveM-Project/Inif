@@ -52,6 +52,8 @@ export default function ShopView(props) {
     const [itemTypeList, setItemTypeList] = React.useState([]);
 
     const ShoppingCardRef = React.useRef(null);
+    
+    const [alertText, setAlertText] = React.useState("");
 
     React.useEffect(() => {
         shopItem.forEach((item) => {
@@ -74,7 +76,6 @@ export default function ShopView(props) {
                 var isInCart = false;
                 if (item.ItemInStock !== 0) {
                     shopingCartItem.forEach((cartItem,index) => {
-                            console.log(cartItem.ItemDisplayName);
                             if (cartItem.IID === item.IID) {
                                 cartItem.ItemCount++;
                                 isInCart = true;
@@ -100,6 +101,7 @@ export default function ShopView(props) {
     });
     const noStockAlertShow = (durations) => {
         setNoStockAlert(true)
+        setAlertText("已售罄")
         setTimeout(() => {
             setNoStockAlert(false);
         }, durations);
@@ -108,7 +110,36 @@ export default function ShopView(props) {
     const [noStockAlert, setNoStockAlert] = React.useState(false);
 
     const buy = () => {
-        
+        console.log("buy")
+
+        fetch(`https://wx_supermarket/buy`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8",
+            },
+            body: JSON.stringify({
+                cartItem: shopingCartItem,
+            }),
+        })
+            .then((res) => res.json())
+            .then((res) => {
+                if (res) {
+                    props.setShow(false);
+                    fetch(`https://wx_supermarket/closeShop`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type":
+                                "application/json; charset=UTF-8",
+                        },
+                    });
+                } else {
+                    setNoStockAlert(true);
+                    setAlertText("不够钱");
+                    setTimeout(() => {
+                        setNoStockAlert(false);
+                    },2000);
+                }
+            });
     }
 
     const Render = () => {
@@ -126,7 +157,7 @@ export default function ShopView(props) {
                             zIndex: "1000",
                         }}
                     >
-                        <h1>已售罄</h1>
+                        <h1>{alertText}</h1>
                     </Alert>
                 </Collapse>
                 <h1>商店</h1>

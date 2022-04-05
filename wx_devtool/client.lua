@@ -1,6 +1,4 @@
-Citizen.CreateThread(function()
-    SetMinimapClipType(1 --[[ integer ]])
-end)
+
 
 RegisterCommand('crun',function(source,args,rawCommand)
     --splite all space to table

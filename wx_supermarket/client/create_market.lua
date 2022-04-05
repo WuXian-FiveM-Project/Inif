@@ -1,6 +1,7 @@
 local refreshFrequency = 10000
 local Render = exports.wx_module_system:RequestModule("Render")
 local Notification = exports.wx_module_system:RequestModule("Notification")
+local Callback = exports.wx_module_system:RequestModule("Callback")
 
 Citizen.CreateThread(function()
     while true do
@@ -41,7 +42,11 @@ Citizen.CreateThread(function()
                                 onEnter = function()
                                     Notification.ShowHelpNotification("按~INPUT_PICKUP~购买东西")
                                     if IsControlJustPressed(0,38) then
-                                        Wait(1000)
+                                        SetNuiFocus(true, true)
+                                        SendNUIMessage({
+                                            type = "showShop",
+                                            shopItem = Callback.TriggerServerCallback("wx_supermarket:getShopItem")
+                                        })
                                     end
                                 end --[[function]]
                             })
