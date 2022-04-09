@@ -10,18 +10,18 @@ Callback.RegisterServerCallback("wx_inventory_ui:getInventory",function(source)
     
     for k,v in ipairs(player.Inventory.GetItems()) do
         table.insert(returnTable,{
-            displayName = v.ItemShowName,
-            currentAmount = v.Amount,
-            maxAmount = v.ItemMaxAmount,
-            maxUseAmount = v.ItemMaxUseAmount,
+            displayName       = v.ItemShowName,
+            currentAmount     = v.Amount,
+            maxAmount         = v.ItemMaxAmount,
+            maxUseAmount      = v.ItemMaxUseAmount,
             maxTransferAmount = v.ItemMaxTransferAmount,
-            maxThrowAmount = v.ItemMaxThrowAmount,
-            image = v.ItemImage,
-            itemName = v.ItemName,
-            itemDescription = v.ItemDescription,
-            canUse = v.CanItemUse,
-            canThrow = v.CanItemDrop,
-            canTransfer = v.CanItemTransfer,
+            maxThrowAmount    = v.ItemMaxThrowAmount,
+            image             = v.ItemImage,
+            itemName          = v.ItemName,
+            itemDescription   = v.ItemDescription,
+            canUse            = v.CanItemUse,
+            canThrow          = v.CanItemDrop,
+            canTransfer       = v.CanItemTransfer,
         })
     end
     return returnTable

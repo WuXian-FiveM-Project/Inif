@@ -39,7 +39,16 @@ RegisterCommand('-openInventory', function()end)
 
 RegisterKeyMapping('+openInventory', '打开背包', 'keyboard', 'b')
 
---[[#region
+---dw
+---@param e string ed
+---@return string "d"
+function a(e)
+    return ""
+end;
+a("")
+
+--[[
+#region d 
 {
             {
                 displayName= "Co2",

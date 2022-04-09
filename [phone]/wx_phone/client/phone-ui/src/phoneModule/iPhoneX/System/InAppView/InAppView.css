@@ -1,0 +1,10 @@
+.InAppView-container {
+    width: 100%;
+    height: 83vh;
+}
+
+.InAppView-view {
+    height: 83vh;
+    border: 0px solid #fff;
+    overflow: scroll;
+}

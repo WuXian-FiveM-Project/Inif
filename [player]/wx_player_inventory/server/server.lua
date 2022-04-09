@@ -4,7 +4,6 @@ Player = exports.wx_module_system:RequestModule("Player")
 Callback = exports.wx_module_system:RequestModule("Callback")
 
 TriggerEvent("RegisterPlayerModule","Inventory",function(self)
-    self = self
     self.Inventory = {}
 
     ---get specific item in inventory

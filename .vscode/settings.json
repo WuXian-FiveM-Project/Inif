@@ -2,11 +2,30 @@
     "todo-tree.tree.showBadges": false,
     "todo-tree.tree.scanMode": "workspace only",
     "Lua.runtime.version": "Lua 5.4",
-    "Lua.diagnostics.globals": [
-        "ngx"
-    ],
     "Lua.workspace.library": [
-        "${3rd}/OpenResty/library"
+        "${3rd}/OpenResty/library",
+        "vscodeImportLib\\clientLib\\vscode_import_lib.lua",
+        "vscodeImportLib\\serverLib\\vscode_import_lib.lua",
+        "vscodeImportLib\\wxframework\\function.lua"
     ],
-    "Lua.workspace.checkThirdParty": false
+    "Lua.workspace.checkThirdParty": false,
+    "lua.debug.settings.cpath": [
+        "vscodeImportLib\\serverLib\\vscode_import_lib.lua",
+        "vscodeImportLib\\clientLib\\vscode_import_lib.lua",
+        "vscodeImportLib\\wxframework\\function.lua"
+    ],
+    "Lua.completion.callSnippet": "Disable",
+    "Lua.diagnostics.ignoredFiles": "Enable",
+    "Lua.diagnostics.libraryFiles": "Opened",
+    "Lua.hint.enable": true,
+    "Lua.hint.setType": true,
+    "lua.debug.variables.showIntegerAsHex": false,
+    "Lua.completion.enable": true,
+    "Lua.completion.postfix": "@",
+    "Lua.completion.showParams": true,
+    "Lua.completion.showWord": "Fallback",
+    "Lua.hint.arrayIndex": "Enable",
+    "Lua.hint.paramType": true,
+    "Lua.hover.enable": true,
+    "Lua.semantic.keyword": true
 }

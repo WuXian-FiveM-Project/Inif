@@ -22,29 +22,29 @@ Citizen.CreateThread(function()
                         while show do
                             Wait(0)
                             Render.Marker.DrawMarker({
-                                type = 1--[[integer:required]],
-                                positionX = entity_coords.x --[[number:required]],
-                                positionY = entity_coords.y --[[number:required]],
-                                positionZ = entity_coords.z -1.0 --[[number:required]],
-                                rotationX = 0.0 --[[number]],
-                                rotationY = 0.0 --[[number]],
-                                rotationZ = 0.0 --[[number]],
-                                scaleX = 2.5 --[[number:required]],
-                                scaleY = 2.5 --[[number:required]],
-                                scaleZ = 1.0 --[[number:required]],
-                                colorR = 50 --[[number:required]],
-                                colorG = 255 --[[number:required]],
-                                colorB = 50 --[[number:required]],
-                                alpha = 150 --[[number]],
+                                type            = 1--[[integer:required]],
+                                positionX       = entity_coords.x --[[number:required]],
+                                positionY       = entity_coords.y --[[number:required]],
+                                positionZ       = entity_coords.z -1.0 --[[number:required]],
+                                rotationX       = 0.0 --[[number]],
+                                rotationY       = 0.0 --[[number]],
+                                rotationZ       = 0.0 --[[number]],
+                                scaleX          = 2.5 --[[number:required]],
+                                scaleY          = 2.5 --[[number:required]],
+                                scaleZ          = 1.0 --[[number:required]],
+                                colorR          = 50 --[[number:required]],
+                                colorG          = 255 --[[number:required]],
+                                colorB          = 50 --[[number:required]],
+                                alpha           = 150 --[[number]],
                                 jitterUpAndDown = false --[[boolean]],
-                                faceToCamera = false --[[boolean]],
-                                spin = true --[[boolean]],
-                                onEnter = function()
-                                    Notification.ShowHelpNotification("按~INPUT_PICKUP~购买东西")
+                                faceToCamera    = false --[[boolean]],
+                                spin            = true --[[boolean]],
+                                onEnter         = function()
+                                    Notification.ShowHelpNotification("按~INPUT_PICKUP~购买东西",true)
                                     if IsControlJustPressed(0,38) then
                                         SetNuiFocus(true, true)
                                         SendNUIMessage({
-                                            type = "showShop",
+                                            type     = "showShop",
                                             shopItem = Callback.TriggerServerCallback("wx_supermarket:getShopItem")
                                         })
                                     end
