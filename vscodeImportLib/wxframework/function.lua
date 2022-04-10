@@ -1,23 +1,73 @@
 exports = {}
 exports.wx_module_system  = {}
 
+---get module
+---@param moduleName string moduleName
+---@return table module
 function exports.wx_module_system:RequestModule (moduleName)
     if moduleName == "Callback" then
         return
         {
+            ---trigger server callback
+            ---@param eventName string
+            ---@param ... any
+            ---@return any
             TriggerServerCallback = function (eventName,...)
                 return ...
             end,
+            ---trigger client callback
+            ---@param eventName string callback name
+            ---@param playerID integer player src
+            ---@param ... any parameters
+            ---@return any
             TriggerCientCallback = function (eventName,playerID,...)
                 return ...
             end,
+            ---register a server callback
+            ---@param eventName string callback name
+            ---@param callback function{string,string} callback function
             RegisterServerCallback = function (eventName,callback)
             end,
             RegisterClientCallback = function (eventName,callback)
             end,
         }
     elseif moduleName == "Player" then
+        ---@class InventoryItem
+        InventoryItem = {
+            ItemName                = "",
+            ItemShowName            = "",
+            ItemType                = "",
+            ItemDescription         = "",
+            ItemDensity             = 0.0,
+            ItemModel               = "",
+            ItemMaxDensity          = 0.0,
+            ItemMaxUseAmount        = 0,              --[[物品单次最大使用数]]
+            ItemMaxThrowAmount      = 0,              --[[物品单次最大丢弃数]]
+            ItemMaxTransferAmount   = 0,              --[[物品单次最大转移数]]
+            ItemImage               = "",             --[[支持base64  基于html src ]]
+            ItemMaxAmount           = 0,
+            ItemMaxStack            = 0,
+            CanItemDrop             = false,
+            CanItemPickup           = false,
+            CanItemUse              = false,
+            CanItemTransfer         = false,
+            CanItemCombine          = false,
+            IsItemPhysicalAfterDrop = false,
+            UseFunction             = function() end,
+            DropFunction            = function() end,
+            PickupFunction          = function() end,
+            StackFunction           = function() end,
+            TransferFunction        = function() end,
+            IsEnableAntiCheat       = false,
+            Amount                  = 0.0,
+            Density                 = 0.0,
+            ItemAmount              = 0,
+            AttachData              = {},
+            ID                      = 0,
+            IID                     = 0
+        }
         return {
+            
             GetPlayer = function(PlayerID)
                 local self = {}
                 setmetatable(self, self)
@@ -202,7 +252,7 @@ function exports.wx_module_system:RequestModule (moduleName)
                 self.Inventory = {}
                 ---get specific item in inventory
                 ---@param itemName string specific item you want to get
-                ---@return table item item class with itemTable.Amount itemTable.Density itemTable.AttachData itemTable.ID
+                ---@return InventoryItem item item class with itemTable.Amount itemTable.Density itemTable.AttachData itemTable.ID
                 self.Inventory.GetItem = function(itemName)
                     -- local value = MySql.Sync.Fetch("player_items","*",{
                     --     {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
@@ -223,7 +273,7 @@ function exports.wx_module_system:RequestModule (moduleName)
                 end
             
                 ---get all item in inventory
-                ---@return table item table with item like {Inventory.GetItem(1),Inventory.GetItem(2),...}
+                ---@return table<integer,InventoryItem> item table with item like {Inventory.GetItem(1),Inventory.GetItem(2),...}
                 self.Inventory.GetItems = function()
                     -- local value = MySql.Sync.Fetch("player_items","*",{
                     --     {Method = "AND",Operator = "=",Column = "SteamID",Value = self.SteamID.Get()},
@@ -823,13 +873,485 @@ function exports.wx_module_system:RequestModule (moduleName)
             Warn = function(str,logToConsole) end,
             Error = function(str,logToConsole) end,
         }
+    elseif moduleName == "Utils" then
+        return {
+            GenerateRandomFloat = function(min,max)
+                return Callback.TriggerServerCallback("wx_utils:generateRandomFloat",min,max)
+            end,
+            GenerateRandomInt = function(min,max)
+                return Callback.TriggerServerCallback("wx_utils:generateRandomInt",min,max)
+            end,
+            GenerateRandomString = function(length)
+                return Callback.TriggerServerCallback("wx_utils:generateRandomString",length)
+            end,
+            GenerateRandomBoolean = function()
+                return Callback.TriggerServerCallback("wx_utils:generateRandomBoolean")
+            end,
+            GetEntityPointingAt = function(entity,length)
+                return (GetOffsetFromEntityInWorldCoords(entity,0.0,length or 10.0,0.0)-GetEntityCoords(entity))
+            end,
+            Round = function(exact, quantum) --令数字取整
+                return tonumber(tostring(exact):sub(1, tostring(exact):find('.') + quantum +1))
+            end,
+            GetEntityHeading = function(entity)
+                local p = GetOffsetFromEntityInWorldCoords(entity,0.0,1000.0,0.0)
+                p = GetHeadingFromVector_2d(
+	        	    GetEntityCoords(entity).x - p.x --[[ number ]], 
+	        	    GetEntityCoords(entity).y - p.y --[[ number ]]
+	            )
+                return p
+            end,
+            GetVehicleProperties = function(vehicle)
+            	if DoesEntityExist(vehicle) then
+            		local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
+            		local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
+            		local extras = {}
+                
+            		for extraId=0, 12 do
+            			if DoesExtraExist(vehicle, extraId) then
+            				local state = IsVehicleExtraTurnedOn(vehicle, extraId) == 1
+            				extras[tostring(extraId)] = state
+            			end
+            		end
+                
+            		return {
+            			model             = GetEntityModel(vehicle),
+                    
+            			plate             = GetVehicleNumberPlateText(vehicle),
+            			plateIndex        = GetVehicleNumberPlateTextIndex(vehicle),
+                    
+            			bodyHealth        = GetVehicleBodyHealth(vehicle),
+            			engineHealth      = GetVehicleEngineHealth(vehicle),
+            			tankHealth        = GetVehiclePetrolTankHealth(vehicle),
+                    
+            			fuelLevel         = GetVehicleFuelLevel(vehicle),
+            			dirtLevel         = GetVehicleDirtLevel(vehicle),
+            			color1            = colorPrimary,
+            			color2            = colorSecondary,
+                    
+            			pearlescentColor  = pearlescentColor,
+            			wheelColor        = wheelColor,
+                    
+            			wheels            = GetVehicleWheelType(vehicle),
+            			windowTint        = GetVehicleWindowTint(vehicle),
+            			xenonColor        = GetVehicleXenonLightsColor(vehicle),
+                    
+            			neonEnabled       = {
+            				IsVehicleNeonLightEnabled(vehicle, 0),
+            				IsVehicleNeonLightEnabled(vehicle, 1),
+            				IsVehicleNeonLightEnabled(vehicle, 2),
+            				IsVehicleNeonLightEnabled(vehicle, 3)
+            			},
+                    
+            			neonColor         = table.pack(GetVehicleNeonLightsColour(vehicle)),
+            			extras            = extras,
+            			tyreSmokeColor    = table.pack(GetVehicleTyreSmokeColor(vehicle)),
+                    
+            			modSpoilers       = GetVehicleMod(vehicle, 0),
+            			modFrontBumper    = GetVehicleMod(vehicle, 1),
+            			modRearBumper     = GetVehicleMod(vehicle, 2),
+            			modSideSkirt      = GetVehicleMod(vehicle, 3),
+            			modExhaust        = GetVehicleMod(vehicle, 4),
+            			modFrame          = GetVehicleMod(vehicle, 5),
+            			modGrille         = GetVehicleMod(vehicle, 6),
+            			modHood           = GetVehicleMod(vehicle, 7),
+            			modFender         = GetVehicleMod(vehicle, 8),
+            			modRightFender    = GetVehicleMod(vehicle, 9),
+            			modRoof           = GetVehicleMod(vehicle, 10),
+                    
+            			modEngine         = GetVehicleMod(vehicle, 11),
+            			modBrakes         = GetVehicleMod(vehicle, 12),
+            			modTransmission   = GetVehicleMod(vehicle, 13),
+            			modHorns          = GetVehicleMod(vehicle, 14),
+            			modSuspension     = GetVehicleMod(vehicle, 15),
+            			modArmor          = GetVehicleMod(vehicle, 16),
+                    
+            			modTurbo          = IsToggleModOn(vehicle, 18),
+            			modSmokeEnabled   = IsToggleModOn(vehicle, 20),
+            			modXenon          = IsToggleModOn(vehicle, 22),
+                    
+            			modFrontWheels    = GetVehicleMod(vehicle, 23),
+            			modBackWheels     = GetVehicleMod(vehicle, 24),
+                    
+            			modPlateHolder    = GetVehicleMod(vehicle, 25),
+            			modVanityPlate    = GetVehicleMod(vehicle, 26),
+            			modTrimA          = GetVehicleMod(vehicle, 27),
+            			modOrnaments      = GetVehicleMod(vehicle, 28),
+            			modDashboard      = GetVehicleMod(vehicle, 29),
+            			modDial           = GetVehicleMod(vehicle, 30),
+            			modDoorSpeaker    = GetVehicleMod(vehicle, 31),
+            			modSeats          = GetVehicleMod(vehicle, 32),
+            			modSteeringWheel  = GetVehicleMod(vehicle, 33),
+            			modShifterLeavers = GetVehicleMod(vehicle, 34),
+            			modAPlate         = GetVehicleMod(vehicle, 35),
+            			modSpeakers       = GetVehicleMod(vehicle, 36),
+            			modTrunk          = GetVehicleMod(vehicle, 37),
+            			modHydrolic       = GetVehicleMod(vehicle, 38),
+            			modEngineBlock    = GetVehicleMod(vehicle, 39),
+            			modAirFilter      = GetVehicleMod(vehicle, 40),
+            			modStruts         = GetVehicleMod(vehicle, 41),
+            			modArchCover      = GetVehicleMod(vehicle, 42),
+            			modAerials        = GetVehicleMod(vehicle, 43),
+            			modTrimB          = GetVehicleMod(vehicle, 44),
+            			modTank           = GetVehicleMod(vehicle, 45),
+            			modWindows        = GetVehicleMod(vehicle, 46),
+            			modLivery         = GetVehicleLivery(vehicle)
+            		}
+            	else
+            		return
+            	end
+            end,
+            SetVehicleProperties = function(vehicle, props)
+            	if DoesEntityExist(vehicle) then
+            		local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
+            		local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
+            		SetVehicleModKit(vehicle, 0)
+                
+            		if props.plate then SetVehicleNumberPlateText(vehicle, props.plate) end
+            		if props.plateIndex then SetVehicleNumberPlateTextIndex(vehicle, props.plateIndex) end
+            		if props.bodyHealth then SetVehicleBodyHealth(vehicle, props.bodyHealth + 0.0) end
+            		if props.engineHealth then SetVehicleEngineHealth(vehicle, props.engineHealth + 0.0) end
+            		if props.tankHealth then SetVehiclePetrolTankHealth(vehicle, props.tankHealth + 0.0) end
+            		if props.fuelLevel then SetVehicleFuelLevel(vehicle, props.fuelLevel + 0.0) end
+            		if props.dirtLevel then SetVehicleDirtLevel(vehicle, props.dirtLevel + 0.0) end
+            		if props.color1 then SetVehicleColours(vehicle, props.color1, colorSecondary) end
+            		if props.color2 then SetVehicleColours(vehicle, props.color1 or colorPrimary, props.color2) end
+            		if props.pearlescentColor then SetVehicleExtraColours(vehicle, props.pearlescentColor, wheelColor) end
+            		if props.wheelColor then SetVehicleExtraColours(vehicle, props.pearlescentColor or pearlescentColor, props.wheelColor) end
+            		if props.wheels then SetVehicleWheelType(vehicle, props.wheels) end
+            		if props.windowTint then SetVehicleWindowTint(vehicle, props.windowTint) end
+                
+            		if props.neonEnabled then
+            			SetVehicleNeonLightEnabled(vehicle, 0, props.neonEnabled[1])
+            			SetVehicleNeonLightEnabled(vehicle, 1, props.neonEnabled[2])
+            			SetVehicleNeonLightEnabled(vehicle, 2, props.neonEnabled[3])
+            			SetVehicleNeonLightEnabled(vehicle, 3, props.neonEnabled[4])
+            		end
+                
+            		if props.extras then
+            			for extraId,enabled in pairs(props.extras) do
+            				if enabled then
+            					SetVehicleExtra(vehicle, tonumber(extraId), 0)
+            				else
+            					SetVehicleExtra(vehicle, tonumber(extraId), 1)
+            				end
+            			end
+            		end
+                
+            		if props.neonColor then SetVehicleNeonLightsColour(vehicle, props.neonColor[1], props.neonColor[2], props.neonColor[3]) end
+            		if props.xenonColor then SetVehicleXenonLightsColor(vehicle, props.xenonColor) end
+            		if props.modSmokeEnabled then ToggleVehicleMod(vehicle, 20, true) end
+            		if props.tyreSmokeColor then SetVehicleTyreSmokeColor(vehicle, props.tyreSmokeColor[1], props.tyreSmokeColor[2], props.tyreSmokeColor[3]) end
+            		if props.modSpoilers then SetVehicleMod(vehicle, 0, props.modSpoilers, false) end
+            		if props.modFrontBumper then SetVehicleMod(vehicle, 1, props.modFrontBumper, false) end
+            		if props.modRearBumper then SetVehicleMod(vehicle, 2, props.modRearBumper, false) end
+            		if props.modSideSkirt then SetVehicleMod(vehicle, 3, props.modSideSkirt, false) end
+            		if props.modExhaust then SetVehicleMod(vehicle, 4, props.modExhaust, false) end
+            		if props.modFrame then SetVehicleMod(vehicle, 5, props.modFrame, false) end
+            		if props.modGrille then SetVehicleMod(vehicle, 6, props.modGrille, false) end
+            		if props.modHood then SetVehicleMod(vehicle, 7, props.modHood, false) end
+            		if props.modFender then SetVehicleMod(vehicle, 8, props.modFender, false) end
+            		if props.modRightFender then SetVehicleMod(vehicle, 9, props.modRightFender, false) end
+            		if props.modRoof then SetVehicleMod(vehicle, 10, props.modRoof, false) end
+            		if props.modEngine then SetVehicleMod(vehicle, 11, props.modEngine, false) end
+            		if props.modBrakes then SetVehicleMod(vehicle, 12, props.modBrakes, false) end
+            		if props.modTransmission then SetVehicleMod(vehicle, 13, props.modTransmission, false) end
+            		if props.modHorns then SetVehicleMod(vehicle, 14, props.modHorns, false) end
+            		if props.modSuspension then SetVehicleMod(vehicle, 15, props.modSuspension, false) end
+            		if props.modArmor then SetVehicleMod(vehicle, 16, props.modArmor, false) end
+            		if props.modTurbo then ToggleVehicleMod(vehicle,  18, props.modTurbo) end
+            		if props.modXenon then ToggleVehicleMod(vehicle,  22, props.modXenon) end
+            		if props.modFrontWheels then SetVehicleMod(vehicle, 23, props.modFrontWheels, false) end
+            		if props.modBackWheels then SetVehicleMod(vehicle, 24, props.modBackWheels, false) end
+            		if props.modPlateHolder then SetVehicleMod(vehicle, 25, props.modPlateHolder, false) end
+            		if props.modVanityPlate then SetVehicleMod(vehicle, 26, props.modVanityPlate, false) end
+            		if props.modTrimA then SetVehicleMod(vehicle, 27, props.modTrimA, false) end
+            		if props.modOrnaments then SetVehicleMod(vehicle, 28, props.modOrnaments, false) end
+            		if props.modDashboard then SetVehicleMod(vehicle, 29, props.modDashboard, false) end
+            		if props.modDial then SetVehicleMod(vehicle, 30, props.modDial, false) end
+            		if props.modDoorSpeaker then SetVehicleMod(vehicle, 31, props.modDoorSpeaker, false) end
+            		if props.modSeats then SetVehicleMod(vehicle, 32, props.modSeats, false) end
+            		if props.modSteeringWheel then SetVehicleMod(vehicle, 33, props.modSteeringWheel, false) end
+            		if props.modShifterLeavers then SetVehicleMod(vehicle, 34, props.modShifterLeavers, false) end
+            		if props.modAPlate then SetVehicleMod(vehicle, 35, props.modAPlate, false) end
+            		if props.modSpeakers then SetVehicleMod(vehicle, 36, props.modSpeakers, false) end
+            		if props.modTrunk then SetVehicleMod(vehicle, 37, props.modTrunk, false) end
+            		if props.modHydrolic then SetVehicleMod(vehicle, 38, props.modHydrolic, false) end
+            		if props.modEngineBlock then SetVehicleMod(vehicle, 39, props.modEngineBlock, false) end
+            		if props.modAirFilter then SetVehicleMod(vehicle, 40, props.modAirFilter, false) end
+            		if props.modStruts then SetVehicleMod(vehicle, 41, props.modStruts, false) end
+            		if props.modArchCover then SetVehicleMod(vehicle, 42, props.modArchCover, false) end
+            		if props.modAerials then SetVehicleMod(vehicle, 43, props.modAerials, false) end
+            		if props.modTrimB then SetVehicleMod(vehicle, 44, props.modTrimB, false) end
+            		if props.modTank then SetVehicleMod(vehicle, 45, props.modTank, false) end
+            		if props.modWindows then SetVehicleMod(vehicle, 46, props.modWindows, false) end
+                
+            		if props.modLivery then
+            			SetVehicleMod(vehicle, 48, props.modLivery, false)
+            			SetVehicleLivery(vehicle, props.modLivery)
+            		end
+            	end
+            end
+        }
+    elseif moduleName == "PhoneApp" then
+        --- Register App Parameters
+        ---@class App
+        AppParameters = {
+            packageName          = "com.example.phoneapp",
+            displayName          = "phoneapp",
+            icon                 = "phoneapp.png",
+            overwrite            = false,
+            url                  = "nui://example/index.html",
+            version              = "1.0.0",
+            author               = "example",
+            authorUrl            = "https://example.com",
+            description          = "phoneapp description",
+            isSystemApp          = false,
+            isUploadToAppStore   = true,
+            isUploadToGooglePlay = true,
+            isPaySoftware        = false,
+            price                = 0.0,
+            size                 = 0,
+            onAppOpen            = function() end,
+            onAppClose           = function() end,
+            onAppInstall         = function() end,
+            onAppUninstall       = function() end,
+        }
+        return {
+            ---get app by package name
+            ---@param packageName string package name
+            ---@return App
+            GetAppByPackageName = function(packageName)
+            end,
+            ---get app by index
+            ---@param index number index
+            ---@return App
+            ---@return nil error when not found
+            GetAppByIndex = function(index)
+            end,
+            ---get app index list
+            ---@return table<integer, string> app app index list
+            GetAppPackageList = function()
+            end,
+            ---get app package table
+            ---@return table<string,App>
+            GetAppPackageTable = function()
+            end,
+        }
+    elseif moduleName == "Item" then
+        ---@class Item
+        ---@table Item
+        ItemClass = {
+            ItemName                = "",
+            ItemShowName            = "",
+            ItemType                = "",
+            ItemDescription         = "",
+            ItemDensity             = 0.0,
+            ItemModel               = "",
+            ItemMaxDensity          = 0.0,
+            ItemMaxUseAmount        = 0,              --[[物品单次最大使用数]]
+            ItemMaxThrowAmount      = 0,              --[[物品单次最大丢弃数]]
+            ItemMaxTransferAmount   = 0,              --[[物品单次最大转移数]]
+            ItemImage               = "",             --[[支持base64  基于html src ]]
+            ItemMaxAmount           = 0,
+            ItemMaxStack            = 0,
+            CanItemDrop             = false,
+            CanItemPickup           = false,
+            CanItemUse              = false,
+            CanItemTransfer         = false,
+            CanItemCombine          = false,
+            IsItemPhysicalAfterDrop = false,
+            UseFunction             = function() end,
+            DropFunction            = function() end,
+            PickupFunction          = function() end,
+            StackFunction           = function() end,
+            TransferFunction        = function() end,
+            IsEnableAntiCheat       = false,
+        }
+        return {
+            ---get item
+            ---@param itemName string name of the item
+            ---@return Item
+            GetItem = function(itemName)
+            end,
+        }
+    elseif moduleName == "Phone" then
+        ---get phone class
+        ---@param PID number | string pid of phone
+        ---@return table Phone phone class
+        GetPhone = function(PID)
+            assert(type(PID) == "number" or type(PID) == "string","PID must be a number or string")
+            if type(PID) == "string" then
+                local PPID = PID
+                PID = tonumber(PID)
+                assert(type(PID) == "number","fail to cast PID to number, cast value:" .. PPID)
+            end
+            local self = {}
+            self.__index = self
+
+            self.Pid = {
+                Get = function()
+                    return PID
+                end,
+            }
+
+            self.PhonePassword = {
+                Get = function()
+                    return MySql.Sync.Query("SELECT PhonePassword FROM player_phone WHERE PID = ?",{
+                        self.Pid.Get()
+                    })[1].PhonePassword
+                end,
+                Set = function(value)
+                    assert(type(value) == "string" or type(value) == "number","PhonePassword must be a string or number")
+                    value = tostring(value)
+                    MySql.Sync.Query("UPDATE player_phone SET PhonePassword = ? WHERE PID = ?",{
+                        value,
+                        self.Pid.Get()
+                    })
+                end,
+            }
+
+            self.PhoneModule = {
+                Get = function()
+                    return MySql.Sync.Query("SELECT PhoneModule FROM player_phone WHERE PID = ?",{
+                        self.Pid.Get()
+                    })[1].PhoneModule
+                end,
+                Set = function(value)
+                    assert(type(value) == "string","PhoneModule must be a string")
+                    MySql.Sync.Query("UPDATE player_phone SET PhoneModule = ? WHERE PID = ?",{
+                        value,
+                        self.Pid.Get()
+                    })
+                end,
+            }
+
+            self.PhoneSetting = {
+                Get = function()
+                    return json.decode(MySql.Sync.Query("SELECT PhoneSetting FROM player_phone WHERE PID = ?",{
+                        self.Pid.Get()
+                    })[1].PhoneSetting)
+                end,
+                Set = function(value)
+                    assert(type(value) == "table","PhoneSetting must be a table")
+                    MySql.Sync.Query("UPDATE player_phone SET PhoneSetting = ? WHERE PID = ?",{
+                        json.encode(value),
+                        self.Pid.Get()
+                    })
+                end,
+            }
+
+            self.PhoneApps = {
+                Get = function()
+                    return json.decode(MySql.Sync.Query("SELECT PhoneApps FROM player_phone WHERE PID = ?",{
+                        self.Pid.Get()
+                    })[1].PhoneApps)
+                end,
+                Set = function(value)
+                    assert(type(value) == "table","PhoneApps must be a table")
+                    MySql.Sync.Query("UPDATE player_phone SET PhoneApps = ? WHERE PID = ?",{
+                        json.encode(value),
+                        self.Pid.Get()
+                    })
+                end,
+                Add = function(appPackageName)
+                    assert(type(appPackageName) == "table", "value must be a table")
+                    local app = exports.wx_module_system:RequestModule("PhoneApp").GetAppByPackageName("value")
+                    if self.PhoneCurrentCapacity.Get() + app.size > self.PhoneMaxCapacity.Get() then
+                        return nil
+                    end
+                    if app then
+                        local prePhoneApps = self.PhoneApps.Get()
+                        prePhoneApps[#prePhoneApps+1] = {
+                            packageName          = app.packageName,
+                            displayName          = app.displayName,
+                            icon                 = app.icon,
+                            overwrite            = app.overwrite,
+                            url                  = app.url,
+                            version              = app.version,
+                            author               = app.author,
+                            authorUrl            = app.authorUrl,
+                            description          = app.description,
+                            isSystemApp          = app.isSystemApp,
+                            isUploadToAppStore   = app.isUploadToAppStore,
+                            isUploadToGooglePlay = app.isUploadToGooglePlay,
+                            isPaySoftware        = app.isPaySoftware,
+                            price                = app.price,
+                            size                 = app.size,
+                        }
+                        self.PhoneApps.Set(prePhoneApps)
+                        MySql.Sync.Query("UPDATE player_phone SET PhoneCurrentCapacity = ? WHERE PID = ?", {
+                            self.PhoneCurrentCapacity.Get() + app.size,
+                            self.Pid.Get()
+                        })
+                    end
+                    return nil
+                end,
+                Install = function(appPackageName) self.PhoneApps.Add(appPackageName) end,
+                Uninstall = function(appPackageName)
+                    local prePhoneApps = self.PhoneApps.Get()
+                    for i,v in ipairs(prePhoneApps) do
+                        if v.packageName == appPackageName then
+                            table.remove(prePhoneApps,i)
+                            break
+                        end
+                    end
+                    self.PhoneApps.Set(prePhoneApps)
+                end,
+                Remove = function(appPackageName) self.PhoneApps.Uninstall(appPackageName) end,
+            }
+
+            self.PhoneRegisterDate = {
+                Get = function()
+                    return MySql.Sync.Query("SELECT PhoneRegisterDate FROM player_phone WHERE PID = ?",{
+                        self.Pid.Get()
+                    })[1].PhoneRegisterDate
+                end,
+                Set = function(value)
+                    assert(type(value) == "number","PhoneRegisterDate must be a number")
+                    MySql.Sync.Query("UPDATE player_phone SET PhoneRegisterDate = ? WHERE PID = ?",{
+                        value,
+                        self.Pid.Get()
+                    })
+                end,
+            }
+
+            self.PhoneMaxCapacity = {
+                Get = function()
+                    return MySql.Sync.Query("SELECT PhoneMaxCapacity FROM player_phone WHERE PID = ?",{
+                        self.Pid.Get()
+                    })[1].PhoneMaxCapacity
+                end,
+                Set = function(value)
+                    assert(type(value) == "number","PhoneMaxCapacity must be a number")
+                    MySql.Sync.Query("UPDATE player_phone SET PhoneMaxCapacity = ? WHERE PID = ?",{
+                        value,
+                        self.Pid.Get()
+                    })
+                end,
+            }
+
+            self.PhoneCurrentCapacity = {
+                Get = function()
+                    return MySql.Sync.Query("SELECT PhoneCurrentCapacity FROM player_phone WHERE PID = ?",{
+                        self.Pid.Get()
+                    })[1].PhoneCurrentCapacity
+                end,
+                Set = function(value)
+                    assert(type(value) == "number","PhoneCurrentCapacity must be a number")
+                    MySql.Sync.Query("UPDATE player_phone SET PhoneCurrentCapacity = ? WHERE PID = ?",{
+                        value,
+                        self.Pid.Get()
+                    })
+                end,
+            }
+        end
     end
 end
 
 MySql = {}
 MySql.Sync = {}
 MySql.Sync.Query = function(query, parameters) return {} end
-
 
 
 json = {}

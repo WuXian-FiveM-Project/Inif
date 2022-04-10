@@ -68,7 +68,7 @@ export default function PhoneHandler() {
         },
     });
 
-    const [showState, setShowState] = React.useState(true);
+    const [showState, setShowState] = React.useState(false);
 
     window.onkeydown = (e) => {
         if (e.key === "Escape") {

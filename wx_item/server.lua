@@ -44,32 +44,33 @@ AddEventHandler("RegisterItem",function(Table)
 end)
 
 --#region Item exsample
-local t = {
-    ItemName = nil,
-    ItemShowName = nil,
-    ItemType = nil,
-    ItemDescription = nil,
-    ItemDensity = nil,
-    ItemModel = nil,
-    ItemMaxDensity = nil,
-    ItemMaxUseAmount = nil, --[[物品单次最大使用数]]
-    ItemMaxThrowAmount = nil, --[[物品单次最大丢弃数]]
-    ItemMaxTransferAmount = nil, --[[物品单次最大转移数]]
-    ItemImage = nil, --[[支持base64  基于html src ]]
-    ItemMaxAmount = nil,
-    ItemMaxStack = nil,
-    CanItemDrop = nil,
-    CanItemPickup = nil,
-    CanItemUse = nil,
-    CanItemTransfer = nil,
-    CanItemCombine = nil,
-    IsItemPhysicalAfterDrop = nil,
-    UseFunction = nil,
-    DropFunction = nil,
-    PickupFunction = nil,
-    StackFunction = nil,
-    TransferFunction = nil,
-    IsEnableAntiCheat = nil,
+---@class Item
+ItemClass = {
+    ItemName                = "",
+    ItemShowName            = "",
+    ItemType                = "",
+    ItemDescription         = "",
+    ItemDensity             = 0.0,
+    ItemModel               = "",
+    ItemMaxDensity          = 0.0,
+    ItemMaxUseAmount        = 0,              --[[物品单次最大使用数]]
+    ItemMaxThrowAmount      = 0,              --[[物品单次最大丢弃数]]
+    ItemMaxTransferAmount   = 0,              --[[物品单次最大转移数]]
+    ItemImage               = "",             --[[支持base64  基于html src ]]
+    ItemMaxAmount           = 0,
+    ItemMaxStack            = 0,
+    CanItemDrop             = false,
+    CanItemPickup           = false,
+    CanItemUse              = false,
+    CanItemTransfer         = false,
+    CanItemCombine          = false,
+    IsItemPhysicalAfterDrop = false,
+    UseFunction             = function() end,
+    DropFunction            = function() end,
+    PickupFunction          = function() end,
+    StackFunction           = function() end,
+    TransferFunction        = function() end,
+    IsEnableAntiCheat       = false,
 }
 --#endregion
 

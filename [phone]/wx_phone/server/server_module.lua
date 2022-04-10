@@ -1,4 +1,6 @@
 local MySql = exports.wx_module_system:RequestModule("MySql")
+local PhoneApp = exports.wx_module_system:RequestModule("PhoneApp")
+
 TriggerEvent('RegisterModule',"Phone",{
     ---get phone class
     ---@param PID number | string pid of phone
@@ -78,6 +80,51 @@ TriggerEvent('RegisterModule',"Phone",{
                     self.Pid.Get()
                 })
             end,
+            Add = function(appPackageName)
+                assert(type(appPackageName) == "table", "value must be a table")
+                local app = PhoneApp.GetAppByPackageName("value")
+                if self.PhoneCurrentCapacity.Get() + app.size > self.PhoneMaxCapacity.Get() then
+                    return nil
+                end
+                if app then
+                    local prePhoneApps = self.PhoneApps.Get()
+                    prePhoneApps[#prePhoneApps+1] = {
+                        packageName          = app.packageName,
+                        displayName          = app.displayName,
+                        icon                 = app.icon,
+                        overwrite            = app.overwrite,
+                        url                  = app.url,
+                        version              = app.version,
+                        author               = app.author,
+                        authorUrl            = app.authorUrl,
+                        description          = app.description,
+                        isSystemApp          = app.isSystemApp,
+                        isUploadToAppStore   = app.isUploadToAppStore,
+                        isUploadToGooglePlay = app.isUploadToGooglePlay,
+                        isPaySoftware        = app.isPaySoftware,
+                        price                = app.price,
+                        size                 = app.size,
+                    }
+                    self.PhoneApps.Set(prePhoneApps)
+                    MySql.Sync.Query("UPDATE player_phone SET PhoneCurrentCapacity = ? WHERE PID = ?", {
+                        self.PhoneCurrentCapacity.Get() + app.size,
+                        self.Pid.Get()
+                    })
+                end
+                return nil
+            end,
+            Install = function(appPackageName) self.PhoneApps.Add(appPackageName) end,
+            Uninstall = function(appPackageName)
+                local prePhoneApps = self.PhoneApps.Get()
+                for i,v in ipairs(prePhoneApps) do
+                    if v.packageName == appPackageName then
+                        table.remove(prePhoneApps,i)
+                        break
+                    end
+                end
+                self.PhoneApps.Set(prePhoneApps)
+            end,
+            Remove = function(appPackageName) self.PhoneApps.Uninstall(appPackageName) end,
         }
 
         self.PhoneRegisterDate = {
@@ -94,6 +141,37 @@ TriggerEvent('RegisterModule',"Phone",{
                 })
             end,
         }
+
+        self.PhoneMaxCapacity = {
+            Get = function()
+                return MySql.Sync.Query("SELECT PhoneMaxCapacity FROM player_phone WHERE PID = ?",{
+                    self.Pid.Get()
+                })[1].PhoneMaxCapacity
+            end,
+            Set = function(value)
+                assert(type(value) == "number","PhoneMaxCapacity must be a number")
+                MySql.Sync.Query("UPDATE player_phone SET PhoneMaxCapacity = ? WHERE PID = ?",{
+                    value,
+                    self.Pid.Get()
+                })
+            end,
+        }
+
+        self.PhoneCurrentCapacity = {
+            Get = function()
+                return MySql.Sync.Query("SELECT PhoneCurrentCapacity FROM player_phone WHERE PID = ?",{
+                    self.Pid.Get()
+                })[1].PhoneCurrentCapacity
+            end,
+            Set = function(value)
+                assert(type(value) == "number","PhoneCurrentCapacity must be a number")
+                MySql.Sync.Query("UPDATE player_phone SET PhoneCurrentCapacity = ? WHERE PID = ?",{
+                    value,
+                    self.Pid.Get()
+                })
+            end,
+        }
+
         return self
     end,
     ---register phone
@@ -101,23 +179,28 @@ TriggerEvent('RegisterModule',"Phone",{
     ---@param PhoneModule string phone module
     ---@param PhoneSetting table phone setting
     ---@param PhoneApps table phone apps
-    RegisterPhone = function(PhonePassword,PhoneModule,PhoneSetting,PhoneApps)
+    ---@param PhoneMaxCapacity number phone max capacity(kb)
+    RegisterPhone = function(PhonePassword,PhoneModule,PhoneSetting,PhoneApps,PhoneMaxCapacity)
         assert(type(PhonePassword) == "string" or type(PhonePassword) == "number","PhonePassword must be a string or number")
         PhonePassword = tostring(PhonePassword)
         assert(type(PhoneModule) == "string","PhoneModule must be a string")
         assert(type(PhoneSetting) == "table","PhoneSetting must be a table")
         assert(type(PhoneApps) == "table","PhoneApps must be a table")
-        MySql.Sync.Query("INSERT INTO player_phone (PhonePassword,PhoneModule,PhoneSetting,PhoneApps) VALUES (?,?,?,?)",{
+        assert(type(PhoneMaxCapacity) == "number","PhoneMaxCapacity must be a number")
+        MySql.Sync.Query("INSERT INTO player_phone (PhonePassword,PhoneModule,PhoneSetting,PhoneApps,PhoneMaxCapacity,PhoneCurrentCapacity) VALUES (?,?,?,?,?,?)",{
             PhonePassword,
             PhoneModule,
             json.encode(PhoneSetting),
             json.encode(PhoneApps),
+            PhoneMaxCapacity,
+            1
         })
-        local Pid = MySql.Sync.Query("SELECT PID FROM player_phone WHERE PhonePassword = ? AND PhoneModule = ? AND PhoneSetting = ? AND PhoneApps = ?",{
+        local Pid = MySql.Sync.Query("SELECT PID FROM player_phone WHERE PhonePassword = ? AND PhoneModule = ? AND PhoneSetting = ? AND PhoneApps = ? AND PhoneMaxCapacity = ?",{
             PhonePassword,
             PhoneModule,
             json.encode(PhoneSetting),
             json.encode(PhoneApps),
+            PhoneMaxCapacity
         })[1].PID
         local phone = exports.wx_module_system:RequestModule("Phone").GetPhone(Pid)
         assert(type(phone) == "table","fail to get phone, but register success")
