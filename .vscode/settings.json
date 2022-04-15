@@ -6,13 +6,15 @@
         "${3rd}/OpenResty/library",
         "vscodeImportLib\\clientLib\\vscode_import_lib.lua",
         "vscodeImportLib\\serverLib\\vscode_import_lib.lua",
-        "vscodeImportLib\\wxframework\\function.lua"
+        "vscodeImportLib\\wxframework\\function.lua",
+        "vscodeImportLib\\wxframework\\doc.lua"
     ],
     "Lua.workspace.checkThirdParty": false,
     "lua.debug.settings.cpath": [
         "vscodeImportLib\\serverLib\\vscode_import_lib.lua",
         "vscodeImportLib\\clientLib\\vscode_import_lib.lua",
-        "vscodeImportLib\\wxframework\\function.lua"
+        "vscodeImportLib\\wxframework\\function.lua",
+        "vscodeImportLib\\wxframework\\doc.lua"
     ],
     "Lua.completion.callSnippet": "Disable",
     "Lua.diagnostics.ignoredFiles": "Enable",
