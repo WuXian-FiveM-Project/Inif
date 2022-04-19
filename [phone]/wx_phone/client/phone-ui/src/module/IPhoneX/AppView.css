@@ -1,0 +1,17 @@
+.iphoneX-system-appRenderView {
+    background-color: black;
+    animation: cardSlideIn 500ms ease 0s 1 normal forwards;
+}
+
+@keyframes cardSlideIn {
+	0% {
+		opacity: 0;
+		transform: translateY(-150px) rotateX(70deg) scale(0);
+	}
+
+
+	100% {
+		opacity: 1;
+		transform: translateY(0) rotateX(0deg) scale(1);
+	}
+}

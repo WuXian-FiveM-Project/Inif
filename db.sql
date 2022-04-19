@@ -127,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `player` (
 DELETE FROM `player`;
 /*!40000 ALTER TABLE `player` DISABLE KEYS */;
 INSERT INTO `player` (`PID`, `SteamID`, `Name`, `RegisterDate`, `MaxDensityCanHold`, `MaxItemCanHold`, `Satiety`, `Thirst`, `Tiredness`, `Urine`, `Shit`, `LastPosition`) VALUES
-	(1000, 'steam:11000013604b55c', '10000', '2022-01-27 08:02:43', 10000000000, 100000000000, 987534, 978367, -5526.88, 86.78, 36.59, '{"x":-73.29230499267578,"y":-1300.0615234375,"z":33.91357421875}'),
+	(1000, 'steam:11000013604b55c', '10000', '2022-01-27 08:02:43', 10000000000, 100000000000, 986683, 976936, -5854.99, 92.74, 54.83, '{"x":19.04175949096679,"y":-1113.204345703125,"z":29.819091796875}'),
 	(1001, 'steam:110000118bb2e96', '10000', '2022-01-27 08:02:43', 10000000000, 100000000000, 995244, 991797, -2257.33, -254.47, -557.77, NULL);
 /*!40000 ALTER TABLE `player` ENABLE KEYS */;
 
@@ -158,15 +158,15 @@ CREATE TABLE IF NOT EXISTS `player_items` (
   `ItemAttachData` text,
   `ItemPickUpDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`IID`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4;
 
--- 正在导出表  wxs.player_items 的数据：6 rows
+-- 正在导出表  wxs.player_items 的数据：7 rows
 DELETE FROM `player_items`;
 /*!40000 ALTER TABLE `player_items` DISABLE KEYS */;
 INSERT INTO `player_items` (`IID`, `SteamID`, `ItemName`, `ItemAmount`, `ItemDensity`, `ItemAttachData`, `ItemPickUpDate`) VALUES
 	(1, 'steam:11000013604b55c', 'water', 9928, 7942.4, 'null', '2022-01-28 17:15:53'),
 	(2, 'steam:11000013604b55c', 'bread', 79, 7.9, 'null', '2022-01-28 17:15:53'),
-	(35, 'steam:11000013604b55c', '1_phone', 1, 100, 'null', '2022-04-03 17:09:38'),
+	(36, 'steam:11000013604b55c', '1_phone', 1, 100, 'null', '2022-04-09 18:15:30'),
 	(30, 'steam:110000118bb2e96', '3_bank_card', 1, 1, '{}', '2022-03-30 14:01:32'),
 	(32, 'steam:11000013604b55c', '1_bank_card', 1, 1, 'null', '2022-04-03 17:09:38'),
 	(26, 'steam:11000013604b55c', 'money', 49890, 498.9, 'null', '2022-01-28 17:15:53'),
@@ -180,15 +180,18 @@ CREATE TABLE IF NOT EXISTS `player_phone` (
   `PhoneModule` text,
   `PhoneSetting` text COMMENT 'json of setting',
   `PhoneApps` text COMMENT 'json of app array',
+  `PhoneData` text,
   `PhoneRegisterDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `PhoneMaxCapacity` bigint(20) DEFAULT NULL COMMENT '手机最大存储（kb',
+  `PhoneCurrentCapacity` bigint(20) DEFAULT NULL COMMENT '当前存储使用量',
   PRIMARY KEY (`PID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 -- 正在导出表  wxs.player_phone 的数据：1 rows
 DELETE FROM `player_phone`;
 /*!40000 ALTER TABLE `player_phone` DISABLE KEYS */;
-INSERT INTO `player_phone` (`PID`, `PhonePassword`, `PhoneModule`, `PhoneSetting`, `PhoneApps`, `PhoneRegisterDate`) VALUES
-	(1, '123', 'iPhone X', '{"PhoneSetting":{"DarkMode":true}}', '[\r\n    {\r\n        "AppName":"腾讯视频",\r\n        "AppIcon":"https://cdn.icon-icons.com/icons2/1488/PNG/512/5368-wechat_102582.png",\r\n        "AppUrl":"nui://wx_testsoftware/index.html"\r\n    }\r\n]', '2022-04-09 17:16:12');
+INSERT INTO `player_phone` (`PID`, `PhonePassword`, `PhoneModule`, `PhoneSetting`, `PhoneApps`, `PhoneData`, `PhoneRegisterDate`, `PhoneMaxCapacity`, `PhoneCurrentCapacity`) VALUES
+	(1, '123', 'iPhone X', '{"PhoneSetting":{"DarkMode":true}}', '[\r\n    {\r\n        "IsSystemApp":true,\r\n        "IsAppOverride":true,\r\n        "AppName":"应用商店",\r\n        "AppPackageName":"com.system.store",\r\n        "IsUploadToGooglePlay":true,\r\n        "IsPaySoftware":false,\r\n        "AppVersion":"1.0.0",\r\n        "AppUrl":"nui://wx_appstore/index.html",\r\n        "AppAuthor":"服主",\r\n        "IsUploadToAppStore":true,\r\n        "AppAuthorAuthor":"",\r\n        "AppIcon":"https://upload.wikimedia.org/wikipedia/commons/5/55/Google_Play_2016_icon.svg",\r\n        "AppSize":113000,\r\n        "AppPrice":0,\r\n        "AppDescription":"应用商店"\r\n    }\r\n]', '{}', '2022-04-13 09:49:50', 128000000, 226000);
 /*!40000 ALTER TABLE `player_phone` ENABLE KEYS */;
 
 -- 导出  表 wxs.shop_item 结构
