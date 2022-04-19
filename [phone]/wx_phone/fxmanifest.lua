@@ -8,7 +8,7 @@ server_script {
     'server/server.lua',
 }
 client_script {
-    'client/client.lua',
+    'client/phone.lua',
 }
 dependencies {
     'wx_module_system',
