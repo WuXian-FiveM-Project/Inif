@@ -1,6 +1,6 @@
 import "./AppIcon.css"
 
-function AppIcon (props) {
+export default function AppIcon (props) {
     const { app } = props
 
     return (
@@ -10,5 +10,3 @@ function AppIcon (props) {
         </div>
     );
 }
-
-export default AppIcon;

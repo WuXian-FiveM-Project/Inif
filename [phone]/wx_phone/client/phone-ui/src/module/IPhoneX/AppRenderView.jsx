@@ -1,18 +1,18 @@
 import React from "react";
 import "./AppView.css"
 
-class AppRenderView extends React.Component {
+export default class AppRenderView extends React.Component {
     constructor(props) {
         super(props);
         this.iframeRef = React.createRef();
     }
 
-    componentDidUpdate (PrevProps, prevState) {
+    componentDidUpdate(PrevProps, prevState) {
         if (PrevProps.returnButton !== this.props.returnButton) {
             if (this.props.returnButton) {
                 this.iframeRef.current.contentWindow.postMessage({
                     type: "returnButtonPress",
-                })
+                });
             } else {
                 this.iframeRef.current.contentWindow.postMessage({
                     type: "returnButtonRelease",
@@ -60,5 +60,3 @@ class AppRenderView extends React.Component {
         );
     };
 }
-
-export default AppRenderView;

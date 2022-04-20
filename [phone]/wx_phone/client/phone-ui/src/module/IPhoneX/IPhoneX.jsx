@@ -3,7 +3,7 @@ import Backdrop from "./Backdrop.png"
 import System from "./System"
 import "./iPhoneX.css"
 
-class IPhoneX extends React.Component {
+export default class IPhoneX extends React.Component {
     render () {
         return (
             <div>
@@ -17,5 +17,3 @@ class IPhoneX extends React.Component {
         );
     }
 }
-
-export default IPhoneX;

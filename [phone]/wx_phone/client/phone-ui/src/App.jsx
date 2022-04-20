@@ -1,8 +1,8 @@
 import React from "react";
 import Phone from "./Phone";
 
-function App () {
-    const [showState,setShowState] = React.useState(true);
+export default function App() {
+    const [showState, setShowState] = React.useState(true);
     const [phoneData, setPhoneData] = React.useState({
         PID: 1,
         PhonePassword: "123",
@@ -40,11 +40,22 @@ function App () {
     window.addEventListener("message", (event) => {
         let data = event.data;
         if (data.type === "showPhone") {
-            setShowState(true);
             setPhoneData(data.phoneData);
+            setShowState(true);
         }
-    })
+    });
 
+    window.onkeydown = (event) => {
+        if (event.keyCode === 27) {
+            setShowState(false);
+            fetch("https://wx_phone/HideCurse", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            })
+        }
+    };
 
     if (showState) {
         return (
@@ -53,8 +64,6 @@ function App () {
             </div>
         );
     } else {
-        return (<div></div>)
+        return <div></div>;
     }
 }
-
-export default App;

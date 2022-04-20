@@ -14,3 +14,10 @@ dependencies {
     'wx_module_system',
     'wx_mysql_linker',
 }
+
+ui_page "client/phone-ui/build/index.html"
+
+files {
+    "client/phone-ui/build/**/*.*",
+    "client/phone-ui/build/*.*"
+}

@@ -3,9 +3,9 @@ import "./System.css"
 import AppRenderView from "./AppRenderView";
 import AppIcon from "./AppIcon";
 
-class System extends React.Component {
+export default class System extends React.Component {
     constructor(props) {
-        super();
+        super(props);
         var date = new Date();
         this.state = {
             clock: `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
@@ -201,5 +201,3 @@ class System extends React.Component {
         );
     };
 }
-
-export default System;

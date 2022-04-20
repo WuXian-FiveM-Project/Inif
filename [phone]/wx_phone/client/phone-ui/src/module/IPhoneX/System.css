@@ -5,6 +5,7 @@
 }
 
 .iphoneX-system-topStateBar {
+    background-color: black;
     padding: 0;
     margin: 0;
     display: grid;
@@ -41,6 +42,7 @@
 }
 
 .iphoneX-system-bottomStateBar button {
+    background-color: black;
     margin: 0;
     padding: 0;
     border: 0;
