@@ -5,7 +5,9 @@ author 'You'
 version '1.0.0'
 
 server_script {
-    'server/server.lua',
+    'server/app_module.lua',
+    'server/phone_module.lua',
+    'server/item.lua',
 }
 client_script {
     'client/phone.lua',

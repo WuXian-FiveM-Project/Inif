@@ -12,23 +12,22 @@ Citizen.CreateThread(function()
             },
             PhoneApps= {
                 {
-                    IsSystemApp          = true,
-                    IsAppOverride        = true,
-                    AppName              = "应用商店",
-                    AppPackageName       = "com.system.store",
-                    IsUploadToGooglePlay = true,
-                    IsPaySoftware        = false,
-                    AppVersion           = "1.0.0",
-                    -- AppUrl: "nui://wx_appstore/index.html",
-                    AppUrl             = "http://pokok.edu.hk",
-                    AppAuthor          = "服主",
-                    IsUploadToAppStore = true,
-                    AppAuthorAuthor    = "",
-                    AppIcon            = 
-                        "https://upload.wikimedia.org/wikipedia/commons/5/55/Google_Play_2016_icon.svg",
-                    AppSize        = 113000,
-                    AppPrice       = 0,
+                    IsSystemApp    = true,
+                    IsAppOverride  = true,
+                    AppName        = "应用商店",
                     AppDescription = "应用商店",
+                    AppPackageName = "com.system.store",
+                    AppVersion     = "1.0.0",
+                    AppUrl         = "http://pokok.edu.hk",
+                    AppIcon        =
+                        "https://upload.wikimedia.org/wikipedia/commons/5/55/Google_Play_2016_icon.svg",
+                    AppAuthor            = "服主",
+                    IsPaySoftware        = false,
+                    AppPrice             = 0,
+                    IsUploadToGooglePlay = true,
+                    IsUploadToAppStore   = true,
+                    AppAuthorAuthor      = "",
+                    AppSize              = 113000,
                 },
             },
             PhoneData            = {},
@@ -42,4 +41,12 @@ end)
 RegisterNUICallback('HideCurse', function(data, cb)
     SetNuiFocus(false, false)
     cb('ok')
+end)
+
+RegisterNetEvent('wx_phone:showPhone', function(phoneData)
+    SetNuiFocus(true, true)
+    SendNUIMessage({
+        type = "showPhone",
+        phoneData = phoneData
+    })
 end)
