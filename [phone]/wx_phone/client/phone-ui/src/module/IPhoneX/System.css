@@ -1,0 +1,67 @@
+.iphoneX-system-grid {
+    display: grid;
+    grid-template-rows: 3.5vh 86vh 3.5vh;
+    grid-gap: 0px;
+}
+
+.iphoneX-system-topStateBar {
+    background-color: black;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: 9.5vh 24.5vh 9.3vh;
+    height: 100%;
+    color: white;
+}
+
+.iphoneX-system-topStateBar-clock {
+    margin: 0;
+    padding: 0;
+    padding-top: 1vh;
+    text-align: center;
+    font-size: 2vh;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.grid {
+    height: 100%;
+    border: 1px solid #ccc;
+}
+
+.iphoneX-system-homepage-grid {
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    width: 100%;
+}
+.iphoneX-system-bottomStateBar {
+    display: flex;
+    justify-content: space-around;
+}
+
+.iphoneX-system-bottomStateBar button {
+    background-color: black;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: 2vh;
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    transition-duration: 100ms;
+}
+
+.iphoneX-system-bottomStateBar button:hover {
+    color: #00bcd4;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.iphoneX-system-bottomStateBar button:active {
+    color: #00bcd4;
+    background-color: rgba(0, 0, 0, 0.5);
+    transform: scale(.90);
+}
+

@@ -1095,64 +1095,77 @@ function exports.wx_module_system:RequestModule (moduleName)
         }
     elseif moduleName == "PhoneApp" then
         --- Register App Parameters
-        ---@class App
-        AppParameters = {
-            packageName          = "com.example.phoneapp",
-            displayName          = "phoneapp",
-            icon                 = "phoneapp.png",
-            overwrite            = false,
-            url                  = "nui://example/index.html",
-            version              = "1.0.0",
-            author               = "example",
-            authorUrl            = "https://example.com",
-            description          = "phoneapp description",
-            isSystemApp          = false,
-            isUploadToAppStore   = true,
-            isUploadToGooglePlay = true,
-            isPaySoftware        = false,
-            price                = 0.0,
-            size                 = 0,
+        ---@class  App
+        appclass = {
+            IsSystemApp          = true,
+            IsAppOverride        = true,
+            AppName              = "应用商店",
+            AppDescription       = "应用商店",
+            AppPackageName       = "com.system.store",
+            AppVersion           = "1.0.0",
+            AppUrl               = "http://pokok.edu.hk",
+            AppIcon              = "https://upload.wikimedia.org/wikipedia/commons/5/55/Google_Play_2016_icon.svg",
+            AppAuthor            = "服主",
+            AppAuthorUrl         = "",
+            IsPaySoftware        = false,
+            AppPrice             = 0.0,
+            IsUploadToGooglePlay = true,
+            IsUploadToAppStore   = true,
+            AppSize              = 113000,
             onAppOpen            = function() end,
             onAppClose           = function() end,
             onAppInstall         = function() end,
             onAppUninstall       = function() end,
         }
         return {
-            ---get app by package name
+            ---get app via package name
             ---@param packageName string package name
-            ---@return App
-            ---@return nil option if cant found
-            GetAppByPackageName = function(packageName)
-                if phoneAppList[packageName] then
-                    return phoneAppList[packageName]
+            ---@return App|nil app
+            GetApp = function(packageName)
+                assert(type(packageName) == "string", "package name must be string")
+                if appList[packageName] then
+                    return appList[packageName]
                 end
-                error("app package : " .. packageName .. " not exist", 1)
+                error("package name:" .. packageName .. " not found")
                 return nil
             end,
-            ---get app by index
-            ---@param index number index
-            ---@return App
-            ---@return nil option if cant found
-            GetAppByIndex = function(index)
-                if phoneAppIndex[index] then
-                    if phoneAppList[phoneAppIndex[index]] then
-                        return phoneAppList[phoneAppIndex[index]]
+            ---get app via app index
+            ---@param index integer
+            ---@return App|nil
+            GetAppViaAppIndex = function(index)
+                assert(type(index) == "number", "appIndex must be number")
+                if appIndex[index] then
+                    if appIndex[index] then
+                        return appList[appIndex[index]]
                     end
-                    error("app package by index: " .. index .. " not exist", 1)
+                    error("package name:" .. appIndex[index] .. " not found")
                     return nil
                 end
-                error("app index : " .. index .. " not exist", 1)
+                error("index of app: " .. index .. " not found")
                 return nil
             end,
-            ---get app index list
-            ---@return table<integer, string> app app index list
-            GetAppPackageList = function()
-                return phoneAppIndex
+            ---get app index
+            ---@param packageName string package name
+            ---@return integer index of the app
+            GetAppIndex = function(packageName)
+                assert(type(packageName) == "string", "package name must be string")
+                for k, v in pairs(appIndex) do
+                    if v == packageName then
+                        return k
+                    end
+                end
+                error("package name:" .. packageName .. " not found")
+                return nil
             end,
-            ---get app package table
+            ---get all app in list
             ---@return table<string,App>
-            GetAppPackageTable = function()
-                return phoneAppList
+            GetApps = function()
+                return appList
+            end,
+            ---get all app index
+            ---@return table<integer,string>
+            GetAppsIndex = function()
+                return appIndex
             end,
         }
     elseif moduleName == "Item" then
@@ -1193,176 +1206,7 @@ function exports.wx_module_system:RequestModule (moduleName)
             end,
         }
     elseif moduleName == "Phone" then
-        ---get phone class
-        ---@param PID number | string pid of phone
-        ---@return table Phone phone class
-        GetPhone = function(PID)
-            assert(type(PID) == "number" or type(PID) == "string","PID must be a number or string")
-            if type(PID) == "string" then
-                local PPID = PID
-                PID = tonumber(PID)
-                assert(type(PID) == "number","fail to cast PID to number, cast value:" .. PPID)
-            end
-            local self = {}
-            self.__index = self
-
-            self.Pid = {
-                Get = function()
-                    return PID
-                end,
-            }
-
-            self.PhonePassword = {
-                Get = function()
-                    return MySql.Sync.Query("SELECT PhonePassword FROM player_phone WHERE PID = ?",{
-                        self.Pid.Get()
-                    })[1].PhonePassword
-                end,
-                Set = function(value)
-                    assert(type(value) == "string" or type(value) == "number","PhonePassword must be a string or number")
-                    value = tostring(value)
-                    MySql.Sync.Query("UPDATE player_phone SET PhonePassword = ? WHERE PID = ?",{
-                        value,
-                        self.Pid.Get()
-                    })
-                end,
-            }
-
-            self.PhoneModule = {
-                Get = function()
-                    return MySql.Sync.Query("SELECT PhoneModule FROM player_phone WHERE PID = ?",{
-                        self.Pid.Get()
-                    })[1].PhoneModule
-                end,
-                Set = function(value)
-                    assert(type(value) == "string","PhoneModule must be a string")
-                    MySql.Sync.Query("UPDATE player_phone SET PhoneModule = ? WHERE PID = ?",{
-                        value,
-                        self.Pid.Get()
-                    })
-                end,
-            }
-
-            self.PhoneSetting = {
-                Get = function()
-                    return json.decode(MySql.Sync.Query("SELECT PhoneSetting FROM player_phone WHERE PID = ?",{
-                        self.Pid.Get()
-                    })[1].PhoneSetting)
-                end,
-                Set = function(value)
-                    assert(type(value) == "table","PhoneSetting must be a table")
-                    MySql.Sync.Query("UPDATE player_phone SET PhoneSetting = ? WHERE PID = ?",{
-                        json.encode(value),
-                        self.Pid.Get()
-                    })
-                end,
-            }
-
-            self.PhoneApps = {
-                Get = function()
-                    return json.decode(MySql.Sync.Query("SELECT PhoneApps FROM player_phone WHERE PID = ?",{
-                        self.Pid.Get()
-                    })[1].PhoneApps)
-                end,
-                Set = function(value)
-                    assert(type(value) == "table","PhoneApps must be a table")
-                    MySql.Sync.Query("UPDATE player_phone SET PhoneApps = ? WHERE PID = ?",{
-                        json.encode(value),
-                        self.Pid.Get()
-                    })
-                end,
-                Add = function(appPackageName)
-                    assert(type(appPackageName) == "table", "value must be a table")
-                    local app = exports.wx_module_system:RequestModule("PhoneApp").GetAppByPackageName("value")
-                    if self.PhoneCurrentCapacity.Get() + app.size > self.PhoneMaxCapacity.Get() then
-                        return nil
-                    end
-                    if app then
-                        local prePhoneApps = self.PhoneApps.Get()
-                        prePhoneApps[#prePhoneApps+1] = {
-                            packageName          = app.packageName,
-                            displayName          = app.displayName,
-                            icon                 = app.icon,
-                            overwrite            = app.overwrite,
-                            url                  = app.url,
-                            version              = app.version,
-                            author               = app.author,
-                            authorUrl            = app.authorUrl,
-                            description          = app.description,
-                            isSystemApp          = app.isSystemApp,
-                            isUploadToAppStore   = app.isUploadToAppStore,
-                            isUploadToGooglePlay = app.isUploadToGooglePlay,
-                            isPaySoftware        = app.isPaySoftware,
-                            price                = app.price,
-                            size                 = app.size,
-                        }
-                        self.PhoneApps.Set(prePhoneApps)
-                        MySql.Sync.Query("UPDATE player_phone SET PhoneCurrentCapacity = ? WHERE PID = ?", {
-                            self.PhoneCurrentCapacity.Get() + app.size,
-                            self.Pid.Get()
-                        })
-                    end
-                    return nil
-                end,
-                Install = function(appPackageName) self.PhoneApps.Add(appPackageName) end,
-                Uninstall = function(appPackageName)
-                    local prePhoneApps = self.PhoneApps.Get()
-                    for i,v in ipairs(prePhoneApps) do
-                        if v.packageName == appPackageName then
-                            table.remove(prePhoneApps,i)
-                            break
-                        end
-                    end
-                    self.PhoneApps.Set(prePhoneApps)
-                end,
-                Remove = function(appPackageName) self.PhoneApps.Uninstall(appPackageName) end,
-            }
-
-            self.PhoneRegisterDate = {
-                Get = function()
-                    return MySql.Sync.Query("SELECT PhoneRegisterDate FROM player_phone WHERE PID = ?",{
-                        self.Pid.Get()
-                    })[1].PhoneRegisterDate
-                end,
-                Set = function(value)
-                    assert(type(value) == "number","PhoneRegisterDate must be a number")
-                    MySql.Sync.Query("UPDATE player_phone SET PhoneRegisterDate = ? WHERE PID = ?",{
-                        value,
-                        self.Pid.Get()
-                    })
-                end,
-            }
-
-            self.PhoneMaxCapacity = {
-                Get = function()
-                    return MySql.Sync.Query("SELECT PhoneMaxCapacity FROM player_phone WHERE PID = ?",{
-                        self.Pid.Get()
-                    })[1].PhoneMaxCapacity
-                end,
-                Set = function(value)
-                    assert(type(value) == "number","PhoneMaxCapacity must be a number")
-                    MySql.Sync.Query("UPDATE player_phone SET PhoneMaxCapacity = ? WHERE PID = ?",{
-                        value,
-                        self.Pid.Get()
-                    })
-                end,
-            }
-
-            self.PhoneCurrentCapacity = {
-                Get = function()
-                    return MySql.Sync.Query("SELECT PhoneCurrentCapacity FROM player_phone WHERE PID = ?",{
-                        self.Pid.Get()
-                    })[1].PhoneCurrentCapacity
-                end,
-                Set = function(value)
-                    assert(type(value) == "number","PhoneCurrentCapacity must be a number")
-                    MySql.Sync.Query("UPDATE player_phone SET PhoneCurrentCapacity = ? WHERE PID = ?",{
-                        value,
-                        self.Pid.Get()
-                    })
-                end,
-            }
-        end
+        
     elseif moduleName == "Cast" then
         return {
             ---cast to string
