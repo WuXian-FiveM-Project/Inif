@@ -12,3 +12,8 @@ dependencies {
     'wx_module_system',
     'wx_phone',
 }
+
+
+file {
+    "index.html"
+}

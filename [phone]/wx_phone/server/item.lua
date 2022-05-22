@@ -28,9 +28,11 @@ Citizen.CreateThread(function()
                 --TODO: implement app module and pass to client
                 Reject()
                 local phone = phoneModule.GetPhone(v.PID)
+                if phone == nil then return end
                 local appList = {}
-                for pk, pv in pairs(phone.PhoneApps.Get()) do
-                    table.insert(appList, appModule.GetApp(pv))
+                for pk, pv in pairs(table.pack(phone.PhoneApps.Get())[1]) do
+                    local app = AppModule.GetApp(pv)
+                    table.insert(appList, app)
                 end
                 
                 local result = {

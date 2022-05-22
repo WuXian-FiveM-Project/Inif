@@ -1,0 +1,17 @@
+export interface IApp {
+    IsSystemApp         : boolean,
+    IsAppOverride       : boolean,
+    AppName             : string,
+    AppDescription      : string,
+    AppPackageName      : string,
+    AppVersion          : string,
+    AppUrl              : string,
+    AppIcon             : string,
+    AppAuthor           : string,
+    AppAuthorUrl        : string,
+    IsPaySoftware       : boolean,
+    AppPrice            : number,
+    IsUploadToGooglePlay: boolean,
+    IsUploadToAppStore  : boolean,
+    AppSize: number,
+}

@@ -1,0 +1,10 @@
+.appCardList {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    -ms-flex-pack: 10px;
+}
+.appCardList > div {
+    width: 100%;
+    margin: 5px auto !important;
+}

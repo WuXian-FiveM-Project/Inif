@@ -63,7 +63,7 @@ AddEventHandler("RegisterApp", function(appClass)
 end)
 
 
-appModule = {
+AppModule = {
     ---get app via package name
     ---@param packageName string package name
     ---@return App app
@@ -122,4 +122,4 @@ appModule = {
     end,
 }
 
-TriggerEvent("RegisterModule", "App", appModule, true) --暴露模块
+TriggerEvent("RegisterModule", "App", AppModule, true) --暴露模块

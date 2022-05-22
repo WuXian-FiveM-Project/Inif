@@ -45,6 +45,7 @@ end)
 
 RegisterNetEvent('wx_phone:showPhone', function(phoneData)
     SetNuiFocus(true, true)
+    print(json.encode(phoneData))
     SendNUIMessage({
         type = "showPhone",
         phoneData = phoneData
